@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack serve --config webpack.config.js"
+    "start": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "nodemon server/server.js",
+    "client": "webpack serve --config webpack.config.js"
   },
   "keywords": [],
   "author": "",
@@ -24,6 +26,7 @@
     "webpack-dev-server": "^4.15.1"
   },
   "dependencies": {
+    "aws-sdk": "^2.1449.0",
     "bcrypt": "^5.1.1",
     "concurrently": "^8.2.1",
     "cookie-parser": "^1.4.6",
