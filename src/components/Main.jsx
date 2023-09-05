@@ -4,7 +4,7 @@ import Display from './Display.jsx';
 
 const Main = () => {
   return (
-    <div>
+    <div id="main">
       <Navbar />
       <Display />
     </div>

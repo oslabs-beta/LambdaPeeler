@@ -1,23 +1,14 @@
-// import React from 'react';
+import React from 'react';
+import Function from '../components/Function.jsx'
 
-
-// const FunctionsContainer = ( {lambda, layer} ) => {
-//   const lambdaName = lambda.FunctionName;
-
-//   const layerNames = [];
-//   layer.forEach(element => {
-//     layerNames.push(element.LayerName);
-//   });
-
- 
-
-
-
-//   return (
-//     <div> 
-//       {lambdaName}
-//       {layerNames}
-//     </div> 
-//   )};
-
-// export default FunctionsContainer;
+const FunctionsContainer = ( {data, lambda} ) => {
+  return (
+    <div id='FunctionsContainer'> 
+      {lambda.map((element) => 
+        <Function functionName = {element.FunctionName}/>
+        )}  
+    </div> 
+  )
+};
+      
+export default FunctionsContainer;
