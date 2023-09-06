@@ -23,14 +23,10 @@ layerController.getVersions = async (req, res, next) => {
   try {
     // retrieve layer data stored in the getLayer middleware
     const layers = res.locals.layer;
-    // console.log('layers:', layers)
-    // console.log('break')
     // loop over each layer and its versions
     const layerPromises = layers.map(async (layer) => {
       // call the listLayerVersions method on each layer and save it to a const
       const versionsData = await lambda.listLayerVersions({ LayerName: layer.LayerName });
-      // console.log('versionsData:', versionsData)
-      // console.log('break')
       // construct and return an object that contains the layer name and its versions
       // versions will be an array
       return {
@@ -77,6 +73,33 @@ layerController.getFunctions = async (req, res, next) => {
     console.error('Error fetching associated functions:', err);
     res.status(500).json({ error: 'Failed to fetch associated functions' });
   }
+
 }
+
+layerController.updateLayer = async (req, res, next) => {
+  try {
+    // req.body includes the layer ARN and functionName
+    const { ARN,  functionName } = req.body;
+    // get the list of layers connected to functionName
+    const { Configuration } = await lambda.getFunction({FunctionName: functionName})
+    // console.log('Configuration: ', Configuration)
+    // remove the layer from the Layers array by ARN
+    const newArray = Configuration.Layers.filter((layer) => {
+      return layer.Arn !== ARN;
+    })
+    // update the configuration of functionName using the new Layers array
+    await lambda.updateFunctionConfiguration({
+      FunctionName: functionName,
+      Layers: newArray.map(element => element.Arn)
+    });
+    next();
+  } catch (err) {
+    console.error('Error removing function from layer:', err);
+    res.status(500).json({ error: 'Failed to remove function from layer' });
+  }
+  
+  
+}
+
 
 module.exports = layerController;

@@ -5,9 +5,9 @@ import LayersContainer from '../containers/LayersContainer.jsx';
 import FunctionsContainer from '../containers/FunctionsContainer.jsx';
 
 const Display = () => {
-  const [layers, setLayers] = useState([])
-  const [functions, setFunctions] = useState([])
-  const [activeTab, setActiveTab] = useState('Layers')
+  const [layers, setLayers] = useState([]);
+  const [functions, setFunctions] = useState([]);
+  const [activeTab, setActiveTab] = useState('Layers');
 
   useEffect(() => {
     axios.get('http://localhost:3000/layers/list')
@@ -25,6 +25,7 @@ const Display = () => {
     .catch(err => {
       console.log('Error:', err)
     })
+
   }, [])
 
 
