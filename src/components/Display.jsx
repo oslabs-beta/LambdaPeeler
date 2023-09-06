@@ -7,7 +7,7 @@ import FunctionsContainer from '../containers/FunctionsContainer.jsx';
 const Display = () => {
   const [layers, setLayers] = useState([])
   const [functions, setFunctions] = useState([])
-  const [activeTab, setActiveTab] = useState('Layers')
+  const [activeTab, setActiveTab] = useState('')
 
   useEffect(() => {
     axios.get('http://localhost:3000/list-layers')
@@ -44,10 +44,10 @@ const Display = () => {
       )}
       {activeTab === 'Functions' && (
         <div>
-          {functions.map(element => <Functions 
-          lambda = { element }
-          layer = { layers }
-          />)}
+          {<FunctionsContainer 
+          lambda = { functions }
+          data = { layers }
+          />}
         </div>
       )}
     </div>
@@ -55,3 +55,12 @@ const Display = () => {
 }
 
 export default Display;
+
+
+
+
+
+// {functions.map(element => <Functions 
+//   lambda = { element }
+//   layer = { layers }
+//   />)}

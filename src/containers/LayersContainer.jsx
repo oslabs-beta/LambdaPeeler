@@ -2,7 +2,6 @@ import React from 'react';
 import Layer from '../components/Layer.jsx'
 
 const LayersContainer = ( {data, lambda} ) => {
-  const layerName = data.LayerName;
   const layerNamesArray = [];
   if(data.layer) {
       console.log('raw data: ', data);
@@ -10,19 +9,22 @@ const LayersContainer = ( {data, lambda} ) => {
       console.log('data.layer.Layers: ', data.layer.Layers);
       console.log('data.versions: ', data.versions)
 
-      const layerNames = data.layer.Layers;
-      layerNames.forEach(element => {
-      layerNamesArray.push(<Layer layerName = {element}/>);
-      });
+      
+      // layerNames.forEach(element => {
+      // layerNamesArray.push(<Layer layerName = {element.LayerName}/>);
+      // });
 
   }
   console.log('names array: ', layerNamesArray);
 
   // I think the issue is on initial render, the layerNamesArray is empty and rendering an empty array causes an error
-
+  const layerNames = data.layer.Layers;
   return (
     <div> 
-      {layerNamesArray}
+      {layerNames.map(element => 
+        <Layer layerName = {element.LayerName}
+        />)
+      }
     </div> 
   )};
 
