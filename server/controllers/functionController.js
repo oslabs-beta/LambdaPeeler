@@ -10,11 +10,11 @@ functionController.getFunction = (req, res, next) => {
       console.log(err);
       res.status(400).json({ error: 'Failed to fetch AWS functions' });
     } else {
-      res.locals.functions = data
-      next()
+      res.locals.functions = data;
+      next();
     }
   });
 }
 
 
-module.exports = functionController
+module.exports = functionController;
