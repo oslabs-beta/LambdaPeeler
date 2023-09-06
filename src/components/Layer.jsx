@@ -1,32 +1,47 @@
 import React from 'react';
+import { useState, useEffect } from 'react';
+import LayerVersion from './LayerVersion.jsx';
+import axios from 'axios';
 
-const Layer = ({layerName, versionNumber}) => {
-  let coll = document.getElementsByClassName("collapsible");
+const Layer = ({layerName, versionNumber, ARN}) => {
+  const [isCollapsed, setIsCollapsed] = useState(true);
+  const [associatedFunctions, setAssociatedFunctions] = useState([])
   
-  for (let i = 0; i < coll.length; i++) {
-    coll[i].addEventListener("click", function() {
-      this.classList.toggle("active");
-      let content = this.nextElementSibling;
-      if (content.style.display === "block") {
-        content.style.display = "none";
-      } else {
-        content.style.display = "block";
-      }
-    });
-  }
+  useEffect(() => {    
+    axios.post('http://localhost:3000/layers/functions', [{ ARN: ARN }], {
+      headers: {
+          'content-type': 'application/json',
+          'X-RapidAPI-Key': 'your-rapidapi-key',
+          'X-RapidAPI-Host': 'microsoft-translator-text.p.rapidapi.com',
+      }})
+    .then(response => {
+      console.log('layer-functions response: ', response.data)
+      setAssociatedFunctions(response.data);
+    })
+    .catch(err => {
+      console.log('Error:', err)
+    })
+  }, [isCollapsed])
 
+  console.log('associatesFunctoins:', associatedFunctions)
+
+  
   return (
     <div id='layer'>
-      <button className="collapsible">
-      <span> Layer: {layerName}, Ver: {versionNumber}</span>
+      <button className="collapsible" onClick={() => setIsCollapsed(!isCollapsed)}>
+      <span> Layer: {layerName}, Ver: {versionNumber}, ARN: {ARN}</span>
       </button>
-      <div class='content'>
-        <p> Hidden information </p>
-      </div>
+      {!isCollapsed && (
+        <div>
+          <ul>
+            <li>{associatedFunctions.map((element) => 
+                <LayerVersion functionName = {element}/>
+          )}</li>
+          </ul>
+        </div>
+      )}
     </div>
   )
-
-
 }
 
 export default Layer;

@@ -9,11 +9,13 @@ const PORT = 3000;
 // CORS
 const cors = require('cors');
 app.use(cors());
+app.use(express.json()) // for parsing application/json
+app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 
 
 // Endpoint to list AWS Lambda layers
-app.use('/list-layers', layerRouter)
-app.use('/list-functions', functionRouter)
+app.use('/layers', layerRouter)
+app.use('/functions', functionRouter)
 
 
 

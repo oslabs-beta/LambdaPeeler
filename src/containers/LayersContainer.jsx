@@ -5,8 +5,8 @@ const LayersContainer = ( {data, lambda} ) => {
   return (
     <div id='LayersContainer'> 
       {data.map((layer) => (
-        layer.versions.map(version => (
-          <Layer layerName = {layer.name} versionNumber = {version}/>
+        layer.versions.map((version, index) => (
+          <Layer layerName = {layer.name} versionNumber = {version} ARN = {layer.ARN[index]}/>
         ))
         ))}  
     </div> 

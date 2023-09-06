@@ -10,16 +10,15 @@ const Display = () => {
   const [activeTab, setActiveTab] = useState('Layers')
 
   useEffect(() => {
-    axios.get('http://localhost:3000/list-layers')
+    axios.get('http://localhost:3000/layers/list')
     .then(response => {
-      console.log('list layers response: ', response.data)
       setLayers(response.data);
     })
     .catch(err => {
       console.log('Error:', err)
     })
     
-    axios.get('http://localhost:3000/list-functions')
+    axios.get('http://localhost:3000/functions/list')
     .then(response => {
       setFunctions(response.data.Functions);
     })

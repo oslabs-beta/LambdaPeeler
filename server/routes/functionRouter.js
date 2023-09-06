@@ -4,7 +4,7 @@ const functionController = require('../controllers/functionController');
 
 const router = express.Router();
 
-router.get("/", functionController.getFunction, (req, res) => {
+router.get("/list", functionController.getFunction, (req, res) => {
   res.status(200).json(res.locals.functions)
 })
 

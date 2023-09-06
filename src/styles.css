@@ -51,6 +51,7 @@ body {
 
 a {
   text-decoration: none;
+  color: black;
 }
 
 
@@ -67,7 +68,7 @@ a {
   font-size: 15px;
 }
 
-ul {
+#navbar > ul {
   display: flex;
   justify-content: space-between;
   list-style: none;
