@@ -12,7 +12,7 @@ const Display = () => {
   useEffect(() => {
     axios.get('http://localhost:3000/list-layers')
     .then(response => {
-      console.log('list layers response: ', response)
+      console.log('list layers response: ', response.data)
       setLayers(response.data);
     })
     .catch(err => {
@@ -31,9 +31,12 @@ const Display = () => {
 
   
   return (
-    <div>
-      <button onClick={() => setActiveTab('Layers')}> Layers </button>
-      <button onClick={() => setActiveTab('Functions')}> Functions </button>
+    <div id='display'>
+      <span>
+        <button onClick={() => setActiveTab('Layers')}> Layers </button>
+        <button onClick={() => setActiveTab('Functions')}> Functions </button>
+      </span>
+      
       {activeTab === 'Layers' && (
         <div>
           {<LayersContainer 
@@ -44,10 +47,10 @@ const Display = () => {
       )}
       {activeTab === 'Functions' && (
         <div>
-          {<FunctionsContainer 
+           {<FunctionsContainer 
           lambda = { functions }
           data = { layers }
-          />}
+           />}
         </div>
       )}
     </div>
