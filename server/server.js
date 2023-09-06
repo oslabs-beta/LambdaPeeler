@@ -1,26 +1,26 @@
 const express = require('express');
-const AWS = require('aws-sdk');
+const layerRouter = require('./routes/layerRouter')
+const functionRouter = require('./routes/functionRouter')
 
 // Initialize Express
 const app = express();
 const PORT = 3000;
 
-// AWS Configurations
-AWS.config.update({ region: 'us-east-1' });
-const lambda = new AWS.Lambda();
+// CORS
+const cors = require('cors');
+app.use(cors());
+app.use(express.json()) // for parsing application/json
+app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
+
 
 // Endpoint to list AWS Lambda layers
-app.get('/list-layers', (req, res) => {
-  lambda.listLayers({}, (err, data) => {
-    if (err) {
-      console.log(err);
-      res.status(400).json({ error: 'Failed to fetch AWS layers' });
-    } else {
-      console.log(data);
-      res.status(200).json(data);
-    }
-  });
-});
+app.use('/layers', layerRouter)
+app.use('/functions', functionRouter)
+
+
+
+
+
 
 // Start Express Server
 app.listen(PORT, () => {
