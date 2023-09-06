@@ -12,5 +12,5 @@ const LayersContainer = ( {data, lambda} ) => {
     </div> 
   )
 };
-      
+      //
 export default LayersContainer;
