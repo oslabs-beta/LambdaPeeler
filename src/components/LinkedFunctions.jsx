@@ -27,6 +27,7 @@ const LinkedFunctions = ({
       fetch();
       return;
     } catch (err) {
+      setIsLoading(false);
       console.log('Error in removeFunction call: ', err);
     }
   };
