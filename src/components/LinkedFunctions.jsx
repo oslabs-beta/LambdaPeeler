@@ -54,7 +54,10 @@ const LinkedFunctions = ({functionName, ARN, fetch, functions}) => {
                   myPopup.classList.remove("show")}}>
                     Close
                 </button>
-                <FunctionList functionName={functionName}/>
+                {functions.map(func => {
+                  <FunctionList lambda={func.FunctionName}/>
+                })}
+               
               </div>
             </div>
           </div>

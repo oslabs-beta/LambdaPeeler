@@ -35,10 +35,6 @@ const Layer = ({layerName, versionNumber, ARN, functions}) => {
 
   }
 
-
-
-
-
   return (
     <div id='layer'>
       <button className="collapsible" onClick={() => setIsCollapsed(!isCollapsed)}>

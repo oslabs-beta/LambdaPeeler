@@ -3,15 +3,16 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 
 
-const FunctionList = ({ functionName }) => {
+const FunctionList = ({ lambda }) => {
 
   const [isCollapsed, setIsCollapsed] = useState(true);
   const [associatedLayers, setAssociatedLayers] = useState([])
 
 
+
   return (
     <div>
-      {functionName}
+      {lambda}
     </div>
     
     )
