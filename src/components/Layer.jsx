@@ -67,7 +67,6 @@ const Layer = ({ layerName, versionNumber, ARN, functions }) => {
       );
       setIsLoading(false);
       setIsOpened(false);
-      console.log('result: ', result.data)
       return;
     } catch (error) {
       setIsLoading(false);
