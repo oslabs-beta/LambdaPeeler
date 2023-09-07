@@ -52,7 +52,7 @@ const Layer = ({layerName, versionNumber, ARN, functions}) => {
           {associatedFunctions.map((element) =>
             
             <div >
-                <LinkedFunctions functionName = {element}  ARN = {ARN} fetch = {fetchAssociatedFunctions}
+                <LinkedFunctions functionName = {element}  ARN = {ARN} fetch = {fetchAssociatedFunctions} functions={functions}
                 />
             </div>               
           )}

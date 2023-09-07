@@ -10,7 +10,9 @@ const FunctionList = ({ functionName }) => {
 
 
   return (
-
+    <div>
+      {functionName}
+    </div>
     
     )
 }
