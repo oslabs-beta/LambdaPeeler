@@ -85,6 +85,7 @@ layerController.removeFunction = async (req, res, next) => {
     const { Configuration } = await lambda.getFunction({
       FunctionName: functionName,
     });
+    //console.log('Config', Configuration);
     // console.log('Configuration.Layers: ', Configuration.Layers);
     // remove the layer from the Layers array by ARN
     const newArray = Configuration.Layers.filter((layer) => {
@@ -104,35 +105,62 @@ layerController.removeFunction = async (req, res, next) => {
 
 layerController.addFunction = async (req, res, next) => {
   // req.body is an object with keys ARN (string layer ARN) and functionArray (array of string function names)
-  console.log('req.body: ', req.body);
+  //console.log('req.body: ', req.body);
   const { ARN, functionArray } = req.body;
+  let newArray;
 
   // iterate through functionArray
-  functionArray.forEach(async (functionName) => {
+  functionArray.map(async (functionName) => {
     try {
+      let startTime = Date.now();
       // get the array of layers connected to this function
       const { Configuration } = await lambda.getFunction({
         FunctionName: functionName,
       });
-      console.log('Config', Configuration);
-      console.log('Configuration.Layers: ', Configuration.Layers);
+
       // add this layer ARN to the current Layers array
-      const newArray = Configuration.Layers;
-      console.log('newArray before push: ', newArray);
-      newArray.push({Arn: ARN});
-      console.log('newArray after push: ', newArray);
+      if (Configuration.Layers === undefined) {
+        newArray = [];
+      } else {
+        newArray = Configuration.Layers;
+      }
+
+      newArray.push({ Arn: ARN });
+
+      let doneWithGetFunction = Date.now();
+      let arnArray = newArray.map((element) => element.Arn)
+
       // send the updated Layers array to AWS
       await lambda.updateFunctionConfiguration({
         FunctionName: functionName,
-        Layers: newArray.map((element) => element.Arn),
+        // Layers: newArray.map((element) => element.Arn),
+        Layers: arnArray,
       });
-      next();
+
+      let doneWithUpdateFunction = Date.now();
+
+      console.log(`getFunction call: ${doneWithGetFunction - startTime}. updateFunctionConfig call: ${doneWithUpdateFunction - doneWithGetFunction}`);
+      return next();
     } catch (error) {
       console.log(error);
       return next(error);
     }
   });
-  next();
+
+  // const APICalls = async () => {
+  //   await lambda.updateFunctionConfiguration({
+  //     FunctionName: functionName,
+  //     Layers: newArray.map((element) => element.Arn),
+  //   });
+  // };
+
+  // try {
+  //   await Promise.all()
+  //   next();
+  // } catch (error) {
+  //   console.log(error);
+  //   return next(error);
+  // }
 };
 
 module.exports = layerController;

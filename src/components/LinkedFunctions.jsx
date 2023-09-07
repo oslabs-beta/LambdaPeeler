@@ -1,10 +1,18 @@
 import React from 'react';
 import { useState } from 'react';
 import axios from 'axios';
+import CircularProgress from '@mui/material/CircularProgress';
 
-const LinkedFunctions = ({ functionName, ARN, fetch }) => {
+const LinkedFunctions = ({
+  functionName,
+  ARN,
+  fetch,
+  isLoading,
+  setIsLoading,
+}) => {
   // send arn and name back to find the specific func
   const removeFunction = async () => {
+    setIsLoading(true);
     try {
       const result = await axios.post(
         'http://localhost:3000/layers/remove',
@@ -15,6 +23,7 @@ const LinkedFunctions = ({ functionName, ARN, fetch }) => {
           },
         }
       );
+      setIsLoading(false);
       fetch();
       return;
     } catch (err) {
