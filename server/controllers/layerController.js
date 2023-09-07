@@ -105,62 +105,43 @@ layerController.removeFunction = async (req, res, next) => {
 
 layerController.addFunction = async (req, res, next) => {
   // req.body is an object with keys ARN (string layer ARN) and functionArray (array of string function names)
-  //console.log('req.body: ', req.body);
   const { ARN, functionArray } = req.body;
-  let newArray;
-
+  
   // iterate through functionArray
-  functionArray.map(async (functionName) => {
+  const updateFunctions = (async (functionName) => {
     try {
-      let startTime = Date.now();
       // get the array of layers connected to this function
+      let newArray;
       const { Configuration } = await lambda.getFunction({
         FunctionName: functionName,
       });
-
-      // add this layer ARN to the current Layers array
+      // edge case: if the function has no layers yet, Configuration.Layers will be undefined
       if (Configuration.Layers === undefined) {
         newArray = [];
       } else {
         newArray = Configuration.Layers;
       }
-
+      
+      // add this layer ARN to the current Layers array
       newArray.push({ Arn: ARN });
-
-      let doneWithGetFunction = Date.now();
-      let arnArray = newArray.map((element) => element.Arn)
 
       // send the updated Layers array to AWS
       await lambda.updateFunctionConfiguration({
         FunctionName: functionName,
-        // Layers: newArray.map((element) => element.Arn),
-        Layers: arnArray,
+        Layers: newArray.map((element) => element.Arn),
       });
-
-      let doneWithUpdateFunction = Date.now();
-
-      console.log(`getFunction call: ${doneWithGetFunction - startTime}. updateFunctionConfig call: ${doneWithUpdateFunction - doneWithGetFunction}`);
-      return next();
+      next();
     } catch (error) {
-      console.log(error);
-      return next(error);
+      return res.status(403).send( error.message );
     }
   });
 
-  // const APICalls = async () => {
-  //   await lambda.updateFunctionConfiguration({
-  //     FunctionName: functionName,
-  //     Layers: newArray.map((element) => element.Arn),
-  //   });
-  // };
-
-  // try {
-  //   await Promise.all()
-  //   next();
-  // } catch (error) {
-  //   console.log(error);
-  //   return next(error);
-  // }
+  try {
+    await Promise.all(functionArray.map((func => updateFunctions(func))))
+    // next();
+  } catch (error) {
+    return res.status(403).send( error.message );
+  }
 };
 
 module.exports = layerController;

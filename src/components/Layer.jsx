@@ -67,9 +67,12 @@ const Layer = ({ layerName, versionNumber, ARN, functions }) => {
       );
       setIsLoading(false);
       setIsOpened(false);
+      console.log('result: ', result.data)
       return;
-    } catch (err) {
-      console.log('Error in addFunction call: ', err);
+    } catch (error) {
+      setIsLoading(false);
+      setIsOpened(false);
+      alert(error.response.data);
     }
   };
 
