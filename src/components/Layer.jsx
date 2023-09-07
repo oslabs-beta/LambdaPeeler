@@ -95,5 +95,6 @@ const Layer = ({layerName, versionNumber, ARN, functions}) => {
     </div>
   )
 }
+}
 
 export default Layer;
