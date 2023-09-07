@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import LinkedFunctions from './LinkedFunctions.jsx';
 import FunctionModal from './FunctionModal.jsx';
 import axios from 'axios';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const Layer = ({ layerName, versionNumber, ARN, functions }) => {
   // isCollapsed is tracked for each displayed Layer. true (default) means the Layer display is collapsed, false means the Layer box has expanded
@@ -10,8 +11,9 @@ const Layer = ({ layerName, versionNumber, ARN, functions }) => {
   const [associatedFunctions, setAssociatedFunctions] = useState([]);
   // isOpened is for the FunctionModal for each displayed Layer. true means the modal is opened, false (default) means the modal is not opened
   const [isOpened, setIsOpened] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const fetchAssociatedFunctions = () => {
+  const fetchAssociatedFunctions = async () => {
     axios
       .post(
         'http://localhost:3000/layers/functions',
@@ -34,7 +36,7 @@ const Layer = ({ layerName, versionNumber, ARN, functions }) => {
     if (!isCollapsed) {
       fetchAssociatedFunctions();
     }
-  }, [isCollapsed]);
+  }, [isCollapsed, isOpened]);
 
   const openModal = () => {
     setIsOpened(true);
@@ -46,25 +48,27 @@ const Layer = ({ layerName, versionNumber, ARN, functions }) => {
 
   // function to get the array of function names which have been checked in the FunctionModal for a given Layer
   const linkFunction = async (event) => {
+    setIsLoading(true);
     event.preventDefault();
     const formResponse = new FormData(event.target);
     const arrayOfCheckedFunctions = [];
     for (const key of formResponse.keys()) {
       arrayOfCheckedFunctions.push(key);
     }
-    try{
-      const result = await axios.post('http://localhost:3000/layers/add', 
-      {ARN: ARN, functionArray: arrayOfCheckedFunctions}, 
+    try {
+      const result = await axios.post(
+        'http://localhost:3000/layers/add',
+        { ARN: ARN, functionArray: arrayOfCheckedFunctions },
         {
-        headers: {
-          "Content-Type": "application/json"
+          headers: {
+            'Content-Type': 'application/json',
+          },
         }
-      });
-      setIsOpened(false)
-      fetchAssociatedFunctions();
+      );
+      setIsLoading(false);
+      setIsOpened(false);
       return;
-    
-    } catch(err){
+    } catch (err) {
       console.log('Error in addFunction call: ', err);
     }
   };
@@ -85,13 +89,31 @@ const Layer = ({ layerName, versionNumber, ARN, functions }) => {
       {!isCollapsed && (
         <div>
           <h3>Functions</h3>
-
+          {isLoading && (
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <CircularProgress
+                sx={{
+                  zIndex: 10,
+                  position: 'absolute',
+                  transform: 'translate(-50%, -50%)',
+                }}
+              />
+            </div>
+          )}
           {associatedFunctions.map((element) => (
             <div>
               <LinkedFunctions
                 functionName={element}
                 ARN={ARN}
                 fetch={fetchAssociatedFunctions}
+                isLoading={isLoading}
+                setIsLoading={setIsLoading}
               />
             </div>
           ))}
@@ -102,6 +124,7 @@ const Layer = ({ layerName, versionNumber, ARN, functions }) => {
             closeFunction={closeModal}
             functions={functions}
             onSubmit={linkFunction}
+            isLoading={isLoading}
           />
         </div>
       )}
