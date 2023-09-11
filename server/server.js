@@ -2,7 +2,7 @@ const express = require('express');
 const layerRouter = require('./routes/layerRouter');
 const functionRouter = require('./routes/functionRouter');
 const userRouter = require('./routes/userRouter');
-const testRouter = require('./routes/testRouter')
+const testRouter = require('./routes/testRouter');
 // Initialize Express
 const app = express();
 const PORT = 3000;
@@ -17,7 +17,22 @@ app.use(express.urlencoded({ extended: true })); // for parsing application/x-ww
 app.use('/layers', layerRouter);
 app.use('/functions', functionRouter);
 app.use('/user', userRouter);
-app.use('/test', testRouter)
+app.use('/test', testRouter);
+
+//global error handler
+app.use((err, req, res, next) => {
+  const defaultErr = {
+    //detailed message to dev
+    log:
+      ('Express error handler caught unknown middleware error. Error: ', err),
+    status: 400,
+    //basic message to user
+    message: { err: 'An error occurred' },
+  };
+  const errorObj = Object.assign({}, defaultErr, err);
+  //send error message to frontend
+  return res.status(errorObj.status).json(errorObj.message);
+});
 
 // Start Express Server
 app.listen(PORT, () => {
