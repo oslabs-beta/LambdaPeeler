@@ -4,7 +4,7 @@ const testController = require('../controllers/testController');
 
 const router = express.Router();
 
-router.get("/", testController.getTest, testController.testFunc, (req, res) => {
+router.get("/", testController.getTest, testController.testDependencies, (req, res) => {
   res.status(200).json(res.locals.schemaData);
 })
 
