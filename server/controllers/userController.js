@@ -63,7 +63,7 @@ userController.verifyToken = (req, res, next) => {
   }
 };
 
-userController.deleteToken = (res, res, next) => {
+userController.deleteToken = (req, res, next) => {
   try {
     // use res.clearCookie to delete both cookies
     // return next

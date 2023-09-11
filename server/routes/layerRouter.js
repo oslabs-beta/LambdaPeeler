@@ -1,6 +1,7 @@
 const express = require('express');
 
 const layerController = require('../controllers/layerController');
+const testController = require('../controllers/testController')
 
 const router = express.Router();
 
@@ -17,7 +18,8 @@ router.post('/remove', layerController.removeFunction, (req, res) => {
   res.sendStatus(200);
 });
 
-router.post('/add', layerController.addFunction, (req, res) => {
+router.post('/add', testController.testRuntime, testController.getTest, layerController.addFunction, testController.testDependencies, (req, res) => {
+  // console.log('inside add callback');
   res.sendStatus(200);
 });
 
