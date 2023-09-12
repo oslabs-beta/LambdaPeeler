@@ -27,7 +27,7 @@ router.post(
   testController.removeFailedFunc,
   (req, res) => {
     if (res.locals.errorMessageToUser) {
-      res.status(409).json(res.locals.errorMessageToUser);
+      res.status(409).json(res.locals.addError);
     } else {
       res.sendStatus(200);
     }

@@ -171,8 +171,10 @@ layerController.addFunction = async (req, res, next) => {
       });
       await lambdaClient.send(updateOutput);
     } catch (error) {
-      // console.log('first error catch of addFunctions. error: ', error);
-      //throw new Error(`Failed to update function ${functionName}. Error: ${error.message}`);
+      // console.log('firsat error catch of addFunctions. error: ', error);
+      res.locals.addError.push(
+        `Failed to update function ${functionName}. Error: ${error.message}`
+      );
     }
   };
 

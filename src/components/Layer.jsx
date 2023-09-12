@@ -75,7 +75,7 @@ const Layer = ({ layerName, versionNumber, ARN, functions }) => {
       setIsOpened(false);
       console.log('type ', typeof error.response.data);
 
-      const messages = []
+      const messages = [];
 
       if (typeof error.response.data === 'string') {
         // push to array
@@ -83,6 +83,7 @@ const Layer = ({ layerName, versionNumber, ARN, functions }) => {
       } else {
         const errorArr = error.response.data;
         errorArr.forEach((message) => {
+          console.log('error message: ', message);
           // push to array
           alert(message);
         });

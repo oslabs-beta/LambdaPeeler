@@ -74,6 +74,7 @@ testController.testRuntime = async (req, res, next) => {
   const getLayerVersionCommand = new GetLayerVersionByArnCommand({ Arn: ARN });
   const getLayerResponse = await lambdaClient.send(getLayerVersionCommand);
   const layerRuntime = getLayerResponse.CompatibleRuntimes;
+  res.locals.addError = [];
 
   const runTimeFunction = async (element) => {
     try {
@@ -89,6 +90,9 @@ testController.testRuntime = async (req, res, next) => {
         // console.log('element:', element);
         passFuncs.push(element);
       } else {
+        res.locals.addError.push(
+          `${element} does not have the correct runtime`
+        );
         // console.log('failed');
         failFuncs.push(element);
       }
@@ -171,7 +175,7 @@ testController.testDependencies = async (req, res, next) => {
           // res.locals.failedFunctions = failedFunctions;
 
           // listOfErrors.push(messageToUser);
-          res.locals.errorMessageToUser.push(messageToUser);
+          res.locals.addError.push(messageToUser);
           //302 - Not modified
         } else {
           // push passing funcs to arr
