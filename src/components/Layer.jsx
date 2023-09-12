@@ -52,12 +52,11 @@ const Layer = ({layerName, versionNumber, ARN, functions}) => {
         headers: {
           "Content-Type": "application/json"
         }
-      });
-      setIsOpened(false)
-      fetchAssociatedFunctions();
+      );
+      setIsLoading(false);
+      setIsOpened(false);
       return;
-    
-    } catch(err){
+    } catch (err) {
       console.log('Error in addFunction call: ', err);
     }
   };

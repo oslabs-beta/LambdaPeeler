@@ -27,7 +27,10 @@
     "webpack-dev-server": "^4.15.1"
   },
   "dependencies": {
+    "@aws-sdk/client-eventbridge": "^3.409.0",
     "@aws-sdk/client-lambda": "^3.405.0",
+    "@aws-sdk/client-schemas": "^3.409.0",
+    "@aws-sdk/credential-provider-node": "^3.409.0",
     "@babel/runtime": "^7.22.15",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",

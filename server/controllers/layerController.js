@@ -7,12 +7,14 @@ layerController.getLayer = async (req, res, next) => {
   try {
     // call the listLayers method
     const layersData = await lambda.listLayers({});
+
+    // console.log('layerData: ', layersData);
     // extract the Layers array from the response
     const layers = layersData.Layers;
     // assign the layers data to res.locals.layer
     res.locals.layer = layers;
     // proceed to next middleware
-    next();
+    return next();
   } catch (err) {
     console.error('Error fetching layers:', err);
     res.status(500).json({ error: 'Failed to fetch layers' });
@@ -42,10 +44,10 @@ layerController.getVersions = async (req, res, next) => {
     //console.log('layersWithVersions:', layersWithVersions)
     // store an array that contains layer info and their version onto res.locals
     res.locals.layersWithVersions = layersWithVersions;
-    next();
+    return next();
   } catch (err) {
     console.error('Error fetching layer versions:', err);
-    res.status(500).json({ error: 'Failed to fetch layer versions' });
+    return next(res.status(500).json({ error: 'Failed to fetch layer versions' }));
   }
 };
 
@@ -70,7 +72,7 @@ layerController.getFunctions = async (req, res, next) => {
     });
     // store functionArray in res.locals
     res.locals.functionArray = functionArray;
-    next();
+    return next();
   } catch (err) {
     console.error('Error fetching associated functions:', err);
     res.status(500).json({ error: 'Failed to fetch associated functions' });
@@ -96,7 +98,7 @@ layerController.removeFunction = async (req, res, next) => {
       FunctionName: functionName,
       Layers: newArray.map((element) => element.Arn),
     });
-    next();
+    return next();
   } catch (err) {
     console.error('Error removing function from layer:', err);
     res.status(500).json({ error: 'Failed to remove function from layer' });
@@ -104,63 +106,62 @@ layerController.removeFunction = async (req, res, next) => {
 };
 
 layerController.addFunction = async (req, res, next) => {
+  console.log('top of addFunction');
+  // console.log('in add functions');
   // req.body is an object with keys ARN (string layer ARN) and functionArray (array of string function names)
-  //console.log('req.body: ', req.body);
-  const { ARN, functionArray } = req.body;
-  let newArray;
-
+  const { ARN } = req.body;
+  console.log('req.body: ', req.body)
+  const passFuncs = res.locals.passedRuntime;
+  console.log('Pass funcs: ', passFuncs)
   // iterate through functionArray
-  functionArray.map(async (functionName) => {
+  const updateFunctions = (async (functionName) => {
     try {
-      let startTime = Date.now();
       // get the array of layers connected to this function
+      let newArray;
       const { Configuration } = await lambda.getFunction({
         FunctionName: functionName,
       });
-
-      // add this layer ARN to the current Layers array
+      console.log('Configuration: ')
+      // edge case: if the function has no layers yet, Configuration.Layers will be undefined
       if (Configuration.Layers === undefined) {
         newArray = [];
       } else {
         newArray = Configuration.Layers;
       }
-
+      console.log('after if/else');
+      // add this layer ARN to the current Layers array
+      // if(!newArray.includes(ARN)){
+      //   newArray.push({ Arn: ARN });
+      // }
+      console.log('ARN before push: ', ARN);
       newArray.push({ Arn: ARN });
 
-      let doneWithGetFunction = Date.now();
-      let arnArray = newArray.map((element) => element.Arn)
-
       // send the updated Layers array to AWS
-      await lambda.updateFunctionConfiguration({
+      console.log('before lambda.updateFunctionCOnfig')
+      const updateOutput = await lambda.updateFunctionConfiguration({
         FunctionName: functionName,
-        // Layers: newArray.map((element) => element.Arn),
-        Layers: arnArray,
+        Layers: newArray.map((element) => element.Arn),
       });
-
-      let doneWithUpdateFunction = Date.now();
-
-      console.log(`getFunction call: ${doneWithGetFunction - startTime}. updateFunctionConfig call: ${doneWithUpdateFunction - doneWithGetFunction}`);
-      return next();
+      console.log('updateOutput.Layers: ', updateOutput.Layers);
+      console.log('after lambda.updateFunctionCOnfig')
+      const Configuration2 = await lambda.getFunctionConfiguration({
+        FunctionName: functionName,});
+      console.log('Configuration2.Layers: ', Configuration2.Layers);
     } catch (error) {
-      console.log(error);
-      return next(error);
+     // console.log('first error catch of addFunctions. error: ', error);
+      throw new Error(`Failed to update function ${functionName}. Error: ${error.message}`);
     }
   });
-
-  // const APICalls = async () => {
-  //   await lambda.updateFunctionConfiguration({
-  //     FunctionName: functionName,
-  //     Layers: newArray.map((element) => element.Arn),
-  //   });
-  // };
-
-  // try {
-  //   await Promise.all()
-  //   next();
-  // } catch (error) {
-  //   console.log(error);
-  //   return next(error);
-  // }
+  
+  try {
+    await Promise.all(passFuncs.map((func => updateFunctions(func))))
+    console.log('end of addFunction');
+    return next();
+    // next();
+  } catch (error) {
+    console.log('second error catch of addFunction. Error:' , error);
+    return res.status(403).send( error.message );
+  }
 };
 
 module.exports = layerController;
