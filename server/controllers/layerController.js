@@ -1,12 +1,20 @@
-const { Lambda } = require('@aws-sdk/client-lambda');
-const lambda = new Lambda({ region: 'us-east-1' });
+const { LambdaClient, ListLayersCommand, ListLayerVersionsCommand, ListFunctionsCommand, GetFunctionCommand, GetFunctionConfigurationCommand, UpdateFunctionConfigurationCommand } = require('@aws-sdk/client-lambda');
+const { defaultProvider } = require("@aws-sdk/credential-provider-node");
+const lambdaClient = new LambdaClient ({
+  region: "us-east-1",
+  credentials: defaultProvider() 
+});
 
 const layerController = {};
 
 layerController.getLayer = async (req, res, next) => {
   try {
     // call the listLayers method
-    const layersData = await lambda.listLayers({});
+    const input = {};
+    const listLayersCommand = new ListLayersCommand(input)
+    const layersData = await lambdaClient.send(listLayersCommand);
+
+    // const layersData = await lambda.listLayers({});
 
     // console.log('layerData: ', layersData);
     // extract the Layers array from the response
@@ -28,9 +36,12 @@ layerController.getVersions = async (req, res, next) => {
     // loop over each layer and its versions
     const layerPromises = layers.map(async (layer) => {
       // call the listLayerVersions method on each layer and save it to a const
-      const versionsData = await lambda.listLayerVersions({
-        LayerName: layer.LayerName,
-      });
+    const input = {LayerName: layer.LayerName};
+    const listLayerVersionsCommand = new ListLayerVersionsCommand(input)
+    const versionsData = await lambdaClient.send(listLayerVersionsCommand);
+      // const versionsData = await lambda.listLayerVersions({
+      //   LayerName: layer.LayerName,
+      // });
       // construct and return an object that contains the layer name and its versions
       // versions will be an array
       return {
@@ -57,7 +68,10 @@ layerController.getFunctions = async (req, res, next) => {
     const { ARN } = req.body;
     const functionArray = [];
     // destructure the Functions array from the Layers object
-    const { Functions } = await lambda.listFunctions({});
+    const input = {};
+    const listFunctionsCommand = new ListFunctionsCommand(input)
+    const {Functions} = await lambdaClient.send(listFunctionsCommand);
+    // const { Functions } = await lambda.listFunctions({});
     // iterate through the Functions array, checking each function to find if it has the layer that we're looking for
     // if so, push it to functionArray
     Functions.forEach((element) => {
@@ -84,9 +98,9 @@ layerController.removeFunction = async (req, res, next) => {
     // req.body includes the layer ARN and functionName
     const { ARN, functionName } = req.body;
     // get the list of layers connected to functionName
-    const { Configuration } = await lambda.getFunction({
-      FunctionName: functionName,
-    });
+    const input = {FunctionName: functionName,};
+    const getFunctionCommand = new GetFunctionCommand(input)
+    const { Configuration } = await lambdaClient.send(getFunctionCommand);
     //console.log('Config', Configuration);
     // console.log('Configuration.Layers: ', Configuration.Layers);
     // remove the layer from the Layers array by ARN
@@ -94,10 +108,14 @@ layerController.removeFunction = async (req, res, next) => {
       return layer.Arn !== ARN;
     });
     // update the configuration of functionName using the new Layers array
-    await lambda.updateFunctionConfiguration({
-      FunctionName: functionName,
-      Layers: newArray.map((element) => element.Arn),
-    });
+    const updateInput = {FunctionName: functionName,
+      Layers: newArray.map((element) => element.Arn),};
+    const updateFunctionConfigurationCommand = new UpdateFunctionConfigurationCommand(updateInput);
+    await lambdaClient.send(updateFunctionConfigurationCommand);
+    // await lambda.updateFunctionConfiguration({
+    //   FunctionName: functionName,
+    //   Layers: newArray.map((element) => element.Arn),
+    // });
     return next();
   } catch (err) {
     console.error('Error removing function from layer:', err);
@@ -106,47 +124,38 @@ layerController.removeFunction = async (req, res, next) => {
 };
 
 layerController.addFunction = async (req, res, next) => {
-  console.log('top of addFunction');
+  
   // console.log('in add functions');
   // req.body is an object with keys ARN (string layer ARN) and functionArray (array of string function names)
   const { ARN } = req.body;
-  console.log('req.body: ', req.body)
   const passFuncs = res.locals.passedRuntime;
-  console.log('Pass funcs: ', passFuncs)
   // iterate through functionArray
   const updateFunctions = (async (functionName) => {
     try {
+      const getFunctionCommand = new GetFunctionCommand( {FunctionName: functionName})
+      const { Configuration } = await lambdaClient.send(getFunctionCommand)
+      //console.log('configuration: ', Configuration);
       // get the array of layers connected to this function
       let newArray;
-      const { Configuration } = await lambda.getFunction({
-        FunctionName: functionName,
-      });
-      console.log('Configuration: ')
       // edge case: if the function has no layers yet, Configuration.Layers will be undefined
       if (Configuration.Layers === undefined) {
         newArray = [];
       } else {
         newArray = Configuration.Layers;
       }
-      console.log('after if/else');
       // add this layer ARN to the current Layers array
-      // if(!newArray.includes(ARN)){
-      //   newArray.push({ Arn: ARN });
-      // }
-      console.log('ARN before push: ', ARN);
-      newArray.push({ Arn: ARN });
+      if(!newArray.includes(ARN)){
+        newArray.push({ Arn: ARN });
+      }
+      console.log(newArray)
+    
 
       // send the updated Layers array to AWS
-      console.log('before lambda.updateFunctionCOnfig')
-      const updateOutput = await lambda.updateFunctionConfiguration({
+      const updateOutput = new UpdateFunctionConfigurationCommand({
         FunctionName: functionName,
         Layers: newArray.map((element) => element.Arn),
       });
-      console.log('updateOutput.Layers: ', updateOutput.Layers);
-      console.log('after lambda.updateFunctionCOnfig')
-      const Configuration2 = await lambda.getFunctionConfiguration({
-        FunctionName: functionName,});
-      console.log('Configuration2.Layers: ', Configuration2.Layers);
+      await lambdaClient.send(updateOutput)
     } catch (error) {
      // console.log('first error catch of addFunctions. error: ', error);
       throw new Error(`Failed to update function ${functionName}. Error: ${error.message}`);
@@ -154,8 +163,7 @@ layerController.addFunction = async (req, res, next) => {
   });
   
   try {
-    await Promise.all(passFuncs.map((func => updateFunctions(func))))
-    console.log('end of addFunction');
+    await Promise.all(passFuncs.map((func => updateFunctions(func))));
     return next();
     // next();
   } catch (error) {

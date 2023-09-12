@@ -1,6 +1,6 @@
 const { SchemasClient, DescribeSchemaCommand } = require('@aws-sdk/client-schemas');
 const { defaultProvider } = require("@aws-sdk/credential-provider-node");
-const { LambdaClient, InvokeCommand, GetLayerVersionByArnCommand, GetFunctionCommand } = require('@aws-sdk/client-lambda');
+const { LambdaClient, InvokeCommand, GetLayerVersionByArnCommand, GetFunctionCommand, UpdateFunctionConfigurationCommand } = require('@aws-sdk/client-lambda');
 //used for testFunc
 const lambdaClient = new LambdaClient ({
   region: "us-east-1",
@@ -32,7 +32,7 @@ testController.getTest = async (req, res, next) => {
       };
       const command = new DescribeSchemaCommand(input);
       const response = await schemasClient.send(command);
-      console.log('command:', command)
+      //console.log('command:', command)
       const data = JSON.parse(response.Content);
       //console.log('data: ', data.components.examples);
       const dataComp = data.components.examples;
@@ -46,7 +46,7 @@ testController.getTest = async (req, res, next) => {
     // console.log('schemaDataPromise: ', schemaDataPromise);
     console.log('PASSED getTest')
     res.locals.schemaData = schemaDataPromise;
-    console.log('schemaData: ', schemaDataPromise)
+    //console.log('schemaData: ', schemaDataPromise)
     return next();
   } catch(error) {
     console.log('Error in testController.getTest:', error);
@@ -111,7 +111,6 @@ testController.testRuntime = async (req, res, next) => {
 testController.testDependencies = async (req, res, next) => {
   const funcNames = res.locals.passedRuntime;
   const listOfTests = res.locals.schemaData;
-  //console.log('in testFunc');
   const listOfErrors = [];
 /*
   res.locals.passedRuntime (funcNames) stores the array of function names, in order. eg [ 'createAccount', 'getAccountBalance' ]
@@ -119,8 +118,6 @@ testController.testDependencies = async (req, res, next) => {
   eg [{"1stShareableTest":{"value":{"AcctNo":"12346"}},"2ndShareableEvent":{"value":{"AcctNo":"12347"}}},{"3rdSharebableTest":{"value":{"AcctNo":"12345"}}}]
   console.log(listOfTests)
 */
-  console.log('funcNames inside test depend', funcNames);
-  console.log('tests inside test depend', JSON.stringify(listOfTests));
 
   const dependenciesFunction = async (element, index) => {
     try {
@@ -131,14 +128,15 @@ testController.testDependencies = async (req, res, next) => {
         const payload = listOfTests[index][key].value;
         const lambdaInput = {
           FunctionName: element,
-          Payload: JSON.stringify(
-            payload
-          )
-        }
-        console.log()
+          Payload: JSON.stringify(payload)
+        }  
+        //"AcctNo":"1234"
+        // '{"AcctNo":"1234"}'
+        // {AcctNo: "1234"}
+        console.log('lambda input: ', lambdaInput);
+        //console.log()
         const command = new InvokeCommand(lambdaInput)
         const response = await lambdaClient.send(command);
-        console.log('response' , response)
         //console.log('response.FunctionError: ', response.FunctionError);
       
         if (response.FunctionError) {
@@ -152,9 +150,9 @@ testController.testDependencies = async (req, res, next) => {
             message:`Please fix ${specError} and try again`
           };
           failedFunctions.push(lambdaInput.FunctionName);
-          console.log('FailedFunctions: ', failedFunctions);
+          
           res.locals.failedFunctions = failedFunctions;
-
+          
           listOfErrors.push(messageToUser);
           res.locals.errorMessageToUser = listOfErrors;
           //302 - Not modified
@@ -169,9 +167,10 @@ testController.testDependencies = async (req, res, next) => {
         //const data = JSON.parse(response.Payload.transformToString());
         //console.log(`Function name: ${element}. Event: ${key}. Data: ${JSON.stringify(data)}`);
       }
-      console.log('PASSED testDependecies')
+      console.log('failed funcs: ', failedFunctions)
+      console.log('passed funcs: ', passedFuncs)
       res.locals.passFuncs = passedFuncs;
-      console.log('passedFuncs inside testController', passedFuncs)
+      res.locals.failedFunctions = failedFunctions;
       // return next();
     } catch(error) {
         console.log('Error in testController.testDependencies:', error);
@@ -185,13 +184,54 @@ testController.testDependencies = async (req, res, next) => {
   }
   
   try {
-    await Promise.all(funcNames.map((func, index) => dependenciesFunction(func, index)));
-    return next();
+    setTimeout(async () => {
+      await Promise.all(funcNames.map((func, index) => dependenciesFunction(func, index)));
+      return next();
+    }, 5000);
+    
     // next();
   } catch (error) {
     return res.status(403).send( error.message );
   }
 }
+
+testController.removeFailedFunc = async (req, res, next) => {
+  console.log('top of removeFailed')
+    // req.body and res.locals includes the layer ARN and array of failed funcs
+    const { ARN } = req.body;
+    const failedFunctions = res.locals.failedFunctions;
+    const disconnect = async (functionName) => {
+      try {
+        const input = {FunctionName: functionName,};
+        const getFunctionCommand = new GetFunctionCommand(input)
+        const { Configuration } = await lambdaClient.send(getFunctionCommand);
+        console.log('config: ', Configuration);
+        const newArray = Configuration.Layers.filter((layer) => {
+          return layer.Arn !== ARN;
+        });
+
+        const updateInput = {FunctionName: functionName,
+          Layers: newArray.map((element) => element.Arn),};
+        const updateFunctionConfigurationCommand = new UpdateFunctionConfigurationCommand(updateInput);
+        const updateResponse = await lambdaClient.send(updateFunctionConfigurationCommand);
+        console.log('layers after remove: ' , updateResponse.Layers);
+      } catch (err) {
+        console.log('in disconnect catch');
+        console.log(err);
+        return next(err);
+      }
+    }
+    
+  try{
+    await Promise.all(failedFunctions.map((func) => disconnect(func)));
+    console.log('finished removing, moving to next')
+    return next();
+  } catch(err) {
+    console.log('Error in removing failed functions. Error: ', err)
+  }
+};
+
+
 
 
 module.exports = testController;
