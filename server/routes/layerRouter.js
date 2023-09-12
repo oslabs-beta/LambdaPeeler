@@ -18,8 +18,10 @@ router.post('/remove', layerController.removeFunction, (req, res) => {
   res.sendStatus(200);
 });
 
-router.post('/add', testController.testRuntime, testController.getTest, layerController.addFunction, testController.testDependencies, (req, res) => {
-  // console.log('inside add callback');
+router.post('/add', testController.testRuntime, testController.getTest, layerController.addFunction, testController.testDependencies, testController.removeFailedFunc, (req, res) => {
+  if (res.locals.errorMessageToUser) {
+    res.status(409).json(res.locals.errorMessageToUser);
+  }
   res.sendStatus(200);
 });
 

@@ -13,6 +13,7 @@ functionController.getFunction = async (req, res, next) => {
     const input = {};
     const command = new ListFunctionsCommand(input);
     const response = await lambdaClient.send(command);
+    //console.log('getFunction response: ', response)
     res.locals.functions = response;
     return next();
   }
