@@ -31,39 +31,79 @@ testController.getTest = async (req, res, next) => {
   res.locals.failedFunctions = [];
   // console.log('res.locals: ', res.locals);
   //console.log('funcNames from res.locals: ', funcNames)
-
   try {
-    const schemaData = funcNames.map(async (funcName) => {
-      const input = {
-        RegistryName: 'lambda-testevent-schemas',
-        SchemaName: `_${funcName}-schema`,
-      };
-      const command = new DescribeSchemaCommand(input);
-      const response = await schemasClient.send(command);
-      //console.log('command:', command)
-      const data = JSON.parse(response.Content);
-      //console.log('data: ', data.components.examples);
-      const dataComp = data.components.examples;
-      return dataComp;
-      // res.locals.schemaData = {
-      //   ...schemaData,
-      //   dataComp
-      // };
-    });
-    const schemaDataPromise = await Promise.all(schemaData);
-    // console.log('schemaDataPromise: ', schemaDataPromise);
-    //console.log('PASSED getTest')
-    res.locals.schemaData = schemaDataPromise;
-    //console.log('schemaData: ', schemaDataPromise)
-    return next();
+    const schemaData = await Promise.all(
+      funcNames.map(async (funcName) => {
+        try {
+          const input = {
+            RegistryName: 'lambda-testevent-schemas',
+            SchemaName: `_${funcName}-schema`,
+          };
+          const command = new DescribeSchemaCommand(input);
+          const response = await schemasClient.send(command);
+          const data = JSON.parse(response.Content);
+          const dataComp = data.components.examples;
+          return dataComp;
+        } catch {
+          res.locals.addError.push(
+            `No shareable tests available for ${funcName}`
+          );
+          res.locals.failedFunctions.push(funcName);
+          return null;
+        }
+      })
+    );
+
+    res.locals.schemaData = schemaData.filter((item) => item !== null);
+    next();
   } catch (error) {
-    console.log('Error in testController.getTest:', error);
     return next({
       log: ('there was a problem in testController.getTest. Error: ', error),
       status: 400,
-      message: { err: 'No tests to find' },
+      message: { err: 'Problem getting test' },
     });
   }
+  // try {
+  //   const schemaData = funcNames.map(async (funcName) => {
+  //     const input = {
+  //       RegistryName: 'lambda-testevent-schemas',
+  //       SchemaName: `_${funcName}-schema`,
+  //     };
+  //     const command = new DescribeSchemaCommand(input);
+  //     try {
+  //       const response = await schemasClient.send(command);
+  //     } catch (error) {
+  //       console.log('inside of nested try/catch. error: ', error);
+  //       res.locals.addError.push(
+  //         `No shareable tests available for ${funcName}`
+  //       );
+  //       return null;
+  //     }
+  //     console.log('after send command');
+  //     //console.log('command:', command)
+  //     const data = JSON.parse(response.Content);
+  //     //console.log('data: ', data.components.examples);
+  //     const dataComp = data.components.examples;
+  //     if (dataComp === undefined) {
+  //       console.log('in dataComp equals undefined conditional');
+  //       res.locals.addError.push(
+  //         `No shareable tests available for ${funcName}`
+  //       );
+  //       return null;
+  //     }
+  //     return dataComp;
+  //   });
+  //   const schemaDataPromise = await Promise.all(schemaData);
+  //   // console.log('schemaDataPromise: ', schemaDataPromise);
+  //   //console.log('PASSED getTest')
+  //   res.locals.schemaData = schemaDataPromise.filter((item) => item !== null);
+  //   console.log('schemaData: ', schemaDataPromise);
+  //   return next();
+  // } catch (error) {
+  //   // res.locals.addError.push(`No shareable tests available`);
+  //   console.log('error: ', error);
+  //   return next();
+  // }
 };
 
 testController.testRuntime = async (req, res, next) => {
