@@ -65,15 +65,34 @@ const Layer = ({ layerName, versionNumber, ARN, functions }) => {
           },
         }
       );
+      console.log('result: ', result);
       setIsLoading(false);
       setIsOpened(false);
       return;
     } catch (error) {
+      console.log('error: ', error);
       setIsLoading(false);
       setIsOpened(false);
-      alert(error.response.data);
+      console.log('type ', typeof error.response.data);
+
+      const messages = []
+
+      if (typeof error.response.data === 'string') {
+        // push to array
+        alert(error.response.data);
+      } else {
+        const errorArr = error.response.data;
+        errorArr.forEach((message) => {
+          // push to array
+          alert(message);
+        });
+      }
     }
   };
+
+  // Errors with LodashFunction. Please fix lodash.defaultTo is not a function.
+
+  // Error linking LodashFunction to layer arn:aws:lambda:us-east-1:524403604286:layer:LodashLayer:1. Please fix the following: lodash.defaultTo is not a function.
 
   return (
     <div id="layer">

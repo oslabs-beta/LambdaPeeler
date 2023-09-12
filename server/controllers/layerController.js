@@ -1,8 +1,16 @@
-const { LambdaClient, ListLayersCommand, ListLayerVersionsCommand, ListFunctionsCommand, GetFunctionCommand, GetFunctionConfigurationCommand, UpdateFunctionConfigurationCommand } = require('@aws-sdk/client-lambda');
-const { defaultProvider } = require("@aws-sdk/credential-provider-node");
-const lambdaClient = new LambdaClient ({
-  region: "us-east-1",
-  credentials: defaultProvider() 
+const {
+  LambdaClient,
+  ListLayersCommand,
+  ListLayerVersionsCommand,
+  ListFunctionsCommand,
+  GetFunctionCommand,
+  GetFunctionConfigurationCommand,
+  UpdateFunctionConfigurationCommand,
+} = require('@aws-sdk/client-lambda');
+const { defaultProvider } = require('@aws-sdk/credential-provider-node');
+const lambdaClient = new LambdaClient({
+  region: 'us-east-1',
+  credentials: defaultProvider(),
 });
 
 const layerController = {};
@@ -11,7 +19,7 @@ layerController.getLayer = async (req, res, next) => {
   try {
     // call the listLayers method
     const input = {};
-    const listLayersCommand = new ListLayersCommand(input)
+    const listLayersCommand = new ListLayersCommand(input);
     const layersData = await lambdaClient.send(listLayersCommand);
 
     // const layersData = await lambda.listLayers({});
@@ -24,7 +32,7 @@ layerController.getLayer = async (req, res, next) => {
     // proceed to next middleware
     return next();
   } catch (err) {
-    console.error('Error fetching layers:', err);
+    //console.error('Error fetching layers:', err);
     res.status(500).json({ error: 'Failed to fetch layers' });
   }
 };
@@ -36,9 +44,9 @@ layerController.getVersions = async (req, res, next) => {
     // loop over each layer and its versions
     const layerPromises = layers.map(async (layer) => {
       // call the listLayerVersions method on each layer and save it to a const
-    const input = {LayerName: layer.LayerName};
-    const listLayerVersionsCommand = new ListLayerVersionsCommand(input)
-    const versionsData = await lambdaClient.send(listLayerVersionsCommand);
+      const input = { LayerName: layer.LayerName };
+      const listLayerVersionsCommand = new ListLayerVersionsCommand(input);
+      const versionsData = await lambdaClient.send(listLayerVersionsCommand);
       // const versionsData = await lambda.listLayerVersions({
       //   LayerName: layer.LayerName,
       // });
@@ -57,8 +65,10 @@ layerController.getVersions = async (req, res, next) => {
     res.locals.layersWithVersions = layersWithVersions;
     return next();
   } catch (err) {
-    console.error('Error fetching layer versions:', err);
-    return next(res.status(500).json({ error: 'Failed to fetch layer versions' }));
+    //console.error('Error fetching layer versions:', err);
+    return next(
+      res.status(500).json({ error: 'Failed to fetch layer versions' })
+    );
   }
 };
 
@@ -69,8 +79,8 @@ layerController.getFunctions = async (req, res, next) => {
     const functionArray = [];
     // destructure the Functions array from the Layers object
     const input = {};
-    const listFunctionsCommand = new ListFunctionsCommand(input)
-    const {Functions} = await lambdaClient.send(listFunctionsCommand);
+    const listFunctionsCommand = new ListFunctionsCommand(input);
+    const { Functions } = await lambdaClient.send(listFunctionsCommand);
     // const { Functions } = await lambda.listFunctions({});
     // iterate through the Functions array, checking each function to find if it has the layer that we're looking for
     // if so, push it to functionArray
@@ -88,7 +98,7 @@ layerController.getFunctions = async (req, res, next) => {
     res.locals.functionArray = functionArray;
     return next();
   } catch (err) {
-    console.error('Error fetching associated functions:', err);
+    //console.error('Error fetching associated functions:', err);
     res.status(500).json({ error: 'Failed to fetch associated functions' });
   }
 };
@@ -98,8 +108,8 @@ layerController.removeFunction = async (req, res, next) => {
     // req.body includes the layer ARN and functionName
     const { ARN, functionName } = req.body;
     // get the list of layers connected to functionName
-    const input = {FunctionName: functionName,};
-    const getFunctionCommand = new GetFunctionCommand(input)
+    const input = { FunctionName: functionName };
+    const getFunctionCommand = new GetFunctionCommand(input);
     const { Configuration } = await lambdaClient.send(getFunctionCommand);
     //console.log('Config', Configuration);
     // console.log('Configuration.Layers: ', Configuration.Layers);
@@ -108,9 +118,12 @@ layerController.removeFunction = async (req, res, next) => {
       return layer.Arn !== ARN;
     });
     // update the configuration of functionName using the new Layers array
-    const updateInput = {FunctionName: functionName,
-      Layers: newArray.map((element) => element.Arn),};
-    const updateFunctionConfigurationCommand = new UpdateFunctionConfigurationCommand(updateInput);
+    const updateInput = {
+      FunctionName: functionName,
+      Layers: newArray.map((element) => element.Arn),
+    };
+    const updateFunctionConfigurationCommand =
+      new UpdateFunctionConfigurationCommand(updateInput);
     await lambdaClient.send(updateFunctionConfigurationCommand);
     // await lambda.updateFunctionConfiguration({
     //   FunctionName: functionName,
@@ -118,22 +131,24 @@ layerController.removeFunction = async (req, res, next) => {
     // });
     return next();
   } catch (err) {
-    console.error('Error removing function from layer:', err);
+    //console.error('Error removing function from layer:', err);
     res.status(500).json({ error: 'Failed to remove function from layer' });
   }
 };
 
 layerController.addFunction = async (req, res, next) => {
-  
+  console.log('top of add functions');
   // console.log('in add functions');
   // req.body is an object with keys ARN (string layer ARN) and functionArray (array of string function names)
   const { ARN } = req.body;
   const passFuncs = res.locals.passedRuntime;
   // iterate through functionArray
-  const updateFunctions = (async (functionName) => {
+  const updateFunctions = async (functionName) => {
     try {
-      const getFunctionCommand = new GetFunctionCommand( {FunctionName: functionName})
-      const { Configuration } = await lambdaClient.send(getFunctionCommand)
+      const getFunctionCommand = new GetFunctionCommand({
+        FunctionName: functionName,
+      });
+      const { Configuration } = await lambdaClient.send(getFunctionCommand);
       //console.log('configuration: ', Configuration);
       // get the array of layers connected to this function
       let newArray;
@@ -144,31 +159,31 @@ layerController.addFunction = async (req, res, next) => {
         newArray = Configuration.Layers;
       }
       // add this layer ARN to the current Layers array
-      if(!newArray.includes(ARN)){
+      if (!newArray.includes(ARN)) {
         newArray.push({ Arn: ARN });
       }
-      console.log(newArray)
-    
+      //console.log(newArray)
 
       // send the updated Layers array to AWS
       const updateOutput = new UpdateFunctionConfigurationCommand({
         FunctionName: functionName,
         Layers: newArray.map((element) => element.Arn),
       });
-      await lambdaClient.send(updateOutput)
+      await lambdaClient.send(updateOutput);
     } catch (error) {
-     // console.log('first error catch of addFunctions. error: ', error);
-      throw new Error(`Failed to update function ${functionName}. Error: ${error.message}`);
+      // console.log('first error catch of addFunctions. error: ', error);
+      //throw new Error(`Failed to update function ${functionName}. Error: ${error.message}`);
     }
-  });
-  
+  };
+
   try {
-    await Promise.all(passFuncs.map((func => updateFunctions(func))));
+    await Promise.all(passFuncs.map((func) => updateFunctions(func)));
+    console.log('end of adding funcs, moving to next');
     return next();
     // next();
   } catch (error) {
-    console.log('second error catch of addFunction. Error:' , error);
-    return res.status(403).send( error.message );
+    //console.log('second error catch of addFunction. Error:' , error);
+    return res.status(403).send(error.message);
   }
 };
 
