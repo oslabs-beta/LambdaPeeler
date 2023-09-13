@@ -1,5 +1,5 @@
 // AWS SDK V3 syntax
-const { LambdaClient, ListFunctionsCommand, GetFunctionConfigurationCommand } = require("@aws-sdk/client-lambda");
+const { LambdaClient, ListFunctionsCommand, GetFunctionConfigurationCommand, ListLayersCommand } = require("@aws-sdk/client-lambda");
 const { defaultProvider } = require("@aws-sdk/credential-provider-node");
 const { STSClient, AssumeRoleCommand } = require('@aws-sdk/client-sts');
 
@@ -54,14 +54,44 @@ functionController.getFunction = async (req, res, next) => {
 
 functionController.getLayers = async(req, res, next) => {
   //ARN of function
+  const layerArray = [];
+  res.locals.layers = [];
   const { ARN } = req.body;
-  //console.log('ARN: ', ARN);
+  console.log('ARN: ', ARN);
   try{
     
-    const command = new GetFunctionConfigurationCommand({ARN: ARN});
+    const command = new GetFunctionConfigurationCommand({FunctionName: ARN});
     const Configuration  = await lambdaClient.send(command);
     console.log('config: ', Configuration);
-    res.locals.layers = Configuration.Layers;
+    if(Configuration.Layers){
+
+      Configuration.Layers.map(el => {
+        layerArray.push(el.Arn);
+      })
+      console.log('layerArray:', layerArray);
+    }
+
+    //res.locals.layers = Configuration.Layers;
+    
+    // res.locals.layers has the layer ARN but not name, version
+    // ListLayersCommand will give us detailedLayersArray
+    // iterate through Configuration.Layers and 
+
+    const layerCommand = new ListLayersCommand({});
+    const layerResponse = await lambdaClient.send(layerCommand);
+    console.log('layerResponse; ', layerResponse);
+    if(layerResponse.Layers) {
+
+      layerResponse.Layers.map(layer => {
+        console.log('Layer Arn: ', layer.LatestMatchingVersion.LayerVersionArn);
+        if(layerArray.includes(layer.LatestMatchingVersion.LayerVersionArn)) {
+          res.locals.layers.push({
+            LayerName: layer.LayerName,
+            LayerArn: layer.LatestMatchingVersion.LayerVersionArn});
+          }
+        })
+      }
+    
     console.log('end of getLayers');
     return next();
   }

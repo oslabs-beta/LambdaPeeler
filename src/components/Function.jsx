@@ -17,7 +17,7 @@ const Function = ({ functionName, ARN, functionLayersARN }) => {
     axios
       .post(
         'http://localhost:3000/functions/layers',
-        JSON.stringify({ ARN: ARN }),
+        { ARN: ARN },
         {
           headers: {
             'Content-Type': 'application/json',
@@ -25,6 +25,8 @@ const Function = ({ functionName, ARN, functionLayersARN }) => {
         }
       )
       .then((response) => {
+        console.log('response: ', response);
+        console.log('response.data: ', response.data);
         setAssociatedLayers(response.data);
       })
       .catch((err) => {
