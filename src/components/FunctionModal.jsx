@@ -60,7 +60,7 @@ const FunctionModal = ({
             <div style={{
               display: 'flex',
               justifyContent: 'center',
-              gap: 5,
+              gap: 10,
               width: '100%',
               position: 'absolute',
               bottom: 20,

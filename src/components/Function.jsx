@@ -17,7 +17,7 @@ const Function = ({ functionName, ARN, functionLayersARN }) => {
     axios
       .post(
         'http://localhost:3000/functions/layers',
-        { ARN: ARN },
+        JSON.stringify({ ARN: ARN }),
         {
           headers: {
             'Content-Type': 'application/json',
@@ -31,6 +31,26 @@ const Function = ({ functionName, ARN, functionLayersARN }) => {
         console.log('Error:', err);
       });
   };
+  // console.log('ARN: ', ARN);
+  // const stringARN = JSON.stringify(ARN);
+  // console.log('stringARN: ', stringARN);
+  // const fetchAssociatedLayers = async () => {
+  //   axios
+  //     .get(
+  //       `http://localhost:3000/functions/layers/${stringARN}`,
+  //       {
+  //         // headers: {
+  //         //   'Content-Type': 'application/json',
+  //         // },
+  //       }
+  //     )
+  //     .then((response) => {
+  //       setAssociatedLayers(response.data);
+  //     })
+  //     .catch((err) => {
+  //       console.log('Error:', err);
+  //     });
+  // };
 
   useEffect(() => {
     if (!isCollapsed) {

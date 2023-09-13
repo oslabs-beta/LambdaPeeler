@@ -2,6 +2,8 @@ import React from 'react';
 import { useState } from 'react';
 import axios from 'axios';
 import CircularProgress from '@mui/material/CircularProgress';
+import { Button, IconButton, Tooltip } from '@mui/material';
+import { Delete, LayersClearSharp } from '@mui/icons-material'
 
 const LinkedFunctions = ({
   functionName,
@@ -39,9 +41,14 @@ const LinkedFunctions = ({
           <li>{functionName}</li>
         </ul>
       </div>
-      <div>
-        <button onClick={() => removeFunction()}> Remove Function </button>
-      </div>
+      {/* <div>
+        <Button variant='outlined' size='small' onClick={() => removeFunction()}> Remove Function </Button>
+      </div> */}
+      <Tooltip title='Remove Function' placement="top" arrow>
+      <IconButton aria-label="delete" size="small" onClick={() => removeFunction()}>
+        <LayersClearSharp color='error' fontSize='small'/>
+      </IconButton>
+      </Tooltip> 
     </div>
   );
 };

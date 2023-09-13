@@ -10,7 +10,7 @@ const assumeRole = async () => {
 
   const roleToAssume = {
     // RoleArn: 'arn:aws:iam::082338669350:role/OSPTool',
-    RoleArn: 'arn:aws:iam::825040963677:role/OSPTool',
+    RoleArn: 'arn:aws:iam::082338669350:role/OSPTool',
     RoleSessionName: 'FunctionControllerSession',
   };
 
@@ -51,37 +51,25 @@ functionController.getFunction = async (req, res, next) => {
   }
 }
 
-functionController.getFunctions = async (req, res, next) => {
-  try {
-    // pull ARN from req body
-    const { ARN } = req.body;
-    console.log('ARN:', ARN);
-    const functionArray = [];
-    // destructure the Functions array from the Layers object
-    const input = {};
-    const listFunctionsCommand = new ListFunctionsCommand(input);
-    const { Functions } = await lambdaClient.send(listFunctionsCommand);
-    // const { Functions } = await lambda.listFunctions({});
-    // iterate through the Functions array, checking each function to find if it has the layer that we're looking for
-    // if so, push it to functionArray
-    Functions.forEach((element) => {
-      if (element.Layers) {
-        for (const item of element.Layers) {
-          if (item.Arn === ARN) {
-            functionArray.push(element.FunctionName);
-            break;
-          }
-        }
-      }
-    });
-    // store functionArray in res.locals
-    res.locals.functionArray = functionArray;
+
+functionController.getLayers = async(req, res, next) => {
+  //ARN of function
+  const { ARN } = req.body;
+  //console.log('ARN: ', ARN);
+  try{
+    
+    const command = new GetFunctionConfigurationCommand({ARN: ARN});
+    const Configuration  = await lambdaClient.send(command);
+    console.log('config: ', Configuration);
+    res.locals.layers = Configuration.Layers;
+    console.log('end of getLayers');
     return next();
-  } catch (err) {
-    //console.error('Error fetching associated functions:', err);
-    res.status(500).json({ error: 'Failed to fetch associated functions' });
   }
-};
+  catch (error) {
+    console.log(error);
+    res.status(400).json({ error: `Failed to fetch layers for function ${ARN}` });
+  }
+}
 
 
 module.exports = functionController;
