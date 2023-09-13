@@ -1,15 +1,25 @@
 // import bcrypt
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 // import jwt
+const jwt = require('jsonwebtoken');
 // import db
 // import env config
+require('dotenv').config();
+
 const userController = {};
 
 userController.createUser = (req, res, next) => {
   // pull user/pass off req.body
+  const { username, password } = req.body;
   try {
     // use bcrypt.hash to hash password
-    // insert into db using user and hash
+    bcrypt.hash(password, saltRounds, (err, hashedPassword) => {
+      // insert into db using user and hash
+      // store user or arn on cookies or locals to pull and populate role arn on controllers?
+    });
     // return next
+    return next();
   } catch (err) {
     console.log(err);
     return next(err);
@@ -18,14 +28,20 @@ userController.createUser = (req, res, next) => {
 
 userController.verifyUser = (req, res, next) => {
   // pull user/pass off req.body
+  const { username, password } = req.body;
   try {
     // find user in db
-    // pull password out of user obj
+    // hashedPassword = pull password out of user obj
     try {
       // use bcrypt.compare to check password
+      const match = bcrypt.compare(password, hashedPassword);
       // if it doesnt match
-      // return next with err message
+      if (!match) {
+        // return next with err message
+        return next({ error: 'Incorrect username or password' });
+      }
       // return next
+      return next();
     } catch (err) {
       console.log(err);
       return next(err);
