@@ -4,14 +4,41 @@ const {
   ListLayerVersionsCommand,
   ListFunctionsCommand,
   GetFunctionCommand,
-  GetFunctionConfigurationCommand,
   UpdateFunctionConfigurationCommand,
 } = require('@aws-sdk/client-lambda');
-const { defaultProvider } = require('@aws-sdk/credential-provider-node');
-const lambdaClient = new LambdaClient({
-  region: 'us-east-1',
-  credentials: defaultProvider(),
-});
+const { STSClient, AssumeRoleCommand } = require('@aws-sdk/client-sts');
+
+const assumeRole = async () => {
+  const stsClient = new STSClient({ 
+    region: "us-east-1",
+  });
+
+  const roleToAssume = {
+    // RoleArn: 'arn:aws:iam::082338669350:role/OSPTool',
+    RoleArn: 'arn:aws:iam::825040963677:role/OSPTool',
+    RoleSessionName: 'LayerControllerSession',
+  };
+
+  const command = new AssumeRoleCommand(roleToAssume);
+  const { Credentials } = await stsClient.send(command);
+
+  return {
+    accessKeyId: Credentials.AccessKeyId,
+    secretAccessKey: Credentials.SecretAccessKey,
+    sessionToken: Credentials.SessionToken,
+  };
+};
+
+let lambdaClient;
+
+(async () => {
+  const tempCredentials = await assumeRole();
+
+  lambdaClient = new LambdaClient({
+    region: "us-east-1",
+    credentials: tempCredentials
+  });
+})();
 
 const layerController = {};
 
@@ -24,7 +51,7 @@ layerController.getLayer = async (req, res, next) => {
 
     // const layersData = await lambda.listLayers({});
 
-    // console.log('layerData: ', layersData);
+    //console.log('layerData: ', layersData);
     // extract the Layers array from the response
     const layers = layersData.Layers;
     // assign the layers data to res.locals.layer
@@ -137,7 +164,7 @@ layerController.removeFunction = async (req, res, next) => {
 };
 
 layerController.addFunction = async (req, res, next) => {
-  console.log('top of add functions');
+  // console.log('top of add functions');
   // console.log('in add functions');
   // req.body is an object with keys ARN (string layer ARN) and functionArray (array of string function names)
   const { ARN } = req.body;
@@ -180,7 +207,7 @@ layerController.addFunction = async (req, res, next) => {
 
   try {
     await Promise.all(passFuncs.map((func) => updateFunctions(func)));
-    console.log('end of adding funcs, moving to next');
+    // console.log('end of adding funcs, moving to next');
     return next();
     // next();
   } catch (error) {

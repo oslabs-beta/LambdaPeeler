@@ -149,14 +149,6 @@ input:checked + .slider:before {
   transform: translateX(26px);
 }
 
-/* Rounded sliders */
-.slider.round {
-  border-radius: 34px;
-}
-
-.slider.round:before {
-  border-radius: 50%;
-}
 
 .functionDropDown {
   display: flex;
@@ -164,3 +156,12 @@ input:checked + .slider:before {
   justify-content: space-between;
 
 }
+
+.layerDropDown {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+}
+
+
