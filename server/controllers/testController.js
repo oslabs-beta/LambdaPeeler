@@ -19,7 +19,7 @@ const assumeRole = async () => {
 
   const roleToAssume = {
     // RoleArn: 'arn:aws:iam::082338669350:role/OSPTool',
-    RoleArn: 'arn:aws:iam::825040963677:role/OSPTool',
+    RoleArn: 'arn:aws:iam::082338669350:role/OSPTool',
     RoleSessionName: 'TestControllerSession',
   };
 
