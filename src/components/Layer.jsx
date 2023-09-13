@@ -4,6 +4,8 @@ import LinkedFunctions from './LinkedFunctions.jsx';
 import FunctionModal from './FunctionModal.jsx';
 import axios from 'axios';
 import CircularProgress from '@mui/material/CircularProgress';
+import { Button, IconButton, Tooltip, Box } from '@mui/material';
+import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
 
 const Layer = ({ layerName, versionNumber, ARN, functions }) => {
   // isCollapsed is tracked for each displayed Layer. true (default) means the Layer display is collapsed, false means the Layer box has expanded
@@ -140,7 +142,16 @@ const Layer = ({ layerName, versionNumber, ARN, functions }) => {
             </div>
           ))}
 
-          <button onClick={() => openModal()}>Link Function</button>
+          {/* <Button variant='contained' size='small' onClick={() => openModal()} endIcon={<LibraryAddIcon/>} >Link Function</Button> */}
+          <Box sx={{
+            pl: 2.5,
+          }}>
+          <Tooltip title='Add Function' placement="top" arrow>
+            <IconButton aria-label="add" onClick={() => openModal()}>
+              <LibraryAddIcon fontSize='medium' color='info'/>
+            </IconButton>
+          </Tooltip> 
+          </Box>
           <FunctionModal
             open={isOpened}
             closeFunction={closeModal}
