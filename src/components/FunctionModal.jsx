@@ -68,35 +68,23 @@ const FunctionModal = ({
                 label={func.FunctionName}
               />
             ))}
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'center',
-                gap: 5,
-                width: '100%',
-                position: 'absolute',
-                bottom: 20,
-                margin: 0,
-                padding: 0,
-                left: 0,
-              }}
-            >
-              <Button
-                type="submit"
-                variant="contained"
-                sx={{ width: '40%' }}
-                style={{ margin: 0 }}
-              >
-                Link
-              </Button>
-              <Button
-                onClick={closeFunction}
-                variant="outlined"
-                sx={{ width: '40%', m: 0, p: 0 }}
-                style={{ margin: 0 }}
-              >
-                Close
-              </Button>
+            <div style={{
+              display: 'flex',
+              justifyContent: 'center',
+              gap: 10,
+              width: '100%',
+              position: 'absolute',
+              bottom: 20,
+              margin: 0,
+              padding: 0,
+              left: 0,
+              }}>
+            <Button type="submit" variant="contained" sx={{width: '40%'}} style={{margin: 0}}>
+              Link
+            </Button>
+            <Button onClick={closeFunction} variant="outlined" sx={{width: '40%', m: 0, p:0}} style={{margin: 0}}>
+              Close
+            </Button>
             </div>
           </form>
           {isLoading && (
