@@ -17,7 +17,7 @@ const Function = ({ functionName, ARN, functionLayersARN }) => {
     axios
       .post(
         'http://localhost:3000/functions/layers',
-        { ARN: functionLayersARN },
+        { ARN: ARN },
         {
           headers: {
             'Content-Type': 'application/json',
