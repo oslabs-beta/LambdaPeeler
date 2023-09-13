@@ -10,16 +10,44 @@ const {
   GetFunctionCommand,
   UpdateFunctionConfigurationCommand,
 } = require('@aws-sdk/client-lambda');
-//used for testFunc
-const lambdaClient = new LambdaClient({
-  region: 'us-east-1',
-  credentials: defaultProvider(),
-});
+const { STSClient, AssumeRoleCommand } = require('@aws-sdk/client-sts');
 
-const schemasClient = new SchemasClient({
-  region: 'us-east-1',
-  credentials: defaultProvider(),
-});
+const assumeRole = async () => {
+  const stsClient = new STSClient({ 
+    region: "us-east-1",
+  });
+
+  const roleToAssume = {
+    // RoleArn: 'arn:aws:iam::082338669350:role/OSPTool',
+    RoleArn: 'arn:aws:iam::825040963677:role/OSPTool',
+    RoleSessionName: 'TestControllerSession',
+  };
+
+  const command = new AssumeRoleCommand(roleToAssume);
+  const { Credentials } = await stsClient.send(command);
+
+  return {
+    accessKeyId: Credentials.AccessKeyId,
+    secretAccessKey: Credentials.SecretAccessKey,
+    sessionToken: Credentials.SessionToken,
+  };
+};
+
+let lambdaClient;
+let schemasClient;
+(async () => {
+  const tempCredentials = await assumeRole();
+
+  lambdaClient = new LambdaClient({
+    region: "us-east-1",
+    credentials: tempCredentials
+  });
+
+  schemasClient = new SchemasClient({
+    region: "us-east-1",
+    credentials: tempCredentials
+  });
+})();
 
 //used for get Test
 
@@ -66,7 +94,7 @@ testController.getTest = async (req, res, next) => {
 };
 
 testController.testRuntime = async (req, res, next) => {
-  console.log('in test Run Time');
+  // console.log('in test Run Time');
   const passFuncs = [];
   const failFuncs = [];
   const { ARN, functionArray } = req.body;
@@ -121,11 +149,10 @@ testController.testRuntime = async (req, res, next) => {
 };
 
 testController.testDependencies = async (req, res, next) => {
-  console.log('top of testDependencies');
+  // console.log('top of testDependencies');
   const funcNames = res.locals.passedRuntime;
   const listOfTests = res.locals.schemaData;
   // const listOfErrors = [];
-  res.locals.errorMessageToUser = [];
   /*
   res.locals.passedRuntime (funcNames) stores the array of function names, in order. eg [ 'createAccount', 'getAccountBalance' ]
   res.locals.schemaData (listOfTests) stores the array of function test payloads, in order. each function gets an object like {firstTestName: {value: test payload}, secondTestName: {value: test payload}}
@@ -145,28 +172,24 @@ testController.testDependencies = async (req, res, next) => {
           FunctionName: element,
           Payload: JSON.stringify(payload),
         };
-        //"AcctNo":"1234"
-        // '{"AcctNo":"1234"}'
-        // {AcctNo: "1234"}
-        //console.log('lambda input: ', lambdaInput);
-        //console.log()
+
         const command = new InvokeCommand(lambdaInput);
         const response = await lambdaClient.send(command);
         //console.log('response.FunctionError: ', response.FunctionError);
 
         if (response.FunctionError) {
-          console.log(
-            'Lambda Function Error:',
-            response,
-            'Payload:',
-            response.Payload.transformToString()
-          );
+          // console.log(
+          //   'Lambda Function Error:',
+          //   response,
+          //   'Payload:',
+          //   response.Payload.transformToString()
+          // );
           res.locals.failedFunctions.push(lambdaInput.FunctionName);
           const failedFuncName = lambdaInput.FunctionName;
           const errorType = response.Payload.transformToString();
           const errorParse = JSON.parse(errorType);
-          console.log('errorType: ', errorType);
-          console.log('errorType is a ', typeof errorType);
+          // console.log('errorType: ', errorType);
+          // console.log('errorType is a ', typeof errorType);
           //console.log('response payload: ', response.Payload);
           const specError = response.FunctionError;
           const messageToUser = `Error linking ${failedFuncName} to layer ${ARN}. Please fix the following: ${errorParse.errorMessage}.`;
@@ -188,8 +211,8 @@ testController.testDependencies = async (req, res, next) => {
         //console.log(`Function name: ${element}. Event: ${key}. Data: ${JSON.stringify(data)}`);
       }
       //console.log('failed funcs: ', failedFunctions)
-      console.log('passed funcs: ', passedFuncs);
-      console.log('res.locals.passFuncs:', res.locals.passFuncs);
+      // console.log('passed funcs: ', passedFuncs);
+      // console.log('res.locals.passFuncs:', res.locals.passFuncs);
       res.locals.passFuncs = passedFuncs;
       //res.locals.failedFunctions = failedFunctions;
       // return next();
@@ -220,7 +243,7 @@ testController.testDependencies = async (req, res, next) => {
 };
 
 testController.removeFailedFunc = async (req, res, next) => {
-  console.log('top of removeFailed');
+  // console.log('top of removeFailed');
   // req.body and res.locals includes the layer ARN and array of failed funcs
   const { ARN } = req.body;
   const failedFunctions = res.locals.failedFunctions;
@@ -253,7 +276,7 @@ testController.removeFailedFunc = async (req, res, next) => {
 
   try {
     await Promise.all(failedFunctions.map((func) => disconnect(func)));
-    console.log('finished removing, moving to next');
+    // console.log('finished removing, moving to next');
     return next();
   } catch (err) {
     console.log('Error in removing failed functions. Error: ', err);
