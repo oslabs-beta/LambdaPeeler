@@ -13,8 +13,8 @@ const {
 const { STSClient, AssumeRoleCommand } = require('@aws-sdk/client-sts');
 
 const assumeRole = async () => {
-  const stsClient = new STSClient({ 
-    region: "us-east-1",
+  const stsClient = new STSClient({
+    region: 'us-east-1',
   });
 
   const roleToAssume = {
@@ -39,13 +39,13 @@ let schemasClient;
   const tempCredentials = await assumeRole();
 
   lambdaClient = new LambdaClient({
-    region: "us-east-1",
-    credentials: tempCredentials
+    region: 'us-east-1',
+    credentials: tempCredentials,
   });
 
   schemasClient = new SchemasClient({
-    region: "us-east-1",
-    credentials: tempCredentials
+    region: 'us-east-1',
+    credentials: tempCredentials,
   });
 })();
 
@@ -54,7 +54,7 @@ let schemasClient;
 const testController = {};
 
 testController.getTest = async (req, res, next) => {
-  console.log('top of getTest');
+  //console.log('top of getTest');
   const funcNames = res.locals.passedRuntime;
   res.locals.failedFunctions = [];
   // console.log('res.locals: ', res.locals);
@@ -234,7 +234,7 @@ testController.testDependencies = async (req, res, next) => {
       await Promise.all(
         funcNames.map((func, index) => dependenciesFunction(func, index))
       );
-      console.log('finished testing dependencies, moving to next');
+      //console.log('finished testing dependencies, moving to next');
       next();
     }, 5000);
     // next();

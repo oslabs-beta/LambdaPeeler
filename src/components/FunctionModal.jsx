@@ -1,6 +1,13 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { Modal, Box, Button, Checkbox, FormControlLabel, Typography } from '@mui/material';
+import {
+  Modal,
+  Box,
+  Button,
+  Checkbox,
+  FormControlLabel,
+  Typography,
+} from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
 import LinearProgress from '@mui/material/LinearProgress';
 import axios from 'axios';
@@ -19,12 +26,16 @@ const FunctionModal = ({
     if (isLoading) {
       const interval = setInterval(() => {
         setProgress((prevProgress) => {
-          if (prevProgress >= 100) return 100;
-          return prevProgress + 1;
-        })
-      }, 100)
+          if (prevProgress >= 100) {
+            clearInterval(interval);
+            return 100;
+          }
+          return prevProgress + 1.1;
+        });
+      }, 100);
     }
-  }, [isLoading])
+    setProgress(0);
+  }, [isLoading]);
 
   return (
     <div>
@@ -94,7 +105,7 @@ const FunctionModal = ({
                 Testing Compatibility
               </Typography>
               <Box sx={{ width: '100%' }}>
-                <LinearProgress variant='determinate' value={progress}/>
+                <LinearProgress variant="determinate" value={progress} />
               </Box>
             </div>
           )}
