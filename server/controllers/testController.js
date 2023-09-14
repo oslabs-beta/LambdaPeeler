@@ -99,6 +99,7 @@ testController.testRuntime = async (req, res, next) => {
   const failFuncs = [];
   const { ARN, functionArray } = req.body;
   const getLayerVersionCommand = new GetLayerVersionByArnCommand({ Arn: ARN });
+  console.log('getlayerVersionCommand: ' , getLayerVersionCommand);
   const getLayerResponse = await lambdaClient.send(getLayerVersionCommand);
   const layerRuntime = getLayerResponse.CompatibleRuntimes;
   res.locals.addError = [];

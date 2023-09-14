@@ -4,8 +4,10 @@ import axios from 'axios';
 import LinkedLayers from './LinkedLayers';
 import LayerModal from './LayersModal';
 import CircularProgress from '@mui/material/CircularProgress';
+import { Button, IconButton, Tooltip, Box } from '@mui/material';
+import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
 
-const Function = ({ functionName, ARN, functionLayersARN }) => {
+const Function = ({ functionName, ARN, functionLayersARN, layers}) => {
   // isCollapsed is tracked for each displayed Layer. true (default) means the Layer display is collapsed, false means the Layer box has expanded
   const [isCollapsed, setIsCollapsed] = useState(true);
   const [associatedLayers, setAssociatedLayers] = useState([]);
@@ -13,11 +15,13 @@ const Function = ({ functionName, ARN, functionLayersARN }) => {
   const [isOpened, setIsOpened] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
+
   const fetchAssociatedLayers = async () => {
     axios
       .post(
         'http://localhost:3000/functions/layers',
-        JSON.stringify({ ARN: ARN }),
+        { ARN: ARN,
+        layers: layers },
         {
           headers: {
             'Content-Type': 'application/json',
@@ -25,32 +29,14 @@ const Function = ({ functionName, ARN, functionLayersARN }) => {
         }
       )
       .then((response) => {
+        // console.log('response: ', response);
+        // console.log('response.data: ', response.data);
         setAssociatedLayers(response.data);
       })
       .catch((err) => {
         console.log('Error:', err);
       });
   };
-  // console.log('ARN: ', ARN);
-  // const stringARN = JSON.stringify(ARN);
-  // console.log('stringARN: ', stringARN);
-  // const fetchAssociatedLayers = async () => {
-  //   axios
-  //     .get(
-  //       `http://localhost:3000/functions/layers/${stringARN}`,
-  //       {
-  //         // headers: {
-  //         //   'Content-Type': 'application/json',
-  //         // },
-  //       }
-  //     )
-  //     .then((response) => {
-  //       setAssociatedLayers(response.data);
-  //     })
-  //     .catch((err) => {
-  //       console.log('Error:', err);
-  //     });
-  // };
 
   useEffect(() => {
     if (!isCollapsed) {
@@ -65,7 +51,7 @@ const Function = ({ functionName, ARN, functionLayersARN }) => {
   const closeModal = () => {
     setIsOpened(false);
   };
-console.log('associated layers: ', associatedLayers);
+// console.log('associated layers: ', associatedLayers);
 
 const linkLayers = async (event) => {
   setIsLoading(true);
@@ -85,7 +71,7 @@ const linkLayers = async (event) => {
         },
       }
     );
-    console.log('result: ', result);
+    // console.log('result: ', result);
     setIsLoading(false);
     setIsOpened(false);
     return;
@@ -93,7 +79,7 @@ const linkLayers = async (event) => {
     console.log('error: ', error);
     setIsLoading(false);
     setIsOpened(false);
-    console.log('type ', typeof error.response.data);
+    // console.log('type ', typeof error.response.data);
 
     const messages = [];
 
@@ -111,11 +97,10 @@ const linkLayers = async (event) => {
   }
 };
 
-
   return (
     <div id='functions'>
       <button className="collapsible" onClick={() => setIsCollapsed(!isCollapsed)}>
-      <span> Function: {functionName}, ARN: {ARN} </span>
+      <span> {' '} Function: {functionName}, ARN: {ARN} </span>
       </button>
       {!isCollapsed && (
         <div>
@@ -138,9 +123,11 @@ const linkLayers = async (event) => {
           </div>
           )}
           {associatedLayers.map((element) => (
+            
             <div>
               <LinkedLayers 
                 layerName ={element.LayerName}
+                layerVersion={element.LayerVersion}
                 layerArn = {element.LayerArn}
                 fetch={fetchAssociatedLayers}
                 isLoading={isLoading}
@@ -148,6 +135,22 @@ const linkLayers = async (event) => {
               />
             </div>
           ))}
+          <Box sx={{
+            pl: 2.5,
+          }}>
+          <Tooltip title='Add Layer' placement="top" arrow>
+            <IconButton aria-label="add" onClick={() => openModal()}>
+              <LibraryAddIcon fontSize='medium' color='info'/>
+            </IconButton>
+          </Tooltip> 
+          </Box>
+          <LayerModal
+            open={isOpened}
+            closeFunction={closeModal}
+            layers={layers}
+            onSubmit={linkLayers}
+            isLoading={isLoading}
+          />
       </div>
       )}
     </div>

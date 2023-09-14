@@ -5,7 +5,8 @@ import CircularProgress from '@mui/material/CircularProgress';
 
 const LinkedLayers = ({
   layerName, 
-  ARN, 
+  layerVersion,
+  layerArn, 
   fetch,
   isLoading,
   setIsLoading}) => {
@@ -15,7 +16,10 @@ const LinkedLayers = ({
     <div className="layerDropDown">
       <div> 
         <ul>
-          <li>{layerName}</li>
+          <li>Layer: {layerName}, Ver: {layerVersion}
+            <br></br>
+            ARN: {layerArn}
+          </li>
         </ul>
       </div>
     </div>
