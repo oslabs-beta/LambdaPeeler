@@ -9,7 +9,9 @@ const FunctionsContainer = ( {data, lambda} ) => {
       {lambda.map((element) => (
             <Function functionName = {element.FunctionName}
             ARN = {element.FunctionArn}
-            functionLayersARN = {element.Layers}/>
+            functionLayersARN = {element.Layers}
+            layers = {data}/>
+            
         ))}  
     </div> 
   )
