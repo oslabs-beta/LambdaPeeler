@@ -56,19 +56,19 @@ functionController.getLayers = async(req, res, next) => {
   //ARN of function
   const layerArray = [];
   res.locals.layers = [];
-  const { ARN } = req.body;
+  const { ARN, layers } = req.body;
   console.log('ARN: ', ARN);
   try{
     
     const command = new GetFunctionConfigurationCommand({FunctionName: ARN});
     const Configuration  = await lambdaClient.send(command);
-    console.log('config: ', Configuration);
+    //console.log('config: ', Configuration);
     if(Configuration.Layers){
 
       Configuration.Layers.map(el => {
         layerArray.push(el.Arn);
       })
-      console.log('layerArray:', layerArray);
+      // console.log('layerArray:', layerArray);
     }
 
     //res.locals.layers = Configuration.Layers;
@@ -77,22 +77,33 @@ functionController.getLayers = async(req, res, next) => {
     // ListLayersCommand will give us detailedLayersArray
     // iterate through Configuration.Layers and 
 
-    const layerCommand = new ListLayersCommand({});
-    const layerResponse = await lambdaClient.send(layerCommand);
-    console.log('layerResponse; ', layerResponse);
-    if(layerResponse.Layers) {
-
-      layerResponse.Layers.map(layer => {
-        console.log('Layer Arn: ', layer.LatestMatchingVersion.LayerVersionArn);
-        if(layerArray.includes(layer.LatestMatchingVersion.LayerVersionArn)) {
-          res.locals.layers.push({
-            LayerName: layer.LayerName,
-            LayerArn: layer.LatestMatchingVersion.LayerVersionArn});
+    // const layerCommand = new ListLayersCommand({});
+    // const layerResponse = await lambdaClient.send(layerCommand);
+    //console.log('layerResponse; ', layerResponse);
+    // if(layerResponse.Layers) {
+    console.log('layers: ', layers);
+      layers.map(layer => {
+        // inside each layer object, get each of the arn strings in "ARN" property and compare to layerArray
+        layer["ARN"].map((layerARN, index) => {
+          console.log('layerArn: ', layerARN);
+          if(layerArray.includes(layerARN)) {
+            res.locals.layers.push({
+              LayerName: layer.name,
+              LayerVersion: layer.versions[index],
+              LayerArn: layerARN
+            })
           }
-        })
-      }
+        });
+      })
+      //   //console.log('Layer Arn: ', layer.LatestMatchingVersion.LayerVersionArn);
+      //   if(layerArray.includes(layer.LatestMatchingVersion.LayerVersionArn)) {
+      //     res.locals.layers.push({
+      //       LayerName: layer.LayerName,
+      //       LayerArn: layer.LatestMatchingVersion.LayerVersionArn});
+      //     }
+      // }
     
-    console.log('end of getLayers');
+    // console.log('end of getLayers');
     return next();
   }
   catch (error) {
