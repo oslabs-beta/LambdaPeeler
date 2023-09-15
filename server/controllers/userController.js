@@ -4,21 +4,39 @@ const saltRounds = 10;
 // import jwt
 const jwt = require('jsonwebtoken');
 // import db
+const db = require('../models/userModel')
 // import env config
 require('dotenv').config();
 
 const userController = {};
 
 userController.createUser = (req, res, next) => {
-  // pull user/pass off req.body
-  const { username, password } = req.body;
+  // pull user/pass/ARN off req.body
+  const { username, password, ARN } = req.body;
   try {
+    // check if username already exists in DB
+    db.findOne({username: username})
+    .then(obj => {
+      // if so, pause and then notify the user
+      if(obj) {
+        setTimeout(() => {
+          // TODO: notify user that username is taken
+          return next({
+            error: 'An account with this username already exists.'
+          });
+        }, 500);
+      }
+    })
     // use bcrypt.hash to hash password
     bcrypt.hash(password, saltRounds, (err, hashedPassword) => {
-      // insert into db using user and hash
+      if (err) {
+        console.log(err);
+        return next(err);
+      }
+      // insert into db using user, hash and arn
+      db.create({username: username, password: hashedPassword, ARN: ARN})
       // store user or arn on cookies or locals to pull and populate role arn on controllers?
     });
-    // return next
     return next();
   } catch (err) {
     console.log(err);
@@ -26,20 +44,29 @@ userController.createUser = (req, res, next) => {
   }
 };
 
-userController.verifyUser = (req, res, next) => {
+userController.verifyUser = async (req, res, next) => {
   // pull user/pass off req.body
-  const { username, password } = req.body;
   try {
+    const { username, password } = req.body;
     // find user in db
-    // hashedPassword = pull password out of user obj
+    const user = await db.findOne({username: username})
+    // if user doesn't exist, set an empty hashedPassword
+    if(!user) {
+      const hashedPassword = '';
+    }
+    // otherwise grab hashed pass
+    else {
+      const hashedPassword = user.password;
+    }
     try {
       // use bcrypt.compare to check password
-      const match = bcrypt.compare(password, hashedPassword);
+      const match = await bcrypt.compare(password, hashedPassword);
       // if it doesnt match
       if (!match) {
         // return next with err message
         return next({ error: 'Incorrect username or password' });
       }
+      res.locals.username = username;
       // return next
       return next();
     } catch (err) {
@@ -52,27 +79,43 @@ userController.verifyUser = (req, res, next) => {
   }
 };
 
-userController.createToken = (req, res, next) => {
-  // pull user off res.locals
+userController.createToken = async (req, res, next) => {
   try {
+    // pull user off res.locals
+    const {username} = res.locals;
     // find user in db
+    const user = await model.findOne({username: username});
     // use jwt.sign on user obj with secret env key
+    const token = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
+      expiresIn: 60 * 60// Expires in one hour
+    })
     // create cookie with token
+    res.cookie('token', token, {
+      maxAge: 60 * 60 * 1000, // Expires in one hour
+      httpOnly: true
+    })
     // give this an expiration to persist session?
     // ex. delete when they logout
     // and delete after an hour
-    // return next
+    return next();
   } catch (err) {
     console.log(err);
     return next(err);
   }
 };
 
-userController.verifyToken = (req, res, next) => {
+userController.verifyToken = async (req, res, next) => {
   // pull token from cookies
+  const {token} = req.cookies;
   try {
     // use jwt.verify to check if token is valid with secret env key
-    // return next
+    await jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, success) => {
+      if (err) {
+        console.log(err);
+        return next(err)
+      }
+      return next();
+    })
   } catch (err) {
     console.log(err);
     return next(err);
@@ -82,7 +125,8 @@ userController.verifyToken = (req, res, next) => {
 userController.deleteToken = (req, res, next) => {
   try {
     // use res.clearCookie to delete both cookies
-    // return next
+    res.clearCookie('token');
+    return next();
   } catch (err) {
     console.log(err);
     return next(err);

@@ -124,5 +124,27 @@ functionController.getLayers = async(req, res, next) => {
   }
 }
 
+functionController.removeLayer = async (req, res, next) => {
+  try {
+  const { ARN, LayerName, layerVersion, functionName } = req.body;
 
+  const input = { FunctionName: functionName };
+  const getFunctionCommand = new GetFunctionCommand(input);
+  const { Configuration } = await lambdaClient.send(getFunctionCommand);
+      // remove the layer from the Layers array by ARN and store it into const newArray
+      const newArray = Configuration.Layers.filter((layer) => {
+        return layer.Arn !== ARN;
+      });
+      // update the configuration of functionName using the new Layers array
+      const updateInput = {
+        FunctionName: functionName,
+        Layers: newArray.map((element) => element.Arn),
+      };
+      const updateFunctionConfigurationCommand = new UpdateFunctionConfigurationCommand(updateInput);
+      await lambdaClient.send(updateFunctionConfigurationCommand);
+      return next();
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to remove layer from function' });
+  }
+}
 module.exports = functionController;

@@ -10,11 +10,14 @@ import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
 const Layer = ({ layerName, versionNumber, ARN, functions }) => {
   // isCollapsed is tracked for each displayed Layer. true (default) means the Layer display is collapsed, false means the Layer box has expanded
   const [isCollapsed, setIsCollapsed] = useState(true);
+  // associatedFunctions keeps track of which functions are linked to a layer
   const [associatedFunctions, setAssociatedFunctions] = useState([]);
   // isOpened is for the FunctionModal for each displayed Layer. true means the modal is opened, false (default) means the modal is not opened
   const [isOpened, setIsOpened] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
+  // invoked when the state of isCollapsed or isOpened changes
+  // post requeset to grab associated functions
   const fetchAssociatedFunctions = async () => {
     axios
       .post(
@@ -34,24 +37,31 @@ const Layer = ({ layerName, versionNumber, ARN, functions }) => {
       });
   };
 
+  // this useEffect will be invoked whenever you click on a layer component 
+  //or when the pop up for the function is opened or closed
   useEffect(() => {
+      // if the layer component is expanded, invoke this function
     if (!isCollapsed) {
       fetchAssociatedFunctions();
     }
   }, [isCollapsed, isOpened]);
 
+  // changes the state for when function Modal opens and closes
+  // openModal is passed down to the add function button
   const openModal = () => {
     setIsOpened(true);
   };
-
+// closeModal is passed down to the Function Modal component
   const closeModal = () => {
     setIsOpened(false);
   };
 
   // function to get the array of function names which have been checked in the FunctionModal for a given Layer
+  // passed down to FunctionModal
   const linkFunction = async (event) => {
     setIsLoading(true);
     event.preventDefault();
+    // pull form data and store in array to be sent to server
     const formResponse = new FormData(event.target);
     const arrayOfCheckedFunctions = [];
     for (const key of formResponse.keys()) {
@@ -67,38 +77,30 @@ const Layer = ({ layerName, versionNumber, ARN, functions }) => {
           },
         }
       );
-      console.log('result: ', result);
       setIsLoading(false);
       setIsOpened(false);
       return;
     } catch (error) {
-      console.log('error: ', error);
       setIsLoading(false);
       setIsOpened(false);
-      console.log('type ', typeof error.response.data);
 
+      // alert user of any errors
       const messages = [];
-
       if (typeof error.response.data === 'string') {
-        // push to array
         alert(error.response.data);
       } else {
         const errorArr = error.response.data;
         errorArr.forEach((message) => {
           console.log('error message: ', message);
-          // push to array
           alert(message);
         });
       }
     }
   };
 
-  // Errors with LodashFunction. Please fix lodash.defaultTo is not a function.
-
-  // Error linking LodashFunction to layer arn:aws:lambda:us-east-1:524403604286:layer:LodashLayer:1. Please fix the following: lodash.defaultTo is not a function.
-
   return (
     <div id="layer">
+      {/* Layer component renders a button that has an onClick,  layer name, ver, ARN */}
       <button
         className="collapsible"
         onClick={() => setIsCollapsed(!isCollapsed)}
@@ -110,9 +112,11 @@ const Layer = ({ layerName, versionNumber, ARN, functions }) => {
           ARN: {ARN}
         </span>
       </button>
+      {/* if isCollapsed is false, show a div of functions*/}
       {!isCollapsed && (
         <div id='dropdown'>
           <h3>Functions</h3>
+          {/* if isLoading is true, show the circule progress component from MUI*/}
           {isLoading && (
             <div
               style={{
@@ -130,6 +134,7 @@ const Layer = ({ layerName, versionNumber, ARN, functions }) => {
               />
             </div>
           )}
+          {/* Takes the functions from the state associatedFunctions and create seperate components called LinkedFunctions*/}
           {associatedFunctions.map((element) => (
             <div>
               <LinkedFunctions
@@ -141,8 +146,7 @@ const Layer = ({ layerName, versionNumber, ARN, functions }) => {
               />
             </div>
           ))}
-
-          {/* <Button variant='contained' size='small' onClick={() => openModal()} endIcon={<LibraryAddIcon/>} >Link Function</Button> */}
+          {/* Renders a Box component from MUI that will contain the "add function" function*/}
           <Box sx={{
             pl: 2.5,
           }}>
@@ -152,6 +156,7 @@ const Layer = ({ layerName, versionNumber, ARN, functions }) => {
             </IconButton>
           </Tooltip> 
           </Box>
+          {/* When add function on the layer tab is clicked, a modal of all functions will pop up*/}
           <FunctionModal
             open={isOpened}
             closeFunction={closeModal}

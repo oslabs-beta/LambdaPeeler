@@ -13,8 +13,10 @@ const Display = () => {
   const [functions, setFunctions] = useState([]);
   const [activeTab, setActiveTab] = useState('Layers');
   const theme = useTheme();
-
+  
+  // When page first renders, updates layers state and functions state
   useEffect(() => {
+      //get to layerRouter.js
     axios.get('http://localhost:3000/layers/list')
     .then(response => {
       //update the Layers state with data from get request
@@ -24,6 +26,7 @@ const Display = () => {
       console.log('Error:', err)
     })
     
+    //get to functionRouter.js
     axios.get('http://localhost:3000/functions/list')
     .then(response => {
       //update the Functions state with data from get request
@@ -39,12 +42,14 @@ const Display = () => {
   
   return (
     <div id='display'>
-      {/* Set styling for layer and function buttons - on buitton click set the ActiveTab state to which button was pressed */}
+      {/* Set styling for layer and function buttons - on button click set the ActiveTab state to which button was pressed */}
       <div style={{ display: 'flex', gap: 5 }}>
+        {/* Set activeTab state to 'Layers' to display layer dropdown */}
         <Button onClick={() => setActiveTab('Layers')} size='small' variant='contained' sx={{ 
               backgroundColor: theme.palette.primary.main, '&:hover': {
               backgroundColor: theme.palette.primary.main
             }}}> Layers </Button>
+            {/* Set activeTab state to 'Functions' to display layer dropdown */}
         <Button onClick={() => setActiveTab('Functions')} size='small' variant='contained' sx={{ 
               backgroundColor: theme.palette.primary.main, '&:hover': {
               backgroundColor: theme.palette.primary.main
@@ -53,6 +58,7 @@ const Display = () => {
       {/* Send data to LayersContainer or FunctionsContainer depending which button was clicked */}
       {activeTab === 'Layers' && (
         <div>
+          {/* Pass Layers and Function data from get requests to LayersContainer component. 'function' variable names creates errors, so lambda used in place */}
           {<LayersContainer 
           data = { layers }
           lambda = { functions }
@@ -61,6 +67,7 @@ const Display = () => {
       )}
       {activeTab === 'Functions' && (
         <div>
+           {/* Pass Layers and Function data from get requests to LayersContainer component. 'function' variable names creates errors, so lambda used in place */}
            {<FunctionsContainer 
           lambda = { functions }
           data = { layers }

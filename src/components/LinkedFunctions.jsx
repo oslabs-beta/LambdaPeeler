@@ -5,14 +5,17 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { Button, IconButton, Tooltip } from '@mui/material';
 import { Delete, LayersClearSharp } from '@mui/icons-material'
 
+// This is rendered when a layer component is clicked
+// These are the functions that are linked to a particuler layer
 const LinkedFunctions = ({
   functionName,
   ARN,
   fetch,
-  isLoading,
   setIsLoading,
 }) => {
-  // send arn and name back to find the specific func
+  // post req to remove a function from layer
+  // sends arn and name back to find the specific func
+  // invoked by clicking the 'x' button
   const removeFunction = async () => {
     setIsLoading(true);
     try {
@@ -26,11 +29,12 @@ const LinkedFunctions = ({
         }
       );
       setIsLoading(false);
+      // refetch list of funcs
       fetch();
       return;
     } catch (err) {
       setIsLoading(false);
-      console.log('Error in removeFunction call: ', err);
+      console.log(err)
     }
   };
 
@@ -41,9 +45,6 @@ const LinkedFunctions = ({
           <li>{functionName}</li>
         </ul>
       </div>
-      {/* <div>
-        <Button variant='outlined' size='small' onClick={() => removeFunction()}> Remove Function </Button>
-      </div> */}
       <Tooltip title='Remove Function' placement="top" arrow>
       <IconButton aria-label="delete" size="small" onClick={() => removeFunction()}>
         <LayersClearSharp color='error' fontSize='small'/>

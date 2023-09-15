@@ -4,12 +4,11 @@ import Main from './components/Main.jsx';
 import Login from './components/Login.jsx';
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { blue, red } from "@mui/material/colors";
-
+// theme object created as an input for MUI
 const theme = createTheme({
     palette: {
       primary: {
         main: '#fad0a0', // beige
-        darkmain: '#a68158', 
         dark: '#000000'
       },
       secondary: {
@@ -20,7 +19,9 @@ const theme = createTheme({
 });
 
 const App = () => {
+  //set state of loggin status - defaults to false
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  // conditional rendering for login page or main component
   return (
     <ThemeProvider theme={theme}>
     <BrowserRouter>

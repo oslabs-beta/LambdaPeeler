@@ -4,10 +4,32 @@ import { Modal, Box, Button, Checkbox, FormControlLabel, Typography } from '@mui
 import CircularProgress from '@mui/material/CircularProgress';
 import LinearProgress from '@mui/material/LinearProgress';
 import axios from 'axios';
+import { useTheme } from "@mui/material/styles";
 
 const LayersModal = ({
   open, closeFunction, isLoading, layers, onSubmit
 }) => {
+
+
+  // used for the loading bar
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    // if loading, increment progress bar by 1 to visualize loading progress
+    if (isLoading) {
+      const interval = setInterval(() => {
+        setProgress((prevProgress) => {
+          if (prevProgress >= 100) {
+            clearInterval(interval);
+            return 100;
+          }
+          return prevProgress + 1.1;
+        });
+      }, 100);
+    }
+    setProgress(0);
+  }, [isLoading]);
+  
 
   return(
     <div>
@@ -33,6 +55,7 @@ const LayersModal = ({
           outline: 'none',
         }}
       >
+        {/* renders the layer names with checkboxes */}
           <form onSubmit={onSubmit}>
             {layers.map((layer) => (
               <FormControlLabel
@@ -59,6 +82,7 @@ const LayersModal = ({
             </Button>
             </div>
           </form>
+        {/* renders the  loading bar after submission*/}
         {isLoading && (
           <div
             style={{
