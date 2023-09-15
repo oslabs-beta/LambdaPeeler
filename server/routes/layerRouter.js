@@ -5,6 +5,7 @@ const testController = require('../controllers/testController');
 
 const router = express.Router();
 
+// lists all layers and versions
 router.get(
   '/list',
   layerController.getLayer,
@@ -14,10 +15,12 @@ router.get(
   }
 );
 
+// removes function from layer
 router.post('/remove', layerController.removeFunction, (req, res) => {
   res.sendStatus(200);
 });
 
+// tests and adds compatible layer
 router.post(
   '/add',
   testController.testRuntime,
@@ -34,6 +37,7 @@ router.post(
   }
 );
 
+// lists all functions associated with specifc layer
 router.post('/functions', layerController.getFunctions, (req, res) => {
   res.status(200).json(res.locals.functionArray);
 });

@@ -4,6 +4,7 @@ const userController = require('../controllers/userController');
 
 const router = express.Router();
 
+// creates account and jwt token
 router.post(
   '/signup',
   userController.createUser,
@@ -13,6 +14,7 @@ router.post(
   }
 );
 
+// logs in and creates jwt token
 router.get(
   '/login',
   userController.verifyUser,
@@ -22,6 +24,7 @@ router.get(
   }
 );
 
+// logs out and removes jwt token
 router.delete('/logout', userController.deleteToken, (req, res) => {
   res.sendStatus(200);
 });
