@@ -1,16 +1,42 @@
 import React, { useState } from 'react';
 import { TextField, Box, Button } from '@mui/material';
 import { useTheme } from "@mui/material/styles";
+import axios from 'axios';
 
 const Login = ({ setIsLoggedIn }) => {
   const [username, setUser] = useState();
   const [password, setPassword] = useState();
   const [ARN, setARN] = useState();
+  const [signUp, setSignUp] = useState(false)
   const theme = useTheme();
 
   const handleLogin = (e) => {
     setIsLoggedIn(true);
   };
+
+
+  const handleSignUp = async (e) => {
+    if (!signUp) {
+      setSignUp(true);
+      return;
+    }
+    // signup functionality here
+    try {
+      const result = await axios.post(
+        'http://localhost:3000/users/signup',
+        { username: username, password: password, ARN: ARN },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+      return;
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
 
   return (
     <div id="login">
@@ -58,13 +84,15 @@ const Login = ({ setIsLoggedIn }) => {
           type="password"
           onChange={(e) => setPassword(e.target.value)}
         />
+        {signUp && (
         <TextField
-          id="outlined-basic"
-          label="ARN"
-          variant="outlined"
-          type="test"
-          onChange={(e) => setARN(e.target.value)}
-        />
+        id="outlined-basic"
+        label="ARN"
+        variant="outlined"
+        type="test"
+        onChange={(e) => setARN(e.target.value)}
+          />
+        )}
         <div id="loginButtons">
           <Button
             onClick={(e) => handleLogin(e)}
@@ -77,7 +105,7 @@ const Login = ({ setIsLoggedIn }) => {
             Sign In
           </Button>
           <Button
-            onClick={(e) => handleLogin(e)}
+            onClick={(e) => handleSignUp(e)}
             variant="outlined"
             sx={{ mt: 3, mb: 2, width: '50%', color: theme.palette.primary.dark, border: .8 }}
           >

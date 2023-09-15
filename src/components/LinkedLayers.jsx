@@ -2,16 +2,41 @@ import React from 'react';
 import { useState } from 'react';
 import axios from 'axios';
 import CircularProgress from '@mui/material/CircularProgress';
+import {Button, Tooltip, IconButton } from '@mui/material';
+import { LayersClearSharp } from '@mui/icons-material'
 
+// each layer linked to a particular function
 const LinkedLayers = ({
+  fetch,
   layerName, 
   layerVersion,
-  layerArn, 
-  fetch,
-  isLoading,
-  setIsLoading}) => {
+  layerArn,
+  setIsLoading,
+  functionName
+}) => {
 
-
+  const removeLayer = async () => {
+    setIsLoading(true);
+    try {
+      const result = await axios.post(
+        'http://localhost:3000/functions/remove',
+        { ARN: layerArn, LayerName: layerName, layerVersion: layerVersion, functionName: functionName },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+      setIsLoading(false);
+      // refetch list of layers
+      fetch();
+      return;
+    } catch (err) {
+      setIsLoading(false);
+      console.log(err)
+    }
+  };
+  
   return(
     <div className="layerDropDown">
       <div> 
@@ -22,6 +47,11 @@ const LinkedLayers = ({
           </li>
         </ul>
       </div>
+      <Tooltip title='Remove Layer' placement="top" arrow>
+      <IconButton aria-label="delete" size="small" onClick={() => removeLayer()}>
+        <LayersClearSharp color='error' fontSize='small'/>
+      </IconButton>
+      </Tooltip> 
     </div>
   )
 }

@@ -9,12 +9,14 @@ const PORT = 3000;
 // CORS
 const cors = require('cors');
 app.use(cors());
+
 app.use(express.json()); // for parsing application/json
 app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
 app.use('/layers', layerRouter);
 app.use('/functions', functionRouter);
 app.use('/user', userRouter);
+
 
 //global error handler
 app.use((err, req, res, next) => {

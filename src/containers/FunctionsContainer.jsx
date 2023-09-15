@@ -2,9 +2,10 @@ import React from 'react';
 import Function from '../components/Function.jsx'
 
 const FunctionsContainer = ( {data, lambda} ) => {
-  console.log('data: ', data);
-  console.log('lambda: ', lambda);
   return (
+    // map the array of functions to individual Function components
+    // functionLayersARN is the Layers array for a specific function, coming from GetFunction/GetFunctionConfiguration AWS commands
+    // layers is the array of all layers coming from Display
     <div id='FunctionsContainer'> 
       {lambda.map((element) => (
             <Function functionName = {element.FunctionName}

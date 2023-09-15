@@ -15,4 +15,9 @@ router.post('/layers', functionController.getLayers, (req, res) => {
   res.status(200).json(res.locals.layers);
 })
 
+// removes layer from functoin
+router.post('/remove', functionController.removeLayer, (req, res) => {
+  res.sendStatus(200);
+});
+
 module.exports = router;

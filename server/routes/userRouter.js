@@ -15,7 +15,7 @@ router.post(
 );
 
 // logs in and creates jwt token
-router.get(
+router.post(
   '/login',
   userController.verifyUser,
   userController.createToken,
