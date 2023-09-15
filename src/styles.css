@@ -22,6 +22,7 @@ body {
 
 #layer {
   padding: 5px;
+  
 }
 
 #FunctionsContainer {
@@ -47,7 +48,7 @@ body {
   display: flex;
   justify-content: space-between;
   margin: 0;
-  background-color: #eee;
+  background-color: #FAD0A0;
   color: #444;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
@@ -64,6 +65,15 @@ a {
   padding: 0px 15px 0px 15px;
   margin: 10;
   width: 100%;
+}
+
+#dropdown {
+  background-color: white;
+  cursor: pointer;
+  border-radius: 5px;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
 }
 
 /* add by michael */
@@ -84,13 +94,12 @@ a {
 
 .active,
 .collapsible:hover {
-  background-color: #ccc;
+  background-color: #b0b0b0;
 }
 .content {
   padding: 0 18px;
   display: none;
   overflow: hidden;
-  background-color: #f1f1f1;
 }
 
 /* for the switch for functions */

@@ -12,42 +12,52 @@ const {
 } = require('@aws-sdk/client-lambda');
 const { STSClient, AssumeRoleCommand } = require('@aws-sdk/client-sts');
 
-const assumeRole = async () => {
-  const stsClient = new STSClient({
-    region: 'us-east-1',
-  });
+// const assumeRole = async () => {
+//   const stsClient = new STSClient({
+//     region: 'us-east-1',
+//   });
 
-  const roleToAssume = {
-    // RoleArn: 'arn:aws:iam::082338669350:role/OSPTool',
-    RoleArn: 'arn:aws:iam::082338669350:role/OSPTool',
-    RoleSessionName: 'TestControllerSession',
-  };
+//   const roleToAssume = {
+//     // RoleArn: 'arn:aws:iam::082338669350:role/OSPTool',
+//     RoleArn: 'arn:aws:iam::082338669350:role/OSPTool',
+//     RoleSessionName: 'TestControllerSession',
+//   };
 
-  const command = new AssumeRoleCommand(roleToAssume);
-  const { Credentials } = await stsClient.send(command);
+//   const command = new AssumeRoleCommand(roleToAssume);
+//   const { Credentials } = await stsClient.send(command);
 
-  return {
-    accessKeyId: Credentials.AccessKeyId,
-    secretAccessKey: Credentials.SecretAccessKey,
-    sessionToken: Credentials.SessionToken,
-  };
-};
+//   return {
+//     accessKeyId: Credentials.AccessKeyId,
+//     secretAccessKey: Credentials.SecretAccessKey,
+//     sessionToken: Credentials.SessionToken,
+//   };
+// };
 
-let lambdaClient;
-let schemasClient;
-(async () => {
-  const tempCredentials = await assumeRole();
+// let lambdaClient;
+// let schemasClient;
+// (async () => {
+//   const tempCredentials = await assumeRole();
 
-  lambdaClient = new LambdaClient({
-    region: 'us-east-1',
-    credentials: tempCredentials,
-  });
+//   lambdaClient = new LambdaClient({
+//     region: 'us-east-1',
+//     credentials: tempCredentials,
+//   });
 
-  schemasClient = new SchemasClient({
-    region: 'us-east-1',
-    credentials: tempCredentials,
-  });
-})();
+//   schemasClient = new SchemasClient({
+//     region: 'us-east-1',
+//     credentials: tempCredentials,
+//   });
+// })();
+
+const lambdaClient = new LambdaClient({
+  region: 'us-east-1',
+  credentials: defaultProvider(),
+});
+
+const schemasClient = new SchemasClient({
+  region: 'us-east-1',
+  credentials: defaultProvider(),
+});
 
 //used for get Test
 

@@ -111,7 +111,7 @@ const Layer = ({ layerName, versionNumber, ARN, functions }) => {
         </span>
       </button>
       {!isCollapsed && (
-        <div>
+        <div id='dropdown'>
           <h3>Functions</h3>
           {isLoading && (
             <div

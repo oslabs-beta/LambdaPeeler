@@ -98,12 +98,16 @@ const linkLayers = async (event) => {
 };
 
   return (
-    <div id='functions'>
+    <div id='function'>
       <button className="collapsible" onClick={() => setIsCollapsed(!isCollapsed)}>
-      <span> {' '} Function: {functionName}, ARN: {ARN} </span>
+      <span> {' '} 
+        Function: {functionName}
+        <br></br>
+        ARN: {ARN} 
+      </span>
       </button>
       {!isCollapsed && (
-        <div>
+        <div id="dropdown">
           <h3>Layers</h3>
           {isLoading && (
             <div
