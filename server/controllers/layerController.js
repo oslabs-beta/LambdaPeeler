@@ -7,38 +7,43 @@ const {
   UpdateFunctionConfigurationCommand,
 } = require('@aws-sdk/client-lambda');
 const { STSClient, AssumeRoleCommand } = require('@aws-sdk/client-sts');
+const { defaultProvider } = require("@aws-sdk/credential-provider-node");
+// const assumeRole = async () => {
+//   const stsClient = new STSClient({ 
+//     region: "us-east-1",
+//   });
 
-const assumeRole = async () => {
-  const stsClient = new STSClient({ 
-    region: "us-east-1",
-  });
+//   const roleToAssume = {
+//     // RoleArn: 'arn:aws:iam::082338669350:role/OSPTool',
+//     RoleArn: 'arn:aws:iam::082338669350:role/OSPTool',
+//     RoleSessionName: 'LayerControllerSession',
+//   };
 
-  const roleToAssume = {
-    // RoleArn: 'arn:aws:iam::082338669350:role/OSPTool',
-    RoleArn: 'arn:aws:iam::082338669350:role/OSPTool',
-    RoleSessionName: 'LayerControllerSession',
-  };
+//   const command = new AssumeRoleCommand(roleToAssume);
+//   const { Credentials } = await stsClient.send(command);
 
-  const command = new AssumeRoleCommand(roleToAssume);
-  const { Credentials } = await stsClient.send(command);
+//   return {
+//     accessKeyId: Credentials.AccessKeyId,
+//     secretAccessKey: Credentials.SecretAccessKey,
+//     sessionToken: Credentials.SessionToken,
+//   };
+// };
 
-  return {
-    accessKeyId: Credentials.AccessKeyId,
-    secretAccessKey: Credentials.SecretAccessKey,
-    sessionToken: Credentials.SessionToken,
-  };
-};
+// let lambdaClient;
 
-let lambdaClient;
+// (async () => {
+//   const tempCredentials = await assumeRole();
 
-(async () => {
-  const tempCredentials = await assumeRole();
+//   lambdaClient = new LambdaClient({
+//     region: "us-east-1",
+//     credentials: tempCredentials
+//   });
+// })();
 
-  lambdaClient = new LambdaClient({
-    region: "us-east-1",
-    credentials: tempCredentials
-  });
-})();
+const lambdaClient = new LambdaClient({
+  region: 'us-east-1',
+  credentials: defaultProvider(),
+});
 
 const layerController = {};
 

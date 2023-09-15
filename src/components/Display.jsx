@@ -3,11 +3,14 @@ import axios from 'axios'
 import { useState, useEffect } from 'react';
 import LayersContainer from '../containers/LayersContainer.jsx';
 import FunctionsContainer from '../containers/FunctionsContainer.jsx';
+import { Button } from '@mui/material';
+import { useTheme } from "@mui/material/styles";
 
 const Display = () => {
   const [layers, setLayers] = useState([]);
   const [functions, setFunctions] = useState([]);
   const [activeTab, setActiveTab] = useState('Layers');
+  const theme = useTheme();
 
   useEffect(() => {
     axios.get('http://localhost:3000/layers/list')
@@ -32,10 +35,16 @@ const Display = () => {
   
   return (
     <div id='display'>
-      <span>
-        <button onClick={() => setActiveTab('Layers')}> Layers </button>
-        <button onClick={() => setActiveTab('Functions')}> Functions </button>
-      </span>
+      <div style={{ display: 'flex', gap: 5 }}>
+        <Button onClick={() => setActiveTab('Layers')} size='small' variant='contained' sx={{ 
+              backgroundColor: theme.palette.primary.main, '&:hover': {
+              backgroundColor: theme.palette.primary.main
+            }}}> Layers </Button>
+        <Button onClick={() => setActiveTab('Functions')} size='small' variant='contained' sx={{ 
+              backgroundColor: theme.palette.primary.main, '&:hover': {
+              backgroundColor: theme.palette.primary.main
+            }}}> Functions </Button>
+      </div>
       
       {activeTab === 'Layers' && (
         <div>

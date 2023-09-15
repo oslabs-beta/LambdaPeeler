@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { TextField, Box, Button } from '@mui/material';
+import { useTheme } from "@mui/material/styles";
 
 const Login = ({ setIsLoggedIn }) => {
   const [username, setUser] = useState();
   const [password, setPassword] = useState();
   const [ARN, setARN] = useState();
+  const theme = useTheme();
 
   const handleLogin = (e) => {
     setIsLoggedIn(true);
@@ -67,14 +69,17 @@ const Login = ({ setIsLoggedIn }) => {
           <Button
             onClick={(e) => handleLogin(e)}
             variant="contained"
-            sx={{ mt: 3, mb: 2, width: '50%' }}
+            sx={{ mt: 3, mb: 2, width: '50%', backgroundColor: theme.palette.primary.main, '&:hover': {
+              backgroundColor: theme.palette.primary.main
+            }}}
+            
           >
             Sign In
           </Button>
           <Button
             onClick={(e) => handleLogin(e)}
             variant="outlined"
-            sx={{ mt: 3, mb: 2, width: '50%' }}
+            sx={{ mt: 3, mb: 2, width: '50%', color: theme.palette.primary.dark, border: .8 }}
           >
             Sign Up
           </Button>
