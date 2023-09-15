@@ -39,7 +39,7 @@ const Display = () => {
   
   return (
     <div id='display'>
-      {/* Set styling for layer and function buttons - on buitton click set the  */}
+      {/* Set styling for layer and function buttons - on buitton click set the ActiveTab state to which button was pressed */}
       <div style={{ display: 'flex', gap: 5 }}>
         <Button onClick={() => setActiveTab('Layers')} size='small' variant='contained' sx={{ 
               backgroundColor: theme.palette.primary.main, '&:hover': {
@@ -50,7 +50,7 @@ const Display = () => {
               backgroundColor: theme.palette.primary.main
             }}}> Functions </Button>
       </div>
-      
+      {/* Send data to LayersContainer or FunctionsContainer depending which button was clicked */}
       {activeTab === 'Layers' && (
         <div>
           {<LayersContainer 
