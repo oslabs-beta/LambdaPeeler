@@ -10,8 +10,24 @@ const Login = ({ setIsLoggedIn }) => {
   const [signUp, setSignUp] = useState(false)
   const theme = useTheme();
 
-  const handleLogin = (e) => {
-    setIsLoggedIn(true);
+  const handleLogin = async (e) => {
+        // signup functionality here
+        try {
+          const result = await axios.post(
+            'http://localhost:3000/user/login',
+            { username: username, password: password, ARN: ARN },
+            {
+              withCredentials: true,
+              headers: {
+                'Content-Type': 'application/json',
+              },
+            }
+          );
+          setIsLoggedIn(true);
+          return;
+        } catch (error) {
+          console.log(error)
+        }
   };
 
 
@@ -23,14 +39,16 @@ const Login = ({ setIsLoggedIn }) => {
     // signup functionality here
     try {
       const result = await axios.post(
-        'http://localhost:3000/users/signup',
+        'http://localhost:3000/user/signup',
         { username: username, password: password, ARN: ARN },
         {
+          withCredentials: true,
           headers: {
             'Content-Type': 'application/json',
           },
         }
       );
+      setIsLoggedIn(true);
       return;
     } catch (error) {
       console.log(error)

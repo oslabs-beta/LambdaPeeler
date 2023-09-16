@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Main from './components/Main.jsx';
 import Login from './components/Login.jsx';
+import Notification from './components/Notification.jsx';
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { blue, red } from "@mui/material/colors";
 // theme object created as an input for MUI
@@ -39,6 +40,10 @@ const App = () => {
               <Navigate replace to={'/'} />
             )
           }
+        />
+        <Route
+          path="/Notification"
+          element={<Notification />}
         />
       </Routes>
     </BrowserRouter>

@@ -11,6 +11,7 @@ require('dotenv').config();
 const userController = {};
 
 userController.createUser = (req, res, next) => {
+  console.log('inside create user')
   // pull user/pass/ARN off req.body
   const { username, password, ARN } = req.body;
   try {
@@ -37,6 +38,9 @@ userController.createUser = (req, res, next) => {
       db.create({username: username, password: hashedPassword, ARN: ARN})
       // store user or arn on cookies or locals to pull and populate role arn on controllers?
     });
+    res.locals.username = username;
+    console.log(username);
+    res.locals.ARN = ARN;
     return next();
   } catch (err) {
     console.log(err);
@@ -50,13 +54,14 @@ userController.verifyUser = async (req, res, next) => {
     const { username, password } = req.body;
     // find user in db
     const user = await db.findOne({username: username})
+    let hashedPassword;
     // if user doesn't exist, set an empty hashedPassword
     if(!user) {
-      const hashedPassword = '';
+      hashedPassword = '';
     }
     // otherwise grab hashed pass
     else {
-      const hashedPassword = user.password;
+      hashedPassword = user.password;
     }
     try {
       // use bcrypt.compare to check password
@@ -67,6 +72,7 @@ userController.verifyUser = async (req, res, next) => {
         return next({ error: 'Incorrect username or password' });
       }
       res.locals.username = username;
+      res.locals.ARN = user.ARN;
       // return next
       return next();
     } catch (err) {
@@ -82,18 +88,20 @@ userController.verifyUser = async (req, res, next) => {
 userController.createToken = async (req, res, next) => {
   try {
     // pull user off res.locals
-    const {username} = res.locals;
+    const {username, ARN} = res.locals;
     // find user in db
-    const user = await model.findOne({username: username});
+    const user = await db.findOne({username: username});
     // use jwt.sign on user obj with secret env key
-    const token = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
+    const token = await jwt.sign({username: user.username}, process.env.ACCESS_TOKEN_SECRET, {
       expiresIn: 60 * 60// Expires in one hour
     })
     // create cookie with token
-    res.cookie('token', token, {
-      maxAge: 60 * 60 * 1000, // Expires in one hour
+    await res.cookie('token', token, {
+      maxAge: (60 * 60 * 1000), // Expires in one hour
       httpOnly: true
     })
+    // create cookie with arn 
+    await res.cookie('ARN', ARN);
     // give this an expiration to persist session?
     // ex. delete when they logout
     // and delete after an hour

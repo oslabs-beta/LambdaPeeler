@@ -11,6 +11,9 @@ const {
   UpdateFunctionConfigurationCommand,
 } = require('@aws-sdk/client-lambda');
 const { STSClient, AssumeRoleCommand } = require('@aws-sdk/client-sts');
+
+const ErrorMessage = require('../models/notificationModel');
+const User = require('../models/userModel');
 // OSP Account connection
 // const lambdaClient = new LambdaClient({
 //   region: 'us-east-1',
@@ -18,50 +21,68 @@ const { STSClient, AssumeRoleCommand } = require('@aws-sdk/client-sts');
 // });
 
 // const schemasClient = new SchemasClient({
-//   region: 'us-east-1',
-//   credentials: defaultProvider(),
-// });
-
+  //   region: 'us-east-1',
+  //   credentials: defaultProvider(),
+  // });
+  let lambdaClient;
+  let schemasClient;
+  const testController = {};
 // Begin: To connect to users' AWS accounts
-const assumeRole = async () => {
-  const stsClient = new STSClient({
-    region: 'us-east-1',
-  });
-
-  const roleToAssume = {
-    // RoleArn: 'arn:aws:iam::082338669350:role/OSPTool',
-    RoleArn: 'arn:aws:iam::082338669350:role/OSPTool',
-    RoleSessionName: 'TestControllerSession',
-  };
-
-  const command = new AssumeRoleCommand(roleToAssume);
-  const { Credentials } = await stsClient.send(command);
-
-  return {
-    accessKeyId: Credentials.AccessKeyId,
-    secretAccessKey: Credentials.SecretAccessKey,
-    sessionToken: Credentials.SessionToken,
-  };
+testController.assumeRole = async (req, res, next) => {
+  try {
+    console.log('arn: ', req.cookies.ARN)
+    const stsClient = new STSClient({
+      region: 'us-east-1',
+    });
+    const roleToAssume = {
+      //RoleArn has to end in /OSPTool
+      //'arn:aws:iam::082338669350:role/OSPTool'
+      RoleArn: req.cookies.ARN,
+      //RoleArn: ARN,
+      RoleSessionName: 'LayerControllerSession',
+    };
+  
+    const command = new AssumeRoleCommand(roleToAssume);
+    const { Credentials } = await stsClient.send(command);
+  
+    const tempCredentials = {
+      accessKeyId: Credentials.AccessKeyId,
+      secretAccessKey: Credentials.SecretAccessKey,
+      sessionToken: Credentials.SessionToken,
+    };
+  
+    lambdaClient = new LambdaClient({
+      region: 'us-east-1',
+      credentials: tempCredentials,
+    })
+    schemasClient = new SchemasClient({
+      region: 'us-east-1',
+      credentials: tempCredentials,
+    });
+    next();
+  }
+  catch (err) {
+    return next(
+      res.status(500).json({ error: 'Failed to assume role' })
+    );
+  }
 };
 
-let lambdaClient;
-let schemasClient;
-(async () => {
-  const tempCredentials = await assumeRole();
+// (async () => {
+//   const tempCredentials = await assumeRole();
 
-  lambdaClient = new LambdaClient({
-    region: 'us-east-1',
-    credentials: tempCredentials,
-  });
+//   lambdaClient = new LambdaClient({
+//     region: 'us-east-1',
+//     credentials: tempCredentials,
+//   });
 
-  schemasClient = new SchemasClient({
-    region: 'us-east-1',
-    credentials: tempCredentials,
-  });
-})();
+//   schemasClient = new SchemasClient({
+//     region: 'us-east-1',
+//     credentials: tempCredentials,
+//   });
+// })();
 // End: To connect to users' AWS accounts
 
-const testController = {};
 
 // Middleware that tests runtime compatibility between layers and functions
 testController.testRuntime = async (req, res, next) => {
@@ -106,6 +127,7 @@ testController.testRuntime = async (req, res, next) => {
         // push func to passed
         passFuncs.push(element);
       } else {
+        await ErrorMessage.create({message: `${element} does not have the correct runtime`});
         // add error to locals and push func to failed
         res.locals.addError.push(
           `${element} does not have the correct runtime`
@@ -157,6 +179,7 @@ testController.getTest = async (req, res, next) => {
           // dataComp is the shareable tests associated with a function, will be an array
           return dataComp;
         } catch {
+          await ErrorMessage.create({message: `No shareable tests available for ${funcName}`});
           // if no shareable tests, push to errors and failed funcs
           // also return null to the schemaData array
           res.locals.addError.push(
@@ -217,6 +240,7 @@ testController.testDependencies = async (req, res, next) => {
           const errorType = response.Payload.transformToString();
           const errorParse = JSON.parse(errorType);
           const messageToUser = `Error linking ${failedFuncName} to layer ${ARN}. Please fix the following: ${errorParse.errorMessage}.`;
+          await ErrorMessage.create({message: messageToUser});
           // push the constructed error message to addError array, initialized on line 92
           res.locals.addError.push(messageToUser);
           
@@ -296,4 +320,37 @@ testController.removeFailedFunc = async (req, res, next) => {
   }
 };
 
+// Nhat's attempt to test compatibility on functions tab of app
+testController.testRuntimeFunctions = async (req, res, next) => {
+  // initialize an array of layers that have compatible runtimes, will be passed to next middleware
+  const passLayers = [];
+  // initialize an array of layers that don't have compatible runtimes, will be saved on res.locals
+  // to display on the front end
+  const failLayers = [];
+  // deconstruct req.body. ARN in this case is a specific function ARN
+  const {ARN, layerArray, FunctionName} = req.body;
+  // get info about a specfic function
+  const getFunctionCommand = new GetFunctionCommand({
+    FunctionName: FunctionName
+  })
+  const getFunctionResponse = await lambdaClient.send(getFunctionCommand);
+  // gets the function's compatible runtimes
+  const functionRuntime = getFunctionResponse.Configuration.Runtime;
+  // a property on res.locals that will store all of the errors we catch along our middlewares
+  res.locals.addError = [];
+
+  //helper function, iterate through layerArray checking runtime compatibilty
+  const runTimeLayer = async (element) => {
+    try {
+      // gets info about layer
+      const getLayerVersionCommand = new GetLayerVersionByArnCommand({ Arn})
+    } catch (error) {
+      return next({
+        log: ('there was a problem in testController.testRuntimeFunctions. Error: ', error),
+        status: 400,
+        message: { err: 'Problem testing function runtime'}
+      });
+    }
+  }
+}
 module.exports = testController;

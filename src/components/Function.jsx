@@ -40,6 +40,7 @@ const Function = ({ functionName, ARN, functionLayersARN, layers}) => {
         { ARN: ARN,
         layers: layers },
         {
+          withCredentials: true, 
           headers: {
             'Content-Type': 'application/json',
           },
@@ -90,8 +91,9 @@ const Function = ({ functionName, ARN, functionLayersARN, layers}) => {
       //functionality not yet set up
       const result = await axios.post(
         'http://localhost:3000/functions/add',
-        { ARN: ARN, layerArray: arrayOfCheckedLayers },
+        { ARN: ARN, layerArray: arrayOfCheckedLayers, FunctionName: functionName },
         {
+          withCredentials: true, 
           headers: {
             'Content-Type': 'application/json',
           },

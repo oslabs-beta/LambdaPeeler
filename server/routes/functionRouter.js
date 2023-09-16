@@ -6,7 +6,10 @@ const layerController = require('../controllers/layerController');
 const router = express.Router();
 
 // returns list of all functions
-router.get("/list", functionController.getFunction, (req, res) => {
+router.get("/list", 
+functionController.assumeRole, 
+functionController.getFunction, 
+(req, res) => {
   res.status(200).json(res.locals.functions)
 })
 
@@ -17,6 +20,10 @@ router.post('/layers', functionController.getLayers, (req, res) => {
 
 // removes layer from functoin
 router.post('/remove', functionController.removeLayer, (req, res) => {
+  res.sendStatus(200);
+})
+
+router.post('/add', (req, res) => {
   res.sendStatus(200);
 });
 
