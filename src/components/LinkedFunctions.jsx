@@ -23,6 +23,7 @@ const LinkedFunctions = ({
         'http://localhost:3000/layers/remove',
         { ARN: ARN, functionName: functionName },
         {
+          withCredentials: true, 
           headers: {
             'Content-Type': 'application/json',
           },

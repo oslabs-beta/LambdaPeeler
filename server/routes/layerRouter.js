@@ -8,6 +8,7 @@ const router = express.Router();
 // lists all layers and versions
 router.get(
   '/list',
+  layerController.assumeRole,
   layerController.getLayer,
   layerController.getVersions,
   (req, res) => {
@@ -23,6 +24,7 @@ router.post('/remove', layerController.removeFunction, (req, res) => {
 // tests and adds compatible layer
 router.post(
   '/add',
+  testController.assumeRole,
   testController.testRuntime,
   testController.getTest,
   layerController.addFunction,

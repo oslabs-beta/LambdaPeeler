@@ -24,6 +24,7 @@ const Layer = ({ layerName, versionNumber, ARN, functions }) => {
         'http://localhost:3000/layers/functions',
         { ARN: ARN },
         {
+          withCredentials: true, 
           headers: {
             'Content-Type': 'application/json',
           },
@@ -72,6 +73,7 @@ const Layer = ({ layerName, versionNumber, ARN, functions }) => {
         'http://localhost:3000/layers/add',
         { ARN: ARN, functionArray: arrayOfCheckedFunctions },
         {
+          withCredentials: true, 
           headers: {
             'Content-Type': 'application/json',
           },

@@ -5,19 +5,23 @@ import LayersContainer from '../containers/LayersContainer.jsx';
 import FunctionsContainer from '../containers/FunctionsContainer.jsx';
 import { Button } from '@mui/material';
 import { useTheme } from "@mui/material/styles";
+import { Routes, Route, useNavigate } from 'react-router-dom';
 
-const Display = () => {
+const Display = ({displayedPage}) => {
   //initialize state for Layers and Functions
   //active tab state determines if list of Layers or list of Functions is displayed
   const [layers, setLayers] = useState([]);
   const [functions, setFunctions] = useState([]);
   const [activeTab, setActiveTab] = useState('Layers');
+  const [displayPage, setDisplayPage] = useState(displayPage);
   const theme = useTheme();
   
   // When page first renders, updates layers state and functions state
   useEffect(() => {
       //get to layerRouter.js
-    axios.get('http://localhost:3000/layers/list')
+    axios.get('http://localhost:3000/layers/list', {
+      withCredentials: true,
+    })
     .then(response => {
       //update the Layers state with data from get request
       setLayers(response.data);
@@ -27,7 +31,9 @@ const Display = () => {
     })
     
     //get to functionRouter.js
-    axios.get('http://localhost:3000/functions/list')
+    axios.get('http://localhost:3000/functions/list', {
+      withCredentials: true,
+    })
     .then(response => {
       //update the Functions state with data from get request
       setFunctions(response.data.Functions);
@@ -39,7 +45,8 @@ const Display = () => {
   }, [])
 
 
-  
+
+
   return (
     <div id='display'>
       {/* Set styling for layer and function buttons - on button click set the ActiveTab state to which button was pressed */}
@@ -74,6 +81,11 @@ const Display = () => {
            />}
         </div>
       )}
+      {/* {displayPage === 'Notifications' && (
+        <div>
+          {<Notification />}
+        </div>
+      )} */}
     </div>
   )
 }

@@ -22,6 +22,7 @@ const LinkedLayers = ({
         'http://localhost:3000/functions/remove',
         { ARN: layerArn, LayerName: layerName, layerVersion: layerVersion, functionName: functionName },
         {
+          withCredentials: true, 
           headers: {
             'Content-Type': 'application/json',
           },

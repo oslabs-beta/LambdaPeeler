@@ -1,50 +1,71 @@
 // AWS SDK V3 syntax
-const { LambdaClient, ListFunctionsCommand, GetFunctionConfigurationCommand, ListLayersCommand } = require("@aws-sdk/client-lambda");
+const { LambdaClient, 
+  ListFunctionsCommand, 
+  GetFunctionConfigurationCommand, 
+  ListLayersCommand, 
+  UpdateFunctionConfigurationCommand, 
+  GetFunctionCommand } = require("@aws-sdk/client-lambda");
 const { defaultProvider } = require("@aws-sdk/credential-provider-node");
-const { STSClient, AssumeRoleCommand } = require('@aws-sdk/client-sts');
+const { STSClient, 
+  AssumeRoleCommand } = require('@aws-sdk/client-sts');
 
 // OSP Account connection
 // const lambdaClient = new LambdaClient({
 //   region: 'us-east-1',
 //   credentials: defaultProvider(),
 // });
-
+let lambdaClient;
+const functionController = {};
 
 // Begin: To connect to users' AWS accounts
-const assumeRole = async () => {
-  const stsClient = new STSClient({ 
-    region: "us-east-1",
-  });
-  //RoleArn has to end in /OSPTool
-  const roleToAssume = {
-    RoleArn: 'arn:aws:iam::082338669350:role/OSPTool',
-    RoleSessionName: 'FunctionControllerSession',
-  };
-
-  const command = new AssumeRoleCommand(roleToAssume);
-  const { Credentials } = await stsClient.send(command);
-
-  return {
-    accessKeyId: Credentials.AccessKeyId,
-    secretAccessKey: Credentials.SecretAccessKey,
-    sessionToken: Credentials.SessionToken,
-  };
+functionController.assumeRole = async (req, res, next) => {
+  try {
+    console.log('arn: ', req.cookies.ARN)
+    const stsClient = new STSClient({
+      region: 'us-east-1',
+    });
+    const roleToAssume = {
+      //RoleArn has to end in /OSPTool
+      //'arn:aws:iam::082338669350:role/OSPTool'
+      RoleArn: req.cookies.ARN,
+      //RoleArn: ARN,
+      RoleSessionName: 'LayerControllerSession',
+    };
+  
+    const command = new AssumeRoleCommand(roleToAssume);
+    const { Credentials } = await stsClient.send(command);
+  
+    const tempCredentials = {
+      accessKeyId: Credentials.AccessKeyId,
+      secretAccessKey: Credentials.SecretAccessKey,
+      sessionToken: Credentials.SessionToken,
+    };
+  
+    lambdaClient = new LambdaClient({
+      region: 'us-east-1',
+      credentials: tempCredentials,
+    })
+    next();
+  }
+  catch (err) {
+    return next(
+      res.status(500).json({ error: 'Failed to assume role' })
+    );
+  }
 };
 
-let lambdaClient;
 
-(async () => {
-  const tempCredentials = await assumeRole();
+// (async () => {
+//   const tempCredentials = await assumeRole();
 
-  lambdaClient = new LambdaClient({
-    region: "us-east-1",
-    credentials: tempCredentials
-  });
-})();
+//   lambdaClient = new LambdaClient({
+//     region: "us-east-1",
+//     credentials: tempCredentials
+//   });
+// })();
 
 // End: To connect to users' AWS accounts
 
-const functionController = {};
 
 // Gets a list of all the user's functions
 functionController.getFunction = async (req, res, next) => {

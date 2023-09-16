@@ -11,46 +11,62 @@ const { defaultProvider } = require('@aws-sdk/credential-provider-node');
 
 // OSP Account connection
 // const lambdaClient = new LambdaClient({
-//   region: 'us-east-1',
-//   credentials: defaultProvider(),
-// });
-
+  //   region: 'us-east-1',
+  //   credentials: defaultProvider(),
+  // });
+let lambdaClient
+const layerController = {};
 // Begin: To connect to users' AWS accounts
-const assumeRole = async () => {
-  const stsClient = new STSClient({
-    region: 'us-east-1',
-  });
+// Pull ARN from cookie after login
 
-  const roleToAssume = {
-    //RoleArn has to end in /OSPTool
-    RoleArn: 'arn:aws:iam::082338669350:role/OSPTool',
-    RoleSessionName: 'LayerControllerSession',
-  };
-
-  const command = new AssumeRoleCommand(roleToAssume);
-  const { Credentials } = await stsClient.send(command);
-
-  return {
-    accessKeyId: Credentials.AccessKeyId,
-    secretAccessKey: Credentials.SecretAccessKey,
-    sessionToken: Credentials.SessionToken,
-  };
+layerController.assumeRole = async (req, res, next) => {
+  try {
+    const stsClient = new STSClient({
+      region: 'us-east-1',
+    });
+    const roleToAssume = {
+      //RoleArn has to end in /OSPTool
+      //'arn:aws:iam::082338669350:role/OSPTool'
+      RoleArn: req.cookies.ARN,
+      //RoleArn: ARN,
+      RoleSessionName: 'LayerControllerSession',
+    };
+  
+    const command = new AssumeRoleCommand(roleToAssume);
+    const { Credentials } = await stsClient.send(command);
+  
+    const tempCredentials = {
+      accessKeyId: Credentials.AccessKeyId,
+      secretAccessKey: Credentials.SecretAccessKey,
+      sessionToken: Credentials.SessionToken,
+    };
+  
+    lambdaClient = new LambdaClient({
+      region: 'us-east-1',
+      credentials: tempCredentials,
+    })
+    next();
+  }
+  catch (err) {
+    return next(
+      res.status(500).json({ error: 'Failed to assume role' })
+    );
+  }
 };
 
-let lambdaClient;
+// let lambdaClient;
 
-(async () => {
-  const tempCredentials = await assumeRole();
+// (async () => {
+//   const tempCredentials = await assumeRole();
 
-  lambdaClient = new LambdaClient({
-    region: 'us-east-1',
-    credentials: tempCredentials,
-  });
-})();
+//   lambdaClient = new LambdaClient({
+//     region: 'us-east-1',
+//     credentials: tempCredentials,
+//   });
+// });
 
 // End: To connect to users' AWS accounts
 
-const layerController = {};
 
 // Middleware function to get information about all layers from this account
 layerController.getLayer = async (req, res, next) => {
