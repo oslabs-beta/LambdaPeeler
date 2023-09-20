@@ -1,4 +1,4 @@
-import mongoose, { Schema } from 'mongoose';
+import mongoose from 'mongoose';
 
 //connect to mongoDB - going to hide this
 const myURI: string =
@@ -6,8 +6,8 @@ const myURI: string =
 
 //set uri to passed in value
 const URI: string  = process.env.MONGO_URI || myURI;
-console.log('ts');
-const connectDB = (): void => {
+
+const connectDB = () => {
   //attempt to connect to mongoDB using myURI string
 //   mongoose.connect(myURI, {
 //     useNewUrlParser: true,
