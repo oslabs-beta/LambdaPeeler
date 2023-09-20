@@ -21,16 +21,16 @@ const User = require('../models/userModel');
 // });
 
 // const schemasClient = new SchemasClient({
-  //   region: 'us-east-1',
-  //   credentials: defaultProvider(),
-  // });
-  let lambdaClient;
-  let schemasClient;
-  const testController = {};
+//   region: 'us-east-1',
+//   credentials: defaultProvider(),
+// });
+let lambdaClient;
+let schemasClient;
+const testController = {};
 // Begin: To connect to users' AWS accounts
 testController.assumeRole = async (req, res, next) => {
   try {
-    console.log('arn: ', req.cookies.ARN)
+    console.log('arn: ', req.cookies.ARN);
     const stsClient = new STSClient({
       region: 'us-east-1',
     });
@@ -41,30 +41,27 @@ testController.assumeRole = async (req, res, next) => {
       //RoleArn: ARN,
       RoleSessionName: 'LayerControllerSession',
     };
-  
+
     const command = new AssumeRoleCommand(roleToAssume);
     const { Credentials } = await stsClient.send(command);
-  
+
     const tempCredentials = {
       accessKeyId: Credentials.AccessKeyId,
       secretAccessKey: Credentials.SecretAccessKey,
       sessionToken: Credentials.SessionToken,
     };
-  
+
     lambdaClient = new LambdaClient({
       region: 'us-east-1',
       credentials: tempCredentials,
-    })
+    });
     schemasClient = new SchemasClient({
       region: 'us-east-1',
       credentials: tempCredentials,
     });
     next();
-  }
-  catch (err) {
-    return next(
-      res.status(500).json({ error: 'Failed to assume role' })
-    );
+  } catch (err) {
+    return next(res.status(500).json({ error: 'Failed to assume role' }));
   }
 };
 
@@ -82,7 +79,6 @@ testController.assumeRole = async (req, res, next) => {
 //   });
 // })();
 // End: To connect to users' AWS accounts
-
 
 // Middleware that tests runtime compatibility between layers and functions
 testController.testRuntime = async (req, res, next) => {
@@ -127,7 +123,9 @@ testController.testRuntime = async (req, res, next) => {
         // push func to passed
         passFuncs.push(element);
       } else {
-        await ErrorMessage.create({message: `${element} does not have the correct runtime`});
+        await ErrorMessage.create({
+          message: `${element} does not have the correct runtime`,
+        });
         // add error to locals and push func to failed
         res.locals.addError.push(
           `${element} does not have the correct runtime`
@@ -176,10 +174,14 @@ testController.getTest = async (req, res, next) => {
           const response = await schemasClient.send(command);
           const data = JSON.parse(response.Content);
           const dataComp = data.components.examples;
+          console.log('datajs: ', data);
+          console.log('dataCompjs: ', dataComp);
           // dataComp is the shareable tests associated with a function, will be an array
           return dataComp;
         } catch {
-          await ErrorMessage.create({message: `No shareable tests available for ${funcName}`});
+          await ErrorMessage.create({
+            message: `No shareable tests available for ${funcName}`,
+          });
           // if no shareable tests, push to errors and failed funcs
           // also return null to the schemaData array
           res.locals.addError.push(
@@ -190,7 +192,7 @@ testController.getTest = async (req, res, next) => {
         }
       })
     );
-
+    console.log('schemaDatajs: ', schemaData);
     // filter out schemaData that is null
     // only sends schemaData for funcs that have shareable tests
     res.locals.schemaData = schemaData.filter((item) => item !== null);
@@ -231,7 +233,7 @@ testController.testDependencies = async (req, res, next) => {
         // will invoke the function with the test
         const command = new InvokeCommand(lambdaInput);
         const response = await lambdaClient.send(command);
-        
+
         // if the function fails the test
         if (response.FunctionError) {
           // push the function name to failedFunctions array, initialized on line 142
@@ -240,10 +242,9 @@ testController.testDependencies = async (req, res, next) => {
           const errorType = response.Payload.transformToString();
           const errorParse = JSON.parse(errorType);
           const messageToUser = `Error linking ${failedFuncName} to layer ${ARN}. Please fix the following: ${errorParse.errorMessage}.`;
-          await ErrorMessage.create({message: messageToUser});
+          await ErrorMessage.create({ message: messageToUser });
           // push the constructed error message to addError array, initialized on line 92
           res.locals.addError.push(messageToUser);
-          
         } else {
           // push passing funcs to arr
           if (!passedFuncs.includes(element)) {
@@ -328,11 +329,11 @@ testController.testRuntimeFunctions = async (req, res, next) => {
   // to display on the front end
   const failLayers = [];
   // deconstruct req.body. ARN in this case is a specific function ARN
-  const {ARN, layerArray, FunctionName} = req.body;
+  const { ARN, layerArray, FunctionName } = req.body;
   // get info about a specfic function
   const getFunctionCommand = new GetFunctionCommand({
-    FunctionName: FunctionName
-  })
+    FunctionName: FunctionName,
+  });
   const getFunctionResponse = await lambdaClient.send(getFunctionCommand);
   // gets the function's compatible runtimes
   const functionRuntime = getFunctionResponse.Configuration.Runtime;
@@ -343,14 +344,16 @@ testController.testRuntimeFunctions = async (req, res, next) => {
   const runTimeLayer = async (element) => {
     try {
       // gets info about layer
-      const getLayerVersionCommand = new GetLayerVersionByArnCommand({ Arn})
+      const getLayerVersionCommand = new GetLayerVersionByArnCommand({ Arn });
     } catch (error) {
       return next({
-        log: ('there was a problem in testController.testRuntimeFunctions. Error: ', error),
+        log:
+          ('there was a problem in testController.testRuntimeFunctions. Error: ',
+          error),
         status: 400,
-        message: { err: 'Problem testing function runtime'}
+        message: { err: 'Problem testing function runtime' },
       });
     }
-  }
-}
+  };
+};
 module.exports = testController;

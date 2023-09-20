@@ -1,4 +1,5 @@
 const express = require('express');
+
 const layerRouter = require('./routes/layerRouter');
 const functionRouter = require('./routes/functionRouter');
 const userRouter = require('./routes/userRouter');
@@ -11,7 +12,7 @@ const PORT = 3000;
 
 // CORS
 const cors = require('cors');
-app.use(cors({origin: 'http://localhost:8080', credentials: true }));
+app.use(cors({ origin: 'http://localhost:8080', credentials: true }));
 
 app.use(cookieParser());
 app.use(express.json()); // for parsing application/json
@@ -22,11 +23,10 @@ app.use((req, res, next) => {
   const ARN = req.cookies.ARN;
   app.locals.ARN = ARN;
   next();
-})
+});
 app.use('/layers', layerRouter);
 app.use('/functions', functionRouter);
 app.use('/user', userRouter);
-
 
 //global error handler
 app.use((err, req, res, next) => {
