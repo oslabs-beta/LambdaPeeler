@@ -1,5 +1,6 @@
 {
     "compilerOptions": {
+      "outDir": "./build",
       "moduleResolution": "node",
       "target": "es6",
       "jsx": "react",
@@ -10,4 +11,4 @@
       "checkJs": false,
     },
     "include": ["src/**/*", "server/**/*"],
-  }
+}
