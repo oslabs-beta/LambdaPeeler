@@ -1,5 +1,5 @@
-// import bcrypt
 import bcrypt from 'bcrypt';
+// import bcrypt
 const saltRounds: number = 10;
 // import jwt
 import jwt from 'jsonwebtoken';
@@ -12,6 +12,7 @@ dotenv.config();
 
 import { Request, Response, NextFunction } from 'express';
 
+console.log('db: ', db)
 const userController: any = {
     createUser: (req: Request, res: Response, next: NextFunction) => {
       console.log('inside create user')
@@ -93,6 +94,7 @@ const userController: any = {
     },
     createToken: async (req: Request, res: Response, next: NextFunction) => {
       try {
+        console.log('inside createToken');
         // pull user off res.locals
         const username: string = res.locals.username;
         const ARN: string = res.locals.ARN
@@ -120,6 +122,7 @@ const userController: any = {
     },
     verifyToken: async (req: Request, res: Response, next: NextFunction) => {
       // pull token from cookies
+      console.log('inside verifyToken');
       const token: string = req.cookies.token;
       try {
         // use jwt.verify to check if token is valid with secret env key

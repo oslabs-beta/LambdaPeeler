@@ -13,8 +13,8 @@ const UserSchema: Schema<IUser> = new Schema ({
   ARN: {type: String, required: true}
 })
 
-const User: Model<IUser> = mongoose.model('User', UserSchema)
-export default User
+const User: Model<IUser> = mongoose.model('User', UserSchema);
+export default User;
 // module.exports = { User }
 //create mongoose Schema of user 
 //used to hold username and passwords for login

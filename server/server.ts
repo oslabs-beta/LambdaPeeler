@@ -1,10 +1,16 @@
-const express = require('express');
 
-const layerRouter = require('./routes/layerRouter');
-const functionRouter = require('./routes/functionRouter');
-const userRouter = require('./routes/userRouter');
-const connectDB = require('./db');
-const cookieParser = require('cookie-parser');
+import express from 'express';
+//const layerRouter = require('./routes/layerRouter');
+import layerRouter from './routes/layerRouter';
+//const functionRouter = require('./routes/functionRouter');
+import functionRouter from './routes/functionRouter';
+//const userRouter = require('./routes/userRouter');
+import userRouter from './routes/userRouter';
+//const connectDB = require('./db');
+import connectDB from './db';
+
+// const cookieParser = require('cookie-parser');
+import cookieParser from 'cookie-parser';
 connectDB();
 // Initialize Express
 const app = express();
