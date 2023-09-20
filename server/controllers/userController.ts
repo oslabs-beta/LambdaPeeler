@@ -14,7 +14,7 @@ import { Request, Response, NextFunction } from 'express';
 
 console.log('db: ', db)
 const userController: any = {
-    createUser: (req: Request, res: Response, next: NextFunction) => {
+    createUser: (req: Request, res: Response, next: NextFunction): void => {
       console.log('inside create user')
       // pull user/pass/ARN off req.body
       //const { username, password, ARN } = req.body;
@@ -55,7 +55,7 @@ const userController: any = {
       }
     },
   
-    verifyUser: async (req: Request, res: Response, next: NextFunction) => {
+    verifyUser: async (req: Request, res: Response, next: NextFunction): Promise<void> => {
       // pull user/pass off req.body
       try {
         const username: string = req.body.username;
@@ -92,7 +92,7 @@ const userController: any = {
         return next(err);
       }
     },
-    createToken: async (req: Request, res: Response, next: NextFunction) => {
+    createToken: async (req: Request, res: Response, next: NextFunction): Promise<void> => {
       try {
         console.log('inside createToken');
         // pull user off res.locals
@@ -120,7 +120,7 @@ const userController: any = {
         return next(err);
       }
     },
-    verifyToken: async (req: Request, res: Response, next: NextFunction) => {
+    verifyToken: async (req: Request, res: Response, next: NextFunction): Promise<void> => {
       // pull token from cookies
       console.log('inside verifyToken');
       const token: string = req.cookies.token;
@@ -139,7 +139,7 @@ const userController: any = {
       }
     },
   
-    deleteToken: (req: Request, res: Response, next: NextFunction) => {
+    deleteToken: (req: Request, res: Response, next: NextFunction): void => {
       try {
         // use res.clearCookie to delete both cookies
         res.clearCookie('token');

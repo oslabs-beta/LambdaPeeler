@@ -50,15 +50,6 @@ const functionController: any = {
             return next(res.status(500).json({ error: 'Failed to assume role' }));
         }
         
-        // (async () => {
-        //   const tempCredentials = await assumeRole();
-        
-        //   lambdaClient = new LambdaClient({
-        //     region: "us-east-1",
-        //     credentials: tempCredentials
-        //   });
-        // })();
-        
         // End: To connect to users' AWS accounts
     },
     
@@ -71,12 +62,13 @@ const functionController: any = {
         const response: ListFunctionsCommandOutput= await lambdaClient.send(command);
         res.locals.functions = response;
         return next();
-      } catch (error) {
+    } catch (error) {
         console.log(error);
         res.status(400).json({ error: 'Failed to fetch AWS functions' });
-      }
-    },
-    
+    }
+},
+
+    //gets a list of layers attached to specified functions
     getLayers: async (req: Request, res: Response, next: NextFunction): Promise<void> => {
       // holds the Arn of the layers currently attached to the function
       const layerArray: string[] = [];
@@ -139,13 +131,13 @@ const functionController: any = {
           .json({ error: `Failed to fetch layers for function ${ARN}` });
       }
     },
-    //gets a list of layers attached to specified functions
     
+    // removes a layer from a specific function
     removeLayer: async (req: Request, res: Response, next: NextFunction): Promise<void> => {
       try {
         const ARN: string = req.body.ARN;
         const functionName: string = req.body.functionName
-        const input = { FunctionName: functionName };
+        const input: {FunctionName: string} = { FunctionName: functionName };
         const getFunctionConfigurationCommand: GetFunctionConfigurationCommand = new GetFunctionConfigurationCommand(input);
         const Configuration: GetFunctionConfigurationCommandOutput = await lambdaClient.send(getFunctionConfigurationCommand);
         // remove the layer from the Layers array by ARN and store it into const newArray
