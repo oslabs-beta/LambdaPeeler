@@ -1,6 +1,6 @@
 const express = require('express');
 
-const functionController = require('../controllers/functionController');
+const functionController = require('../controllers/functionController.ts').default;
 const layerController = require('../controllers/layerController');
 
 const router = express.Router();
