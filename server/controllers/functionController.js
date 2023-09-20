@@ -1,13 +1,14 @@
 // AWS SDK V3 syntax
-const { LambdaClient, 
-  ListFunctionsCommand, 
-  GetFunctionConfigurationCommand, 
-  ListLayersCommand, 
-  UpdateFunctionConfigurationCommand, 
-  GetFunctionCommand } = require("@aws-sdk/client-lambda");
-const { defaultProvider } = require("@aws-sdk/credential-provider-node");
-const { STSClient, 
-  AssumeRoleCommand } = require('@aws-sdk/client-sts');
+const {
+  LambdaClient,
+  ListFunctionsCommand,
+  GetFunctionConfigurationCommand,
+  ListLayersCommand,
+  UpdateFunctionConfigurationCommand,
+  GetFunctionCommand,
+} = require('@aws-sdk/client-lambda');
+const { defaultProvider } = require('@aws-sdk/credential-provider-node');
+const { STSClient, AssumeRoleCommand } = require('@aws-sdk/client-sts');
 
 // OSP Account connection
 // const lambdaClient = new LambdaClient({
@@ -20,7 +21,6 @@ const functionController = {};
 // Begin: To connect to users' AWS accounts
 functionController.assumeRole = async (req, res, next) => {
   try {
-    console.log('arn: ', req.cookies.ARN)
     const stsClient = new STSClient({
       region: 'us-east-1',
     });
@@ -31,29 +31,25 @@ functionController.assumeRole = async (req, res, next) => {
       //RoleArn: ARN,
       RoleSessionName: 'LayerControllerSession',
     };
-  
+
     const command = new AssumeRoleCommand(roleToAssume);
     const { Credentials } = await stsClient.send(command);
-  
+
     const tempCredentials = {
       accessKeyId: Credentials.AccessKeyId,
       secretAccessKey: Credentials.SecretAccessKey,
       sessionToken: Credentials.SessionToken,
     };
-  
+
     lambdaClient = new LambdaClient({
       region: 'us-east-1',
       credentials: tempCredentials,
-    })
+    });
     next();
-  }
-  catch (err) {
-    return next(
-      res.status(500).json({ error: 'Failed to assume role' })
-    );
+  } catch (err) {
+    return next(res.status(500).json({ error: 'Failed to assume role' }));
   }
 };
-
 
 // (async () => {
 //   const tempCredentials = await assumeRole();
@@ -66,7 +62,6 @@ functionController.assumeRole = async (req, res, next) => {
 
 // End: To connect to users' AWS accounts
 
-
 // Gets a list of all the user's functions
 functionController.getFunction = async (req, res, next) => {
   try {
@@ -76,15 +71,14 @@ functionController.getFunction = async (req, res, next) => {
     const response = await lambdaClient.send(command);
     res.locals.functions = response;
     return next();
-  }
-  catch (error) {
+  } catch (error) {
     console.log(error);
     res.status(400).json({ error: 'Failed to fetch AWS functions' });
   }
-}
+};
 
 //gets a list of layers attached to specified functions
-functionController.getLayers = async(req, res, next) => {
+functionController.getLayers = async (req, res, next) => {
   // holds the Arn of the layers currently attached to the function
   const layerArray = [];
   // res.locals.layers will hold layer information about the layers attached to this function. it will be returned to the frontend.
@@ -111,61 +105,63 @@ functionController.getLayers = async(req, res, next) => {
 ]
 */
   const { ARN, layers } = req.body;
-  try{
+  try {
     // Gets info about functions
-    const command = new GetFunctionConfigurationCommand({FunctionName: ARN});
-    const Configuration  = await lambdaClient.send(command);
+    const command = new GetFunctionConfigurationCommand({ FunctionName: ARN });
+    const Configuration = await lambdaClient.send(command);
     //check if the function currently has layers
-    if(Configuration.Layers){
+    if (Configuration.Layers) {
       //if it does, map out that array, pushing each layerArn to layerArray
-      Configuration.Layers.map(el => {
+      Configuration.Layers.map((el) => {
         layerArray.push(el.Arn);
-      })
+      });
     }
     //iterate through the layers input, layers is array of objects see lines 71-90
-      layers.map(layer => {
-        //layer.Arn is array of arn values for every version of a given layer - iterate through list
-        layer["ARN"].map((layerARN, index) => {
-          // if this function has this specific layer version, add an object to res.locals.layers with the layer information we need on the frontend
-          if(layerArray.includes(layerARN)) {
-            res.locals.layers.push({
-              LayerName: layer.name,
-              LayerVersion: layer.versions[index],
-              LayerArn: layerARN
-            })
-          }
-        });
-      })
-    
+    layers.map((layer) => {
+      //layer.Arn is array of arn values for every version of a given layer - iterate through list
+      layer['ARN'].map((layerARN, index) => {
+        // if this function has this specific layer version, add an object to res.locals.layers with the layer information we need on the frontend
+        if (layerArray.includes(layerARN)) {
+          res.locals.layers.push({
+            LayerName: layer.name,
+            LayerVersion: layer.versions[index],
+            LayerArn: layerARN,
+          });
+        }
+      });
+    });
+
     return next();
-  }
-  catch (error) {
+  } catch (error) {
     console.log(error);
-    res.status(400).json({ error: `Failed to fetch layers for function ${ARN}` });
+    res
+      .status(400)
+      .json({ error: `Failed to fetch layers for function ${ARN}` });
   }
-}
+};
 
 functionController.removeLayer = async (req, res, next) => {
   try {
-  const { ARN, LayerName, layerVersion, functionName } = req.body;
+    const { ARN, LayerName, layerVersion, functionName } = req.body;
 
-  const input = { FunctionName: functionName };
-  const getFunctionCommand = new GetFunctionCommand(input);
-  const { Configuration } = await lambdaClient.send(getFunctionCommand);
-      // remove the layer from the Layers array by ARN and store it into const newArray
-      const newArray = Configuration.Layers.filter((layer) => {
-        return layer.Arn !== ARN;
-      });
-      // update the configuration of functionName using the new Layers array
-      const updateInput = {
-        FunctionName: functionName,
-        Layers: newArray.map((element) => element.Arn),
-      };
-      const updateFunctionConfigurationCommand = new UpdateFunctionConfigurationCommand(updateInput);
-      await lambdaClient.send(updateFunctionConfigurationCommand);
-      return next();
+    const input = { FunctionName: functionName };
+    const getFunctionCommand = new GetFunctionCommand(input);
+    const { Configuration } = await lambdaClient.send(getFunctionCommand);
+    // remove the layer from the Layers array by ARN and store it into const newArray
+    const newArray = Configuration.Layers.filter((layer) => {
+      return layer.Arn !== ARN;
+    });
+    // update the configuration of functionName using the new Layers array
+    const updateInput = {
+      FunctionName: functionName,
+      Layers: newArray.map((element) => element.Arn),
+    };
+    const updateFunctionConfigurationCommand =
+      new UpdateFunctionConfigurationCommand(updateInput);
+    await lambdaClient.send(updateFunctionConfigurationCommand);
+    return next();
   } catch (err) {
     res.status(500).json({ error: 'Failed to remove layer from function' });
   }
-}
+};
 module.exports = functionController;
