@@ -21,6 +21,10 @@ import { STSClient, AssumeRoleCommand, AssumeRoleCommandOutput } from '@aws-sdk/
 //const ErrorMessage = require('../models/notificationModel');
 import ErrorMessage from '../models/notificationModel';
 
+
+import { IError } from '../models/notificationModel';
+
+
 //const User = require('../models/userModel');
 import User from '../models/userModel';
 
@@ -122,7 +126,7 @@ import User from '../models/userModel';
           // push func to passed
           passFuncs.push(element);
         } else {
-          await ErrorMessage.create({message: `${element} does not have the correct runtime`});
+          await ErrorMessage.create({message: `${element} does not have the correct runtime`}) as IError;
           // add error to locals and push func to failed
           res.locals.addError.push(
             `${element} does not have the correct runtime`
@@ -174,7 +178,7 @@ import User from '../models/userModel';
             // dataComp is the shareable tests associated with a function, will be an array
             return dataComp;
           } catch {
-            await ErrorMessage.create({message: `No shareable tests available for ${funcName}`});
+            await ErrorMessage.create({message: `No shareable tests available for ${funcName}`}) as IError;
             // if no shareable tests, push to errors and failed funcs
             // also return null to the schemaData array
             res.locals.addError.push(
@@ -202,7 +206,7 @@ import User from '../models/userModel';
   // Middleware to test of the dependecies in a layer are comptabile with the function
   testDependencies: async (req: Request, res: Response, next: NextFunction) => {
     const funcNames: string[] = res.locals.passedRuntime;
-    const listOfTests = res.locals.schemaData;
+    const listOfTests: any = res.locals.schemaData;
     /*
     res.locals.passedRuntime (funcNames) stores the array of function names, in order. eg [ 'createAccount', 'getAccountBalance' ]
     res.locals.schemaData (listOfTests) stores the array of function test payloads, in order. each function gets an object like {firstTestName: {value: test payload}, secondTestName: {value: test payload}}
@@ -212,14 +216,13 @@ import User from '../models/userModel';
     // initialize empty array to store funcs that pass all shareable tests
     const passedFuncs: string[] = [];
 
-    const dependenciesFunction = async (element, index) => {
+    const dependenciesFunction = async (element: string, index: number) => {
       try {
         //Deconstruct the Layer ARN(string) and functionArray from the request body
-        const { functionArray } = req.body;
         const ARN: string = req.body.ARN
         // iterate over tests and extract the payload "value" which will be the tests
         for (const key in listOfTests[index]) {
-          const payload = listOfTests[index][key].value;
+          const payload: any = listOfTests[index][key].value;
           const lambdaInput = {
             FunctionName: element,
             Payload: JSON.stringify(payload),
@@ -232,11 +235,11 @@ import User from '../models/userModel';
           if (response.FunctionError) {
             // push the function name to failedFunctions array, initialized on line 142
             res.locals.failedFunctions.push(lambdaInput.FunctionName);
-            const failedFuncName = lambdaInput.FunctionName;
-            const errorType = response.Payload.transformToString();
-            const errorParse = JSON.parse(errorType);
-            const messageToUser = `Error linking ${failedFuncName} to layer ${ARN}. Please fix the following: ${errorParse.errorMessage}.`;
-            await ErrorMessage.create({message: messageToUser});
+            const failedFuncName: string = lambdaInput.FunctionName;
+            const errorType: string = response.Payload.transformToString();
+            const errorParse: any = JSON.parse(errorType);
+            const messageToUser: string = `Error linking ${failedFuncName} to layer ${ARN}. Please fix the following: ${errorParse.errorMessage}.`;
+            await ErrorMessage.create({message: messageToUser}) as IError;
             // push the constructed error message to addError array, initialized on line 92
             res.locals.addError.push(messageToUser);
             
@@ -275,12 +278,12 @@ import User from '../models/userModel';
   },
 
   // Middleware to disconnect all the functions that failed our runtime and dependecies tests
-  removeFailedFunc: async (req: Request, res: Response, next: NextFunction) => {
+  removeFailedFunc: async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     // req.body includes the layer ARN and res.locals includes array of failed funcs
     const ARN: string = req.body.ARN;
-    const failedFunctions = res.locals.failedFunctions;
+    const failedFunctions: string[] = res.locals.failedFunctions;
     //helper function to remove layer from function on failing
-    const disconnect = async (functionName: string) => {
+    const disconnect = async (functionName: string): Promise<void> => {
       try {
         // removes incompatible layer from function
         const input = { FunctionName: functionName };
@@ -316,40 +319,40 @@ import User from '../models/userModel';
     }
   },
 
-  // Nhat's attempt to test compatibility on functions tab of app
-  testRuntimeFunctions: async (req: Request, res: Response, next: NextFunction) => {
-    // initialize an array of layers that have compatible runtimes, will be passed to next middleware
-    const passLayers: string[] = [];
-    // initialize an array of layers that don't have compatible runtimes, will be saved on res.locals
-    // to display on the front end
-    const failLayers: string[] = [];
-    // deconstruct req.body. ARN in this case is a specific function ARN
-    const { layerArray, } = req.body;
-    const ARN: string = req.body.ARN;
-    const FunctionName: string = req.body.ARN
-    // get info about a specfic function
-    const getFunctionCommand = new GetFunctionCommand({
-      FunctionName: FunctionName
-    })
-    const getFunctionResponse = await lambdaClient.send(getFunctionCommand);
-    // gets the function's compatible runtimes
-    const functionRuntime = getFunctionResponse.Configuration.Runtime;
-    // a property on res.locals that will store all of the errors we catch along our middlewares
-    res.locals.addError = [];
+  // // Nhat's attempt to test compatibility on functions tab of app
+  // testRuntimeFunctions: async (req: Request, res: Response, next: NextFunction) => {
+  //   // initialize an array of layers that have compatible runtimes, will be passed to next middleware
+  //   const passLayers: string[] = [];
+  //   // initialize an array of layers that don't have compatible runtimes, will be saved on res.locals
+  //   // to display on the front end
+  //   const failLayers: string[] = [];
+  //   // deconstruct req.body. ARN in this case is a specific function ARN
+  //   const { layerArray, } = req.body;
+  //   const ARN: string = req.body.ARN;
+  //   const FunctionName: string = req.body.ARN
+  //   // get info about a specfic function
+  //   const getFunctionCommand = new GetFunctionCommand({
+  //     FunctionName: FunctionName
+  //   })
+  //   const getFunctionResponse = await lambdaClient.send(getFunctionCommand);
+  //   // gets the function's compatible runtimes
+  //   const functionRuntime = getFunctionResponse.Configuration.Runtime;
+  //   // a property on res.locals that will store all of the errors we catch along our middlewares
+  //   res.locals.addError = [];
 
-    //helper function, iterate through layerArray checking runtime compatibilty
-    const runTimeLayer = async (element) => {
-      try {
-        // gets info about layer
-        const getLayerVersionCommand = new GetLayerVersionByArnCommand({ Arn})
-      } catch (error) {
-        return next({
-          log: `there was a problem in testController.testRuntimeFunctions. Error: ${error}`,
-          status: 400,
-          message: { err: 'Problem testing function runtime'}
-        });
-      }
-    }
-  }
+  //   //helper function, iterate through layerArray checking runtime compatibilty
+  //   const runTimeLayer = async (element: string) => {
+  //     try {
+  //       // gets info about layer
+  //       const getLayerVersionCommand = new GetLayerVersionByArnCommand({ Arn})
+  //     } catch (error) {
+  //       return next({
+  //         log: `there was a problem in testController.testRuntimeFunctions. Error: ${error}`,
+  //         status: 400,
+  //         message: { err: 'Problem testing function runtime'}
+  //       });
+  //     }
+  //   }
+  // }
 }
 export default testController;

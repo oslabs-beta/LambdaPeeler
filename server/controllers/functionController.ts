@@ -29,7 +29,7 @@ const functionController: any = {
                 //'arn:aws:iam::082338669350:role/OSPTool'
                 RoleArn: req.cookies.ARN,
                 //RoleArn: ARN,
-                RoleSessionName: 'LayerControllerSession',
+                RoleSessionName: 'FunctionControllerSession',
             };
             
             const command: AssumeRoleCommand = new AssumeRoleCommand(roleToAssume);

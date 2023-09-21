@@ -5,17 +5,15 @@ const saltRounds: number = 10;
 import jwt from 'jsonwebtoken';
 // import db
 import db from '../models/userModel';
-import { IUser } from '../models/userModel'
+import { IUser } from '../models/userModel';
 // import env config
 import dotenv from 'dotenv';
 dotenv.config();
 
 import { Request, Response, NextFunction } from 'express';
 
-console.log('db: ', db)
 const userController: any = {
     createUser: (req: Request, res: Response, next: NextFunction): void => {
-      console.log('inside create user')
       // pull user/pass/ARN off req.body
       //const { username, password, ARN } = req.body;
       const username: string = req.body.username;
