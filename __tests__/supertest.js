@@ -77,7 +77,7 @@ describe('Route integration', () => {
     describe('POST to /signup', () => {
       it('should create a user successfully', async () => {
         const response = await request(server)
-          .post('/users/signup')
+          .post('/user/signup')
           .send({
             username: 'test',
             password: 'password',
@@ -92,7 +92,7 @@ describe('Route integration', () => {
     describe('POST to /login', () => {
       it('should log user in successfully', async () => {
         const response = await request(server)
-          .post('/users/login')
+          .post('/user/login')
           .send({
             username: 'test',
             password: '1234'
@@ -102,7 +102,7 @@ describe('Route integration', () => {
       })
       it('should handle incorrect username/password', async () => {
         const response = await request(server)
-          .post('users/login')
+          .post('user/login')
           .send({
             username: 'WrongUsername',
             password: 'WrongPassword'
@@ -120,7 +120,7 @@ describe('Route integration', () => {
       // })
       it('should handle logout successfully', async () => {
         const login = await request(server)
-          .post('/users/login')
+          .post('/user/login')
           .send({
             username: 'test',
             password: '1234'

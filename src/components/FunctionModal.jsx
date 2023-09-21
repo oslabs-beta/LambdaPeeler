@@ -93,7 +93,7 @@ const FunctionModal = ({
               Link
             </Button>
             {/* Close button (closes the modal). closeFunction is defined in Layer.jsx */}
-            <Button onClick={closeFunction} variant="outlined" sx={{width: '40%', m: 0, p:0}} style={{margin: 0}}>
+            <Button onClick={closeFunction} variant="outlined" sx={{width: '40%', m: 0, p:0, '&:hover': {boxShadow: 2}}} style={{margin: 0}}>
               Close
             </Button>
             </div>

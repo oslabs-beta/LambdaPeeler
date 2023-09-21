@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 import userController from '../controllers/userController';
 
 const router = express.Router();
-console.log(userController);
+
 // creates account and jwt token
 router.post(
   '/signup',
@@ -25,8 +25,14 @@ router.post(
 );
 
 // logs out and removes jwt token
-router.delete('/logout', userController.deleteToken, (req: Request, res: Response) => {
+router.delete('/logout', 
+  userController.deleteToken, 
+  (req: Request, res: Response) => {
   res.sendStatus(200);
 });
+
+router.get('/notifications', userController.getNotifications, (req: Request, res: Response) => {
+  res.status(200).send(res.locals.notificationLog);
+})
 
 export default router;

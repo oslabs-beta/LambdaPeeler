@@ -47,7 +47,13 @@ const functionController: any = {
             });
             return next();
         } catch (err) {
-            return next(res.status(500).json({ error: 'Failed to assume role' }));
+          return next({
+            log:
+              `Failed to assume role. Error: ${err}`,
+            status: 500,
+            //basic message to user
+            message: {err: 'Failed to assume role'},
+          })
         }
         
         // End: To connect to users' AWS accounts

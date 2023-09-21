@@ -175,3 +175,9 @@ input:checked + .slider:before {
   gap: 10px;
   justify-content: center;
 }
+
+
+#notifications {
+  display: flex;
+  padding: 10px;
+}
