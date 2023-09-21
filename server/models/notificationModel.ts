@@ -3,6 +3,7 @@ import mongoose, { Schema, Document, Model } from 'mongoose'
 export interface IError extends Document {
   message: string;
   postDate: Date;
+  ARN: string;
 }
 
 
@@ -11,7 +12,9 @@ export interface IError extends Document {
 //ARN will be used to connect to their AWS account
 const ErrorMessageSchema: Schema<IError> = new Schema({
   message: {type: String, required: true},
+  ARN: {type: String, required: true},
   postDate: {type: Date, default: Date.now}
+  
   //user: {type: String, required: true}
 });
 

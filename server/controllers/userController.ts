@@ -11,6 +11,8 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 import { Request, Response, NextFunction } from 'express';
+import ErrorMessage from '../models/notificationModel';
+import { IError } from '../models/notificationModel';
 
 const userController: any = {
     createUser: (req: Request, res: Response, next: NextFunction): void => {
@@ -92,14 +94,13 @@ const userController: any = {
     },
     createToken: async (req: Request, res: Response, next: NextFunction): Promise<void> => {
       try {
-        console.log('inside createToken');
         // pull user off res.locals
         const username: string = res.locals.username;
         const ARN: string = res.locals.ARN
         // find user in db
         const user = await db.findOne({username: username}) as IUser;
         // use jwt.sign on user obj with secret env key
-        const token: string = await jwt.sign({username: user.username}, process.env.ACCESS_TOKEN_SECRET, {
+        const token = await jwt.sign({username: user.username}, process.env.ACCESS_TOKEN_SECRET as jwt.Secret, {
           expiresIn: 60 * 60// Expires in one hour
         })
         // create cookie with token
@@ -120,11 +121,10 @@ const userController: any = {
     },
     verifyToken: async (req: Request, res: Response, next: NextFunction): Promise<void> => {
       // pull token from cookies
-      console.log('inside verifyToken');
       const token: string = req.cookies.token;
       try {
         // use jwt.verify to check if token is valid with secret env key
-        await jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err: Error, success: {username: string}) => {
+        await jwt.verify(token, process.env.ACCESS_TOKEN_SECRET as string, (err, success) => {
           if (err) {
             console.log(err);
             return next(err)
@@ -142,6 +142,33 @@ const userController: any = {
         // use res.clearCookie to delete both cookies
         res.clearCookie('token');
         return next();
+      } catch (err) {
+        console.log(err);
+        return next(err);
+      }
+    },
+
+    getNotifications: async (req: Request, res: Response, next: NextFunction) => {
+      try {
+        // pull arn from cookie
+        const ARN: string = req.cookies['ARN'];
+        const notifications: string[] = []
+        // search notification db for notifications with corresponding ARN
+        // send back all notifications
+
+        const notificationLog = await ErrorMessage.find({ARN: ARN});
+        if(!notificationLog){
+          return next({
+            log: 'Error in getNotifications conditional',
+            status: 400,
+            message: 'Failed to retrieve notifications'
+          })
+        } else {
+          console.log('notificationLog', notificationLog);
+          //notifications.push(notificationLog.message, )
+          res.locals.notificationLog = notificationLog;
+          return next()
+        };
       } catch (err) {
         console.log(err);
         return next(err);

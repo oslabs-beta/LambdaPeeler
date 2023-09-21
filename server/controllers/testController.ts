@@ -57,26 +57,35 @@ import User from '../models/userModel';
         };
         
         const command: AssumeRoleCommand = new AssumeRoleCommand(roleToAssume);
-        const { Credentials }  = await stsClient.send(command) as AssumeRoleCommandOutput
+        const { Credentials } = await stsClient.send(command) as AssumeRoleCommandOutput;
+        
         
         const tempCredentials: {accessKeyId: string, secretAccessKey: string, sessionToken: string} = {
             accessKeyId: Credentials.AccessKeyId,
             secretAccessKey: Credentials.SecretAccessKey,
             sessionToken: Credentials.SessionToken,
-        };
+        }
         
         lambdaClient = new LambdaClient({
-            region: 'us-east-1',
-            credentials: tempCredentials,
+          region: 'us-east-1',
+          credentials: tempCredentials,
         });
-
+        
         schemasClient = new SchemasClient({
           region: 'us-east-1',
           credentials: tempCredentials,
-      });
+        });
         return next();
+
     } catch (err) {
-        return next(res.status(500).json({ error: 'Failed to assume role' }));
+        // return next(res.status(500).json({ error: 'Failed to assume role' }));
+        return next({
+          log:
+            `Failed to assume role. Error: ${err}`,
+          status: 500,
+          //basic message to user
+          message: {err: 'Failed to assume role'},
+        })
     }
     // End: To connect to users' AWS accounts
 },
@@ -107,7 +116,7 @@ import User from '../models/userModel';
     Version: 1
     }
   */
-    const layerRuntime: string[] = getLayerResponse.CompatibleRuntimes;
+    const layerRuntime: string[] | undefined = getLayerResponse.CompatibleRuntimes;
     // a property on res.locals that will store all of the errors we catch along our middlewares
     res.locals.addError = [];
 
@@ -126,7 +135,7 @@ import User from '../models/userModel';
           // push func to passed
           passFuncs.push(element);
         } else {
-          await ErrorMessage.create({message: `${element} does not have the correct runtime`}) as IError;
+          await ErrorMessage.create({message: `${element} does not have the correct runtime`, ARN: req.cookies['ARN']}) as IError;
           // add error to locals and push func to failed
           res.locals.addError.push(
             `${element} does not have the correct runtime`
@@ -178,7 +187,7 @@ import User from '../models/userModel';
             // dataComp is the shareable tests associated with a function, will be an array
             return dataComp;
           } catch {
-            await ErrorMessage.create({message: `No shareable tests available for ${funcName}`}) as IError;
+            await ErrorMessage.create({message: `No shareable tests available for ${funcName}`, ARN: req.cookies['ARN']}) as IError;
             // if no shareable tests, push to errors and failed funcs
             // also return null to the schemaData array
             res.locals.addError.push(
@@ -200,6 +209,7 @@ import User from '../models/userModel';
         status: 400,
         message: { err: 'Problem getting test' },
       });
+      
     }
   },
 
@@ -239,7 +249,7 @@ import User from '../models/userModel';
             const errorType: string = response.Payload.transformToString();
             const errorParse: any = JSON.parse(errorType);
             const messageToUser: string = `Error linking ${failedFuncName} to layer ${ARN}. Please fix the following: ${errorParse.errorMessage}.`;
-            await ErrorMessage.create({message: messageToUser}) as IError;
+            await ErrorMessage.create({message: messageToUser, ARN: req.cookies['ARN']}) as IError;
             // push the constructed error message to addError array, initialized on line 92
             res.locals.addError.push(messageToUser);
             
@@ -253,6 +263,8 @@ import User from '../models/userModel';
         //pass down array of passing functions
         res.locals.passFuncs = passedFuncs;
       } catch (error) {
+        // res.status(400).json({error: `there was a problem in testController.testDependencies. Error: 
+        // ${error}`});
         return next({
           log:
             (`there was a problem in testController.testDependencies. Error: 

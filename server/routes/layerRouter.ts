@@ -19,7 +19,7 @@ router.get(
 
 // removes function from layer
 router.post('/remove', layerController.removeFunction, (req: Request, res: Response) => {
-  res.sendStatus(200).json({message: 'Successfully Removed!'});
+  res.status(200).json({message: 'Successfully Removed!'});
 });
 
 // tests and adds compatible layer
@@ -35,7 +35,7 @@ router.post(
     if (res.locals.addError.length) {
       res.status(409).json(res.locals.addError);
     } else {
-      res.sendStatus(200).json({message: 'Successfully added'});
+      res.status(200).json({message: 'Successfully added'});
     }
   }
 );

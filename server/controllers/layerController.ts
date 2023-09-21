@@ -49,13 +49,17 @@ assumeRole: async (req: Request, res: Response, next: NextFunction): Promise<voi
     lambdaClient = new LambdaClient({
       region: 'us-east-1',
       credentials: tempCredentials,
-    })
+    });
     next();
   }
   catch (err) {
-    return next(
-      res.status(500).json({ error: 'Failed to assume role' })
-    );
+    return next({
+      log:
+        `Failed to assume role. Error: ${err}`,
+      status: 500,
+      //basic message to user
+      message: {err: 'Failed to assume role'},
+    })
   }
 },
 
@@ -118,9 +122,7 @@ getVersions: async (req: Request, res: Response, next: NextFunction): Promise<vo
     res.locals.layersWithVersions = layersWithVersions;
     return next();
   } catch (err) {
-    return next(
-      res.status(500).json({ error: 'Failed to fetch layer versions' })
-    );
+    res.status(500).json({ err: 'Failed to fetch layer versions' });
   }
 },
 
@@ -189,6 +191,13 @@ removeFunction: async (req: Request, res: Response, next: NextFunction): Promise
 
     return next();
   } catch (err) {
+    // return next({
+    //   log:
+    //     `Failed to remove function from layer. Error: ${err}`,
+    //   status: 500,
+    //   //basic message to user
+    //   message: {err: 'Failed to remove function from layer'},
+    // })
     res.status(500).json({ error: 'Failed to remove function from layer' });
   }
 },
@@ -229,7 +238,7 @@ addFunction: async (req: Request, res: Response, next: NextFunction) => {
       const updateFunctionConfigurationCommand = new UpdateFunctionConfigurationCommand(updateFunctionConfigurationInput);
       await lambdaClient.send(updateFunctionConfigurationCommand);
     } catch (error) {
-      await ErrorMessage.create({message: `Failed to update function ${functionName}. Error: ${error.message}`}) as IError;
+      await ErrorMessage.create({message: `Failed to update function ${functionName}. Error: ${error.message}`, ARN: req.cookies['ARN']}) as IError;
       // add error message to error object to be sent to frontend
       res.locals.addError.push(
         `Failed to update function ${functionName}. Error: ${error.message}`

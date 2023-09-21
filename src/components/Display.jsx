@@ -3,16 +3,18 @@ import axios from 'axios'
 import { useState, useEffect } from 'react';
 import LayersContainer from '../containers/LayersContainer.jsx';
 import FunctionsContainer from '../containers/FunctionsContainer.jsx';
+import NotificationContainer from '../containers/NotificationContainer.jsx';
 import { Button } from '@mui/material';
 import { useTheme } from "@mui/material/styles";
 import { Routes, Route, useNavigate } from 'react-router-dom';
+import Settings from './Settings.jsx'
 
-const Display = ({displayedPage}) => {
+const Display = ({ setActiveTab, activeTab }) => {
   //initialize state for Layers and Functions
   //active tab state determines if list of Layers or list of Functions is displayed
   const [layers, setLayers] = useState([]);
   const [functions, setFunctions] = useState([]);
-  const [activeTab, setActiveTab] = useState('Layers');
+  // const [activeTab, setActiveTab] = useState('Notifications');
   const [displayPage, setDisplayPage] = useState(displayPage);
   const theme = useTheme();
   
@@ -81,11 +83,16 @@ const Display = ({displayedPage}) => {
            />}
         </div>
       )}
-      {/* {displayPage === 'Notifications' && (
+      {activeTab === 'Notifications' && (
         <div>
-          {<Notification />}
+          {<NotificationContainer />}
         </div>
-      )} */}
+      )}
+      {activeTab === 'Settings' && (
+        <div>
+          {<Settings />}
+        </div>
+      )}
     </div>
   )
 }
