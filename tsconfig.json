@@ -6,7 +6,6 @@
       "module": "commonJS",
       "esModuleInterop": true,
       "noImplicitAny": true,
-      "allowJs": true,
       "checkJs": false,
     },
     "include": ["src/**/*", "server/**/*"],

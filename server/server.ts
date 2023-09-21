@@ -28,11 +28,12 @@ app.use(express.json()); // for parsing application/json
 app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
 // grab arn from cookies to use for connection in middleware
-app.use((req: Request, res: Response, next: NextFunction) => {
-  const ARN = req.cookies.ARN;
-  app.locals.ARN = ARN;
-  next();
-});
+// app.use((req: Request, res: Response, next: NextFunction) => {
+//   const ARN: string = req.cookies.ARN;
+//   app.locals.ARN = ARN;
+//   next();
+// });
+
 app.use('/layers', layerRouter);
 app.use('/functions', functionRouter);
 app.use('/user', userRouter);
