@@ -1,7 +1,7 @@
-const express = require('express');
-
-const layerController = require('../controllers/layerController');
-const testController = require('../controllers/testController');
+import express from 'express';
+import { Request, Response } from 'express';
+import layerController from '../controllers/layerController';
+import testController from '../controllers/testController';
 
 const router = express.Router();
 
@@ -11,14 +11,15 @@ router.get(
   layerController.assumeRole,
   layerController.getLayer,
   layerController.getVersions,
-  (req, res) => {
+  (req: Request, res: Response) => {
+    // console.log(res.locals.layersWithVersions);
     res.status(200).json(res.locals.layersWithVersions);
   }
 );
 
 // removes function from layer
-router.post('/remove', layerController.removeFunction, (req, res) => {
-  res.sendStatus(200);
+router.post('/remove', layerController.removeFunction, (req: Request, res: Response) => {
+  res.status(200).json({message: 'Successfully Removed!'});
 });
 
 // tests and adds compatible layer
@@ -30,18 +31,18 @@ router.post(
   layerController.addFunction,
   testController.testDependencies,
   testController.removeFailedFunc,
-  (req, res) => {
+  (req: Request, res: Response) => {
     if (res.locals.addError.length) {
       res.status(409).json(res.locals.addError);
     } else {
-      res.sendStatus(200);
+      res.status(200).json({message: 'Successfully added'});
     }
   }
 );
 
 // lists all functions associated with specifc layer
-router.post('/functions', layerController.getFunctions, (req, res) => {
+router.post('/functions', layerController.getFunctions, (req: Request, res: Response) => {
   res.status(200).json(res.locals.functionArray);
 });
 
-module.exports = router;
+export default router;

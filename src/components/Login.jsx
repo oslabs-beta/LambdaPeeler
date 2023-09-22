@@ -64,10 +64,14 @@ const Login = ({ setIsLoggedIn }) => {
           left: '50%',
           top: '10%',
           transform: 'translate(-50%, -50%)',
+          zIndex: 10,
         }}
       >
         Welcome to LambdaPeeler!
       </h1>
+      <div id='imgid'>
+        <img src='/assets/Lambda_Potato-removebg-preview.png'></img>
+      </div>
       <Box
         component="form"
         sx={{

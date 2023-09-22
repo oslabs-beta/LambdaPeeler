@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Main from './components/Main.jsx';
 import Login from './components/Login.jsx';
-import Notification from './components/Notification.jsx';
+import NotificationContainer from './containers/NotificationContainer.jsx';
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { blue, red } from "@mui/material/colors";
 // theme object created as an input for MUI
@@ -15,6 +15,9 @@ const theme = createTheme({
       secondary: {
         main: '#3576ba'  // blue
       },
+      tertiary: {
+        main: '#808080'
+      }
 
     },
 });
@@ -29,7 +32,7 @@ const App = () => {
       <Routes>
         <Route
           path="/"
-          element={isLoggedIn ? <Main /> : <Navigate replace to={'/login'} />}
+          element={isLoggedIn ? <Main setLogin={setIsLoggedIn}/> : <Navigate replace to={'/login'} />}
         />
         <Route
           path="/login"
@@ -43,7 +46,7 @@ const App = () => {
         />
         <Route
           path="/Notification"
-          element={<Notification />}
+          element={<NotificationContainer />}
         />
       </Routes>
     </BrowserRouter>

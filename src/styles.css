@@ -175,3 +175,45 @@ input:checked + .slider:before {
   gap: 10px;
   justify-content: center;
 }
+
+
+#notifications {
+  display: flex;
+  padding: 10px;
+  flex-direction: column-reverse;
+}
+#historyLog {
+  display: flex;
+  flex-direction: column-reverse;
+}
+#notificationList {
+  display: flex;
+  padding: 10px;
+  flex-direction: column-reverse;
+}
+#historyLogList {
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+#listItem {
+  display: flex;
+  align-items: center;
+}
+
+#imgid {
+  display: flex;
+  position: absolute;
+  height: 150px;
+  width: auto;
+  left: 50%;
+  top: 25%;
+  transform: translate(-50%, -50%);
+}
+
+/* style={{
+  position: 'absolute',
+  left: '50%',
+  top: '10%',
+  transform: 'translate(-50%, -50%)',
+}} */

@@ -3,16 +3,19 @@ import axios from 'axios'
 import { useState, useEffect } from 'react';
 import LayersContainer from '../containers/LayersContainer.jsx';
 import FunctionsContainer from '../containers/FunctionsContainer.jsx';
+import NotificationContainer from '../containers/NotificationContainer.jsx';
+import HistoryContainer from '../containers/HistoryContainer.jsx';
 import { Button } from '@mui/material';
 import { useTheme } from "@mui/material/styles";
 import { Routes, Route, useNavigate } from 'react-router-dom';
+import Settings from './Settings.jsx'
 
-const Display = ({displayedPage}) => {
+const Display = ({ setActiveTab, activeTab }) => {
   //initialize state for Layers and Functions
   //active tab state determines if list of Layers or list of Functions is displayed
   const [layers, setLayers] = useState([]);
   const [functions, setFunctions] = useState([]);
-  const [activeTab, setActiveTab] = useState('Layers');
+  // const [activeTab, setActiveTab] = useState('Notifications');
   const [displayPage, setDisplayPage] = useState(displayPage);
   const theme = useTheme();
   
@@ -49,7 +52,7 @@ const Display = ({displayedPage}) => {
 
   return (
     <div id='display'>
-      {/* Set styling for layer and function buttons - on button click set the ActiveTab state to which button was pressed */}
+      { (activeTab === 'Layers' || activeTab === 'Functions') && (
       <div style={{ display: 'flex', gap: 5 }}>
         {/* Set activeTab state to 'Layers' to display layer dropdown */}
         <Button onClick={() => setActiveTab('Layers')} size='small' variant='contained' sx={{ 
@@ -62,8 +65,10 @@ const Display = ({displayedPage}) => {
               backgroundColor: theme.palette.primary.main
             }}}> Functions </Button>
       </div>
+      )}
       {/* Send data to LayersContainer or FunctionsContainer depending which button was clicked */}
       {activeTab === 'Layers' && (
+        
         <div>
           {/* Pass Layers and Function data from get requests to LayersContainer component. 'function' variable names creates errors, so lambda used in place */}
           {<LayersContainer 
@@ -81,11 +86,35 @@ const Display = ({displayedPage}) => {
            />}
         </div>
       )}
-      {/* {displayPage === 'Notifications' && (
+      { (activeTab === 'Notifications' || activeTab === 'History') && (
+      <div style={{ display: 'flex', gap: 5 }}>
+        {/* Set activeTab state to 'Layers' to display layer dropdown */}
+        <Button onClick={() => setActiveTab('Notifications')} size='small' variant='contained' sx={{ 
+              backgroundColor: theme.palette.primary.main, '&:hover': {
+              backgroundColor: theme.palette.primary.main
+            }}}> Error Log </Button>
+            {/* Set activeTab state to 'Functions' to display layer dropdown */}
+        <Button onClick={() => setActiveTab('History')} size='small' variant='contained' sx={{ 
+              backgroundColor: theme.palette.primary.main, '&:hover': {
+              backgroundColor: theme.palette.primary.main
+            }}}> History Log </Button>
+      </div>
+      )}
+      {activeTab === 'Notifications' && (
         <div>
-          {<Notification />}
+          {<NotificationContainer />}
         </div>
-      )} */}
+      )}
+      {activeTab === 'History' && (
+        <div>
+          {<HistoryContainer />}
+        </div>
+      )}
+      {activeTab === 'Settings' && (
+        <div>
+          {<Settings />}
+        </div>
+      )}
     </div>
   )
 }

@@ -13,6 +13,8 @@ const LayersModal = ({
 
   // used for the loading bar
   const [progress, setProgress] = useState(0);
+    // used for MUI styling
+    const theme = useTheme();
 
   useEffect(() => {
     // if loading, increment progress bar by 1 to visualize loading progress
@@ -74,10 +76,12 @@ const LayersModal = ({
               padding: 0,
               left: 0,
               }}>
-            <Button type="submit" variant="contained" sx={{width: '40%'}} style={{margin: 0}}>
+            <Button type="submit" variant="contained" sx={{width: '40%', '&:hover': {boxShadow: 2}}} style={{margin: 0, backgroundColor: theme.palette.primary.main, '&:hover': {
+              backgroundColor: theme.palette.primary.main, boxShadow: 2
+            }}}>
               Link
             </Button>
-            <Button onClick={closeFunction} variant="outlined" sx={{width: '40%', m: 0, p:0}} style={{margin: 0}}>
+            <Button onClick={closeFunction} variant="outlined" sx={{width: '40%', m: 0, p:0, '&:hover': {boxShadow: 2}}} style={{margin: 0}}>
               Close
             </Button>
             </div>

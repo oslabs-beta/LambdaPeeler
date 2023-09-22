@@ -1,9 +1,9 @@
 const express = require('express');
 
-const userController = require('../controllers/userController');
+const userController = require('../controllers/userController.ts').default;
 
 const router = express.Router();
-
+console.log(userController);
 // creates account and jwt token
 router.post(
   '/signup',
