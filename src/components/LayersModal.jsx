@@ -61,6 +61,7 @@ const LayersModal = ({
           <form onSubmit={onSubmit}>
             {layers.map((layer) => (
               <FormControlLabel
+              key={layer.name + 'FormControlLabel'}
                 control={<Checkbox name={layer.name} />}
                 label={layer.name}
               />

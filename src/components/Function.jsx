@@ -49,6 +49,7 @@ const Function = ({ functionName, ARN, functionLayersARN, layers}) => {
       .then((response) => {
         // wait for response to update assocatedLayers state with the response.data
         //Response.data is an array of layer objects. Each object contains specific layer information
+        console.log('response.data000:', response.data);
         setAssociatedLayers(response.data);
       })
       .catch((err) => {
@@ -124,7 +125,7 @@ const Function = ({ functionName, ARN, functionLayersARN, layers}) => {
   };
 
   return (
-    <div id='function'>
+    <div className='function'>
       {/* make button to open/close layer information */}
       <button className="collapsible" onClick={() => setIsCollapsed(!isCollapsed)}>
       <span> {' '} 
@@ -163,6 +164,7 @@ const Function = ({ functionName, ARN, functionLayersARN, layers}) => {
             <div>
               {/* Pass data to LinkedLayers to display details */}
               <LinkedLayers 
+                key = {functionName + element.LayerName}
                 layerName ={element.LayerName}
                 layerVersion={element.LayerVersion}
                 layerArn = {element.LayerArn}

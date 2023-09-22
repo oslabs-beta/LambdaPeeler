@@ -20,7 +20,7 @@ body {
   width: 50vw;
 }
 
-#layer {
+.layer {
   padding: 5px;
   
 }
@@ -33,7 +33,7 @@ body {
   width: 50vw;
 }
 
-#function {
+.function {
   padding: 5px;
 }
 
@@ -177,24 +177,7 @@ input:checked + .slider:before {
 }
 
 
-#notifications {
-  display: flex;
-  padding: 10px;
-  flex-direction: column-reverse;
-}
-#historyLog {
-  display: flex;
-  flex-direction: column-reverse;
-}
-#notificationList {
-  display: flex;
-  padding: 10px;
-  flex-direction: column-reverse;
-}
-#historyLogList {
-  display: flex;
-  flex-direction: column-reverse;
-}
+
 
 #listItem {
   display: flex;
@@ -211,9 +194,27 @@ input:checked + .slider:before {
   transform: translate(-50%, -50%);
 }
 
+#update {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 2em;
+  border: 1px solid black;
+}
+
 /* style={{
   position: 'absolute',
   left: '50%',
   top: '10%',
   transform: 'translate(-50%, -50%)',
 }} */
+
+#notificationDisplay {
+  display: flex;
+  padding: 50px;
+}
+
+#historyDisplay {
+  display: flex;
+  padding: 50px;
+}

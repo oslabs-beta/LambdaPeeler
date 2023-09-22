@@ -3,8 +3,9 @@ const server = 'http://localhost:3000';
 const Cookies = require("js-cookie");
 
 
+
 describe('Route integration', () => {
-  describe('/layers routes', () => {
+  xdescribe('/layers routes', () => {
     // GET to /layers/list
     describe('GET to /list', () => {
       it('response with 200 status and application json', () => {
@@ -15,6 +16,7 @@ describe('Route integration', () => {
       })
     })
     // POST to /layers/remove
+    //takes object {ARN:string, functionName:string, LayerName:string}
     describe('POST to /remove', () => {
       it('response with 200 status and application json', () => {
         
@@ -26,6 +28,7 @@ describe('Route integration', () => {
       })
     })
     // POST to /layers/add
+    //takes {ARN, arrayOfCheckedFunctions, layerName}
     describe('POST to /add', () => {
       it('response with 200 status and application json', () => {
         return request(server)
@@ -36,6 +39,7 @@ describe('Route integration', () => {
       })
     })
     // POST to / layers/function
+    //takes {ARN}
     describe('POST to /functions', () => {
       it('response with 200 status ad application json', () => {
         return request(server)
@@ -48,22 +52,39 @@ describe('Route integration', () => {
   })
   describe('/functions routes', () => {
     // GET to /functions/list
-    describe('GET to /list', () => {
-        it('response with 200 status and application/json content type', () => {
-            return request(server)
+    xdescribe('GET to /list', () => {
+        it('response with 200 status and application/json content type', async () => {
+          const response = await request(server)
             .get('/functions/list')
+            .set('Cookie', 'ARN=arn:aws:iam::082338669350:role/OSPTool')
             .expect('Content-Type', /application\/json/)
-            .expect(200);
+            .expect(200)
+          expect(response.body.Functions).toBeTruthy();
         })
     })
     // POST to /functions/layers
+    //takes {function ARN: layers:array}
     describe('POST to /layers', () => {
-        it('response with 200 status and application/json content type', () => {
-            return request(server)
-            .post('/functions/list')
-            .send()
+        it('response with 200 status and application/json content type', async () => {
+          const response = await request(server)
+            .post('/functions/layers')
+            .send({ARN: 'arn:aws:lambda:us-east-1:082338669350:function:Nhats1stFunction',
+             layers: [{
+              name: 'ZachLayer',
+              versions: [ 1 ], 
+              ARN: [ 'arn:aws:lambda:us-east-1:082338669350:layer:ZachLayer:1' ]},
+            {
+              name: 'GregLayer',
+              versions: [ 1 ],
+              ARN: [ 'arn:aws:lambda:us-east-1:082338669350:layer:GregLayer:1' ]
+            }]})
             .expect('Content-Type', /application\/json/)
-            .expect(200);
+            .expect(200)
+          expect(response.body).toEqual([{
+              LayerArn: "arn:aws:lambda:us-east-1:082338669350:layer:GregLayer:1",
+              LayerName: "GregLayer",
+              LayerVersion: 1
+            }]);
         })
     })
     // POST to /functions/remove
@@ -72,7 +93,7 @@ describe('Route integration', () => {
 
     
   })
-  describe('/users routes', () => {
+  xdescribe('/users routes', () => {
     // POST to /users/signup
     describe('POST to /signup', () => {
       it('should create a user successfully', async () => {

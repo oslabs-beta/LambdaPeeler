@@ -251,7 +251,7 @@ import User from '../models/userModel';
             const failedFuncName: string = lambdaInput.FunctionName;
             const errorType: string = response.Payload.transformToString();
             const errorParse: any = JSON.parse(errorType);
-            const messageToUser: string = `Error linking ${failedFuncName} to layer ${ARN}. Please fix the following: ${errorParse.errorMessage}.`;
+            const messageToUser: string = `Error linking ${failedFuncName} to layer ${res.locals.layerName}. Please fix the following: ${errorParse.errorMessage}.`;
             await ErrorMessage.create({message: messageToUser, ARN: req.cookies['ARN']}) as IError;
             // push the constructed error message to addError array, initialized on line 92
             res.locals.addError.push(messageToUser);
@@ -259,7 +259,8 @@ import User from '../models/userModel';
           } else {
             // push passing funcs to arr
             if (!passedFuncs.includes(element)) {
-              await HistoryLog.create({message: `${element} function was succesfully added ${res.locals.layerName}`, ARN: req.cookies['ARN']}) as IHistory;
+              const failedFuncName: string = lambdaInput.FunctionName;
+              await HistoryLog.create({message: `${failedFuncName} function was succesfully added ${res.locals.layerName}`, ARN: req.cookies['ARN']}) as IHistory;
               passedFuncs.push(element);
             }
           }
