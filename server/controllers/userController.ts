@@ -221,7 +221,7 @@ const userController: any = {
           new: true,
         });
 
-        console.log('updatedUser:', updatedUser);
+
         return next();
       } catch(err) {
       return next({

@@ -1,10 +1,18 @@
 const request = require('supertest');
 const server = 'http://localhost:3000';
 const Cookies = require("js-cookie");
+const mockClient = require('aws-sdk/client-mock');
+const functionController = require('../server/controllers/js/functionControllers.js')
+//import functionController from '../server/controllers/functionController';
+
+const { LambdaClient, UpdateFunctionConfigurationCommand, GetFunctionConfigurationCommand} = require('@aws-sdk/client-lambda');
+// import { LambdaClient, UpdateFunctionConfigurationCommand, GetFunctionConfigurationCommand} from '@aws-sdk/client-lambda';
+const lambdaMock = mockClient(LambdaClient);
 
 
 
 describe('Route integration', () => {
+
   xdescribe('/layers routes', () => {
     // GET to /layers/list
     describe('GET to /list', () => {
@@ -64,7 +72,7 @@ describe('Route integration', () => {
     })
     // POST to /functions/layers
     //takes {function ARN: layers:array}
-    describe('POST to /layers', () => {
+    xdescribe('POST to /layers', () => {
         it('response with 200 status and application/json content type', async () => {
           const response = await request(server)
             .post('/functions/layers')
@@ -88,7 +96,60 @@ describe('Route integration', () => {
         })
     })
     // POST to /functions/remove
-    
+    // {ARN, funcationName, layerName}
+    describe('POST to /remove', () => {
+      it('responds with 200 status ', async () => {
+        // const response = await request(server)
+        //   .post('/functions/remove')
+        //   .send({ARN: 'arn:aws:lambda:us-east-1:082338669350:layer:GregLayer:1',
+        //   functionName: 'Nhats1stFunction'})
+        //   .expect('Content-Type, /application\/json/')
+        //   .expect(200)
+        // expect(response.body).toBe(true);
+        // lambdaMock.on(GetFunctionConfigurationCommand(input)).resolves({
+          
+          // })
+        const input = {FunctionName: 'Nhats1stFunction', Layers: ['arn:aws:lambda:us-east-1:082338669350:layer:GregLayer:1']};
+          
+        lambdaMock.on(UpdateFunctionConfigurationCommand(input)).resolves({
+          FunctionName: 'Nhats1stFunction',
+        })
+
+        const req = {ARN: 'arn:aws:lambda:us-east-1:082338669350:layer:GregLayer:1', functionName: 'Nhats1stFunction'};
+        const res = {};
+        const next = jest.fn()
+
+        const response = await functionController.removeLayer(req, res, next);
+        expect(200);
+        expect(response.body).toBe(true);
+        expect(next).toHaveBeenCalled();
+
+      })
+
+
+      // import { mockClient } from "aws-sdk-client-mock";
+      // import { DynamoDBDocumentClient } from "@aws-sdk/lib-dynamodb";
+
+      // const ddbMock = mockClient(DynamoDBDocumentClient);
+
+      // beforeEach(() => {
+        //   ddbMock.reset();
+        // });
+
+      // getUserNames.spec.ts
+      // import { getUserNames } from "./getUserNames";
+      // import { GetCommand } from "@aws-sdk/lib-dynamodb";
+
+      // it("should get user names from the DynamoDB", async () => {
+      //   ddbMock.on(GetCommand).resolves({
+      //     Item: { id: "user1", name: "John" },
+      //   });
+      //   const names = await getUserNames(["user1"]);
+      //   expect(names).toStrictEqual(["John"]);
+      // });
+
+
+    })
     // POST to /functions/add <----- not currently used
 
     

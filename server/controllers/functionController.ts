@@ -101,7 +101,7 @@ const functionController: any = {
         },
     ]
     */
-      console.log('req.body.layers: ', req.body.layers);
+
       const ARN: string = req.body.ARN
       const layers: {name: string, versions: number[], ARN: string[]}[] = req.body.layers;
       try {
@@ -158,7 +158,9 @@ const functionController: any = {
         };
         const updateFunctionConfigurationCommand: UpdateFunctionConfigurationCommand =
           new UpdateFunctionConfigurationCommand(updateInput);
-        await lambdaClient.send(updateFunctionConfigurationCommand);
+        const response = await lambdaClient.send(updateFunctionConfigurationCommand);
+
+        res.locals.successful = true;
         return next();
       } catch (err) {
         res.status(500).json({ error: 'Failed to remove layer from function' });
