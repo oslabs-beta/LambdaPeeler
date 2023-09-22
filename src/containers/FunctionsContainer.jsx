@@ -9,6 +9,7 @@ const FunctionsContainer = ( {data, lambda} ) => {
     <div id='FunctionsContainer'> 
       {lambda.map((element) => (
             <Function functionName = {element.FunctionName}
+            key = {element.FunctionName}
             ARN = {element.FunctionArn}
             functionLayersARN = {element.Layers}
             layers = {data}/>

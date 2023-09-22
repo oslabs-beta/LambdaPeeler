@@ -13,7 +13,12 @@ const NotificationContainer = () => {
       const Notifications = await axios.get('http://localhost:3000/user/notifications', {
         withCredentials: true,
       })
-      setAssociatedNotifications(Notifications.data);
+      const flippedNotification = [];
+      const NotifArray = Notifications.data;
+      for(let i = NotifArray.length-1; i > 0; i--){
+        flippedNotification.push(NotifArray[i]);
+      }
+      setAssociatedNotifications(flippedNotification);
 
   
     return;
@@ -29,9 +34,10 @@ const NotificationContainer = () => {
 
   
   return (
-    <div> 
+    <div id="notificationContainer"> 
       {associatedNotifications.map((element) => (
               <Notification
+                key={element.postDate}
                 notificationName={element.message}
                 notificationDate={element.postDate}
               />

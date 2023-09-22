@@ -71,6 +71,7 @@ const FunctionModal = ({
           <form onSubmit={onSubmit}>
             {functions.map((func) => (
               <FormControlLabel
+              key={func.FunctionName + 'FormControlLabel'}
                 control={<Checkbox name={func.FunctionName} />}
                 label={func.FunctionName}
               />

@@ -4,9 +4,9 @@ import { useState, useEffect } from 'react';
 import Display from './Display';
 import axios from 'axios';
 import { Badge } from '@mui/material';
-import HomeIcon from '@mui/icons-material/Home';
-import NotificationsIcon from '@mui/icons-material/Notifications';
-import SettingsIcon from '@mui/icons-material/Settings';
+import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
+import HistoryIcon from '@mui/icons-material/History';
+import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import LogoutIcon from '@mui/icons-material/Logout';
 
 const Navbar = ({setLogin, setActiveTab}) => {
@@ -36,18 +36,18 @@ const Navbar = ({setLogin, setActiveTab}) => {
         <ul>
           <li id='listItem'>
           <a href="#" onClick={() => setActiveTab('Layers')} id='listItem'>
-            <HomeIcon color='secondary'/>
+            <HomeOutlinedIcon color='secondary'/>
             <span>Home</span>
             </a>
           </li>
           <li id='listItem'>
             <a href="#" onClick={() => setActiveTab('Notifications')} id='listItem'>
-              <NotificationsIcon  color='secondary'/>
-            Notifications
+              <HistoryIcon color='secondary'/>
+            History
             </a>
           </li>
           <li id='listItem'><a href="#" onClick={() => setActiveTab('Settings')} id='listItem'>
-            <SettingsIcon color='secondary' />
+            <SettingsOutlinedIcon color='secondary' />
             Settings</a>
           </li>
           <li id='listItem'><a href="#" onClick={() => handleLogout()} id='listItem'>

@@ -27,6 +27,7 @@ const Display = ({ setActiveTab, activeTab }) => {
     })
     .then(response => {
       //update the Layers state with data from get request
+      console.log(response.data);
       setLayers(response.data);
     })
     .catch(err => {
@@ -39,6 +40,7 @@ const Display = ({ setActiveTab, activeTab }) => {
     })
     .then(response => {
       //update the Functions state with data from get request
+      console.log('response.data.Functions: ', response.data.Functions);
       setFunctions(response.data.Functions);
     })
     .catch(err => {
@@ -97,16 +99,16 @@ const Display = ({ setActiveTab, activeTab }) => {
         <Button onClick={() => setActiveTab('History')} size='small' variant='contained' sx={{ 
               backgroundColor: theme.palette.primary.main, '&:hover': {
               backgroundColor: theme.palette.primary.main
-            }}}> History Log </Button>
+            }}}> Success Log </Button>
       </div>
       )}
       {activeTab === 'Notifications' && (
-        <div>
+        <div id="notificationDisplay">
           {<NotificationContainer />}
         </div>
       )}
       {activeTab === 'History' && (
-        <div>
+        <div id="historyDisplay">
           {<HistoryContainer />}
         </div>
       )}

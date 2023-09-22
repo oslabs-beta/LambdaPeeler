@@ -4,7 +4,7 @@ const saltRounds: number = 10;
 // import jwt
 import jwt from 'jsonwebtoken';
 // import db
-import db from '../models/userModel';
+import User from '../models/userModel';
 import { IUser } from '../models/userModel';
 // import env config
 import dotenv from 'dotenv';
@@ -17,7 +17,7 @@ import HistoryLog from '../models/historyLogModel';
 import { IHistory } from '../models/historyLogModel';
 
 const userController: any = {
-    createUser: (req: Request, res: Response, next: NextFunction): void => {
+    createUser: async (req: Request, res: Response, next: NextFunction) => {
       // pull user/pass/ARN off req.body
       //const { username, password, ARN } = req.body;
       const username: string = req.body.username;
@@ -25,32 +25,36 @@ const userController: any = {
       const ARN: string = req.body.ARN;
       try {
         // check if username already exists in DB
-        db.findOne({username: username})
-        .then(obj => {
-          // if so, pause and then notify the user
-          if(obj) {
-            setTimeout(() => {
-              // TODO: notify user that username is taken
-              return next({
-                error: 'An account with this username already exists.'
-              });
-            }, 500);
-          }
-        })
+        // User.findOne({username: username})
+        // .then(obj => {
+        //   // if so, pause and then notify the user
+        //   if(obj) {
+        //     setTimeout(() => {
+        //       // TODO: notify user that username is taken
+        //       return next({
+        //         error: 'An account with this username already exists.'
+        //       });
+        //     }, 500);
+        //   }
+        // })
         // use bcrypt.hash to hash password
-        bcrypt.hash(password, saltRounds, (err, hashedPassword) => {
+        bcrypt.hash(password, saltRounds, async (err, hashedPassword) => {
           if (err) {
             console.log(err);
             return next(err);
           }
           // insert into db using user, hash and arn
-          db.create({username: username, password: hashedPassword, ARN: ARN})
+          try {
+            await User.create({username: username, password: hashedPassword, ARN: ARN})
+            res.locals.username = username;
+            res.locals.ARN = ARN;
+            return next();
+          } catch(err) {
+            console.log('error creating user');
+            return next(err)
+          };
           // store user or arn on cookies or locals to pull and populate role arn on controllers?
-        });
-        res.locals.username = username;
-        console.log(username);
-        res.locals.ARN = ARN;
-        return next();
+        }); 
       } catch (err) {
         console.log(err);
         return next(err);
@@ -63,7 +67,7 @@ const userController: any = {
         const username: string = req.body.username;
         const password: string = req.body.password;
         // find user in db
-        const user = await db.findOne({username: username}) as IUser;
+        const user = await User.findOne({username: username}) as IUser;
         let hashedPassword: string;
         // if user doesn't exist, set an empty hashedPassword
         if(!user) {
@@ -79,6 +83,7 @@ const userController: any = {
           // if it doesnt match
           if (!match) {
             // return next with err message
+            console.log('no match')
             return next({ error: 'Incorrect username or password' });
           }
           res.locals.username = username;
@@ -100,7 +105,7 @@ const userController: any = {
         const username: string = res.locals.username;
         const ARN: string = res.locals.ARN
         // find user in db
-        const user = await db.findOne({username: username}) as IUser;
+        const user = await User.findOne({username: username}) as IUser;
         // use jwt.sign on user obj with secret env key
         const token = await jwt.sign({username: user.username}, process.env.ACCESS_TOKEN_SECRET as jwt.Secret, {
           expiresIn: 60 * 60// Expires in one hour
@@ -166,7 +171,6 @@ const userController: any = {
             message: 'Failed to retrieve notifications'
           })
         } else {
-          console.log('notificationLog', notificationLog);
           //notifications.push(notificationLog.message, )
           res.locals.notificationLog = notificationLog;
           return next()
@@ -191,16 +195,43 @@ const userController: any = {
             message: 'Failed to retrieve history log'
           })
         } else {
-          console.log('HitsoryLog', historyLog);
           //notifications.push(notificationLog.message, )
           res.locals.historyLog = historyLog;
           return next();
         };
-      } catch (err) {
+      }catch(err){
         console.log(err);
         return next(err);
       }
+    },
+    
+    changeInfo: async(req: Request, res: Response, next: NextFunction) => {
+      console.log('inside changeInfo')
+      try{
+        const updateInfo = req.body;
+        const ARN: string = req.cookies['ARN'];
+        // if password update, hash
+        if (updateInfo.password) {
+          const newPassword: string = updateInfo.password;
+          const hashedPassword = await bcrypt.hash(newPassword, saltRounds);
+          updateInfo.password = hashedPassword;
+        }
+        // update user in db
+        const updatedUser = await User.findOneAndUpdate({ARN: req.cookies['ARN']}, updateInfo, {
+          new: true,
+        });
+
+        console.log('updatedUser:', updatedUser);
+        return next();
+      } catch(err) {
+      return next({
+        log: `there was an error in userController.changeInfo. Error: ${err}`,
+        status: 400,
+        message: 'There was a problem updating that info!'
+      });
+      }
     }
+    
 };
 
 export default userController;

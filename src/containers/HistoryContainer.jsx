@@ -13,7 +13,12 @@ const HistoryContainer = () => {
       const HistoryLog = await axios.get('http://localhost:3000/user/historylog', {
         withCredentials: true,
       })
-      setAssociatedHistoryLog(HistoryLog.data);
+      const flippedHistoryLog = [];
+      const historyLogArray = HistoryLog.data;
+      for(let i = historyLogArray.length-1; i > 0; i--){
+        flippedHistoryLog.push(historyLogArray[i]);
+      }
+      setAssociatedHistoryLog(flippedHistoryLog);
   
     return;
     } catch(err){
@@ -28,9 +33,9 @@ const HistoryContainer = () => {
   
   return (
     <div> 
-      <h1>In History Log</h1>
       {associatedHistoryLog.map((element) => (
               <HistoryLog
+                key={element.postDate}
                 historyLogMessage={element.message}
                 historyLogDate={element.postDate}
               />

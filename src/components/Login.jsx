@@ -8,6 +8,7 @@ const Login = ({ setIsLoggedIn }) => {
   const [password, setPassword] = useState();
   const [ARN, setARN] = useState();
   const [signUp, setSignUp] = useState(false)
+  const [message, setMessage] = useState('');
   const theme = useTheme();
 
   const handleLogin = async (e) => {
@@ -22,10 +23,17 @@ const Login = ({ setIsLoggedIn }) => {
                 'Content-Type': 'application/json',
               },
             }
-          );
-          setIsLoggedIn(true);
-          return;
+            );
+          if (result.status === 200) {
+            setIsLoggedIn(true);
+            return;
+          } else {
+            console.log('incorrect username or password')
+            setMessage('Incorrect username or password. Try again!')
+          }
         } catch (error) {
+          setMessage('Incorrect username or password. Try again!')
+          console.log(message);
           console.log(error)
         }
   };
@@ -48,8 +56,13 @@ const Login = ({ setIsLoggedIn }) => {
           },
         }
       );
-      setIsLoggedIn(true);
-      return;
+      if (result.status === 200) {
+        console.log('result ok')
+        setIsLoggedIn(true);
+        return;
+      } else {
+        setMessage('Error signing up. Try again!')
+      }
     } catch (error) {
       console.log(error)
     }
@@ -69,6 +82,18 @@ const Login = ({ setIsLoggedIn }) => {
       >
         Welcome to LambdaPeeler!
       </h1>
+      <p
+        style={{
+          position: 'absolute',
+          left: '50%',
+          top: '75%',
+          transform: 'translate(-50%, -50%)',
+          color: 'red',
+          visibility: message ? 'visible' : 'hidden',
+        }}
+      >
+        {message}
+      </p>
       <div id='imgid'>
         <img src='/assets/Lambda_Potato-removebg-preview.png'></img>
       </div>
@@ -90,7 +115,7 @@ const Login = ({ setIsLoggedIn }) => {
         }}
       >
         <TextField
-          id="outlined-basic"
+          id="outlined-basic1"
           label="Username"
           variant="outlined"
           sx={{
@@ -100,7 +125,7 @@ const Login = ({ setIsLoggedIn }) => {
           onChange={(e) => setUser(e.target.value)}
         />
         <TextField
-          id="outlined-basic"
+          id="outlined-basic2"
           label="Password"
           variant="outlined"
           type="password"
@@ -108,7 +133,7 @@ const Login = ({ setIsLoggedIn }) => {
         />
         {signUp && (
         <TextField
-        id="outlined-basic"
+        id="outlined-basic3"
         label="ARN"
         variant="outlined"
         type="test"

@@ -65,8 +65,8 @@ const Layer = ({ layerName, versionNumber, ARN, functions }) => {
     // pull form data and store in array to be sent to server
     const formResponse = new FormData(event.target);
     const arrayOfCheckedFunctions = [];
-    for (const key of formResponse.keys()) {
-      arrayOfCheckedFunctions.push(key);
+    for (const func of formResponse.keys()) {
+      arrayOfCheckedFunctions.push(func);
     }
     try {
       const result = await axios.post(
@@ -101,7 +101,7 @@ const Layer = ({ layerName, versionNumber, ARN, functions }) => {
   };
 
   return (
-    <div id="layer">
+    <div className="layer">
       {/* Layer component renders a button that has an onClick,  layer name, ver, ARN */}
       <button
         className="collapsible"
@@ -140,6 +140,7 @@ const Layer = ({ layerName, versionNumber, ARN, functions }) => {
           {associatedFunctions.map((element) => (
             <div>
               <LinkedFunctions
+                key={ARN + element}
                 functionName={element}
                 ARN={ARN}
                 fetch={fetchAssociatedFunctions}

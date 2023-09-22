@@ -124,7 +124,7 @@ const Function = ({ functionName, ARN, functionLayersARN, layers}) => {
   };
 
   return (
-    <div id='function'>
+    <div className='function'>
       {/* make button to open/close layer information */}
       <button className="collapsible" onClick={() => setIsCollapsed(!isCollapsed)}>
       <span> {' '} 
@@ -163,6 +163,7 @@ const Function = ({ functionName, ARN, functionLayersARN, layers}) => {
             <div>
               {/* Pass data to LinkedLayers to display details */}
               <LinkedLayers 
+                key = {functionName + element.LayerName}
                 layerName ={element.LayerName}
                 layerVersion={element.LayerVersion}
                 layerArn = {element.LayerArn}

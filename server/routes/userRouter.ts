@@ -39,4 +39,8 @@ router.get('/historylog', userController.getHistoryLog, (req: Request, res: Resp
   res.status(200).send(res.locals.historyLog);
 })
 
+router.patch('/changeinfo', userController.changeInfo, (req: Request, res: Response) => {
+  res.status(200);
+})
+
 export default router;
