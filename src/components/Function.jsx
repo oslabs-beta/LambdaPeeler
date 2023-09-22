@@ -49,6 +49,7 @@ const Function = ({ functionName, ARN, functionLayersARN, layers}) => {
       .then((response) => {
         // wait for response to update assocatedLayers state with the response.data
         //Response.data is an array of layer objects. Each object contains specific layer information
+        console.log('response.data000:', response.data);
         setAssociatedLayers(response.data);
       })
       .catch((err) => {

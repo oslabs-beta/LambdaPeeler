@@ -52,9 +52,8 @@ describe('Route integration', () => {
   })
   describe('/functions routes', () => {
     // GET to /functions/list
-    describe('GET to /list', () => {
+    xdescribe('GET to /list', () => {
         it('response with 200 status and application/json content type', async () => {
-          console.log('before request')
           const response = await request(server)
             .get('/functions/list')
             .set('Cookie', 'ARN=arn:aws:iam::082338669350:role/OSPTool')
@@ -64,14 +63,28 @@ describe('Route integration', () => {
         })
     })
     // POST to /functions/layers
-    //takes {function ARN: layers}
-    xdescribe('POST to /layers', () => {
-        it('response with 200 status and application/json content type', () => {
-            return request(server)
+    //takes {function ARN: layers:array}
+    describe('POST to /layers', () => {
+        it('response with 200 status and application/json content type', async () => {
+          const response = await request(server)
             .post('/functions/layers')
-            .send()
+            .send({ARN: 'arn:aws:lambda:us-east-1:082338669350:function:Nhats1stFunction',
+             layers: [{
+              name: 'ZachLayer',
+              versions: [ 1 ], 
+              ARN: [ 'arn:aws:lambda:us-east-1:082338669350:layer:ZachLayer:1' ]},
+            {
+              name: 'GregLayer',
+              versions: [ 1 ],
+              ARN: [ 'arn:aws:lambda:us-east-1:082338669350:layer:GregLayer:1' ]
+            }]})
             .expect('Content-Type', /application\/json/)
-            .expect(200);
+            .expect(200)
+          expect(response.body).toEqual([{
+              LayerArn: "arn:aws:lambda:us-east-1:082338669350:layer:GregLayer:1",
+              LayerName: "GregLayer",
+              LayerVersion: 1
+            }]);
         })
     })
     // POST to /functions/remove

@@ -101,6 +101,7 @@ const functionController: any = {
         },
     ]
     */
+      console.log('req.body.layers: ', req.body.layers);
       const ARN: string = req.body.ARN
       const layers: {name: string, versions: number[], ARN: string[]}[] = req.body.layers;
       try {
