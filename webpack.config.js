@@ -1,4 +1,5 @@
 const HtmlWebPackPlugin = require("html-webpack-plugin");
+const path = require('path');
 const htmlPlugin = new HtmlWebPackPlugin({
  template: "./src/index.html",
  filename: "./index.html"
@@ -30,6 +31,13 @@ module.exports = {
     resolve: {
       extensions: ['.js', '.jsx', '.scss', '.css', '.gif', '.ts', '.tsx'],
     },
+  devServer: {
+    historyApiFallback: true,
+    static: {
+      publicPath: '/assets',
+      directory: path.join(__dirname, './src/assets'),
+    },
+  },
 
   plugins: [htmlPlugin]
 };

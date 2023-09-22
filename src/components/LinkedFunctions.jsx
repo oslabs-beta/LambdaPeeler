@@ -12,6 +12,7 @@ const LinkedFunctions = ({
   ARN,
   fetch,
   setIsLoading,
+  layerName
 }) => {
   // post req to remove a function from layer
   // sends arn and name back to find the specific func
@@ -21,7 +22,7 @@ const LinkedFunctions = ({
     try {
       const result = await axios.post(
         'http://localhost:3000/layers/remove',
-        { ARN: ARN, functionName: functionName },
+        { ARN: ARN, functionName: functionName, layerName: layerName },
         {
           withCredentials: true, 
           headers: {

@@ -13,6 +13,8 @@ dotenv.config();
 import { Request, Response, NextFunction } from 'express';
 import ErrorMessage from '../models/notificationModel';
 import { IError } from '../models/notificationModel';
+import HistoryLog from '../models/historyLogModel';
+import { IHistory } from '../models/historyLogModel';
 
 const userController: any = {
     createUser: (req: Request, res: Response, next: NextFunction): void => {
@@ -168,6 +170,31 @@ const userController: any = {
           //notifications.push(notificationLog.message, )
           res.locals.notificationLog = notificationLog;
           return next()
+        };
+      } catch (err) {
+        console.log(err);
+        return next(err);
+      }
+    },
+    getHistoryLog: async (req: Request, res: Response, next: NextFunction) => {
+      try {
+        // pull arn from cookie
+        const ARN: string = req.cookies['ARN'];
+        // search notification db for notifications with corresponding ARN
+        // send back all notifications
+
+        const historyLog = await HistoryLog.find({ARN: ARN});
+        if(!historyLog){
+          return next({
+            log: 'Error in historyLog conditional',
+            status: 400,
+            message: 'Failed to retrieve history log'
+          })
+        } else {
+          console.log('HitsoryLog', historyLog);
+          //notifications.push(notificationLog.message, )
+          res.locals.historyLog = historyLog;
+          return next();
         };
       } catch (err) {
         console.log(err);

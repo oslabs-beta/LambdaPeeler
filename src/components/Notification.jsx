@@ -10,7 +10,7 @@ const Notification = ( {notificationName, notificationDate}) => {
     <div id='notifications'>
       <div>
         Here is a notification:
-        <ul>
+        <ul id='notificationList'>
           <li><span>{`Error Message: ${notificationName}`}
           <br /> 
           {`Date: ${notificationDate}`}</span></li>
