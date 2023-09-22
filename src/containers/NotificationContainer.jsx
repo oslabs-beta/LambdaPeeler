@@ -14,7 +14,7 @@ const NotificationContainer = () => {
         withCredentials: true,
       })
       setAssociatedNotifications(Notifications.data);
-      console.log('Notifications', Notifications);
+
   
     return;
     } catch(err){
@@ -26,11 +26,10 @@ const NotificationContainer = () => {
     getNotification();
   }, [])
 
-  console.log('associatedNotifications from container', associatedNotifications);
+
   
   return (
     <div> 
-      <h1>In Notifications</h1>
       {associatedNotifications.map((element) => (
               <Notification
                 notificationName={element.message}

@@ -71,7 +71,7 @@ const Layer = ({ layerName, versionNumber, ARN, functions }) => {
     try {
       const result = await axios.post(
         'http://localhost:3000/layers/add',
-        { ARN: ARN, functionArray: arrayOfCheckedFunctions },
+        { ARN: ARN, functionArray: arrayOfCheckedFunctions, layerName: layerName },
         {
           withCredentials: true, 
           headers: {
@@ -145,6 +145,7 @@ const Layer = ({ layerName, versionNumber, ARN, functions }) => {
                 fetch={fetchAssociatedFunctions}
                 isLoading={isLoading}
                 setIsLoading={setIsLoading}
+                layerName={layerName}
               />
             </div>
           ))}

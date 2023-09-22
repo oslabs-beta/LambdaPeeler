@@ -20,9 +20,9 @@ import { STSClient, AssumeRoleCommand, AssumeRoleCommandOutput } from '@aws-sdk/
 
 //const ErrorMessage = require('../models/notificationModel');
 import ErrorMessage from '../models/notificationModel';
-
-
 import { IError } from '../models/notificationModel';
+import HistoryLog from '../models/historyLogModel';
+import { IHistory } from '../models/historyLogModel';
 
 
 //const User = require('../models/userModel');
@@ -55,6 +55,8 @@ import User from '../models/userModel';
             //RoleArn: ARN,
             RoleSessionName: 'TestControllerSession',
         };
+        const layerName: string = req.body.layerName;
+        res.locals.layerName = layerName;
         
         const command: AssumeRoleCommand = new AssumeRoleCommand(roleToAssume);
         const { Credentials } = await stsClient.send(command) as AssumeRoleCommandOutput;
@@ -134,6 +136,7 @@ import User from '../models/userModel';
         if (layerRuntime.includes(functionRuntime)) {
           // push func to passed
           passFuncs.push(element);
+
         } else {
           await ErrorMessage.create({message: `${element} does not have the correct runtime`, ARN: req.cookies['ARN']}) as IError;
           // add error to locals and push func to failed
@@ -256,6 +259,7 @@ import User from '../models/userModel';
           } else {
             // push passing funcs to arr
             if (!passedFuncs.includes(element)) {
+              await HistoryLog.create({message: `${element} function was succesfully added ${res.locals.layerName}`, ARN: req.cookies['ARN']}) as IHistory;
               passedFuncs.push(element);
             }
           }
@@ -263,8 +267,6 @@ import User from '../models/userModel';
         //pass down array of passing functions
         res.locals.passFuncs = passedFuncs;
       } catch (error) {
-        // res.status(400).json({error: `there was a problem in testController.testDependencies. Error: 
-        // ${error}`});
         return next({
           log:
             (`there was a problem in testController.testDependencies. Error: 

@@ -35,4 +35,8 @@ router.get('/notifications', userController.getNotifications, (req: Request, res
   res.status(200).send(res.locals.notificationLog);
 })
 
+router.get('/historylog', userController.getHistoryLog, (req: Request, res: Response) => {
+  res.status(200).send(res.locals.historyLog);
+})
+
 export default router;

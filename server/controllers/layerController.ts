@@ -13,6 +13,8 @@ import { defaultProvider } from '@aws-sdk/credential-provider-node';
 
 import ErrorMessage from '../models/notificationModel';
 import { IError } from '../models/notificationModel';
+import HistoryLog from '../models/historyLogModel';
+import { IHistory } from '../models/historyLogModel';
 
 // OSP Account connection
 // const lambdaClient = new LambdaClient({
@@ -169,7 +171,8 @@ removeFunction: async (req: Request, res: Response, next: NextFunction): Promise
     // req.body includes the layer ARN and functionName
     // Layer ARN
     const ARN: string = req.body.ARN;
-    const functionName: string = req.body.functionName
+    const functionName: string = req.body.functionName;
+    const layerName: string = req.body.layerName;
     // get the list of layers connected to functionName
     const input = { FunctionName: functionName };
     // gets info about a specific function
@@ -188,6 +191,8 @@ removeFunction: async (req: Request, res: Response, next: NextFunction): Promise
     const updateFunctionConfigurationCommand =
       new UpdateFunctionConfigurationCommand(updateInput);
     await lambdaClient.send(updateFunctionConfigurationCommand);
+
+    await HistoryLog.create({message: `${functionName} was removed from ${layerName}`, ARN: req.cookies['ARN']}) as IHistory;
 
     return next();
   } catch (err) {
