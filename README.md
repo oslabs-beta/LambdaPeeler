@@ -7,7 +7,7 @@ Lambda Peeler is a web-based dashboard tailored for AWS Lambda developers. It is
 # Table of Contents
 - [Features](#features)
 - [Demo](#demo)
-
+- [Authors](#authors)
 ## Features
 **Bulk Operations**: Time is of the essence. And Lambda Peeler understands that. Perform bulk connections and disconnections without a hitch, and with the assurance of compatibility.  
 
@@ -25,4 +25,6 @@ Lambda Peeler is a web-based dashboard tailored for AWS Lambda developers. It is
 **Failed Compatability**
 ![Failed](https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/ab1706a9-82e4-4660-89ef-5e51093543ba)    
 
-
+## Authors
+<div>![image_67224065](https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/9019a617-31ae-47b8-80ec-d0a814e179d6)</div>
+<div>![T056B52D1M4-U05A38UABSL-e16b88bd76a7-512](https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/8375918d-26df-470e-977c-e579b9d19e1b)</div>
