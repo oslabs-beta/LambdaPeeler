@@ -4,5 +4,5 @@ module.exports = {
   transform: {
     '^.+\\.js$': 'babel-jest'
   },
-  testPathIgnorePatterns: ['<rootDir>/node_modules/'],
+  testPathIgnorePatterns: ['<rootDir>/node_modules/']
 }

@@ -116,7 +116,7 @@ const Layer = ({ layerName, versionNumber, ARN, functions }) => {
       </button>
       {/* if isCollapsed is false, show a div of functions*/}
       {!isCollapsed && (
-        <div id='dropdown'>
+        <div className='dropdown'>
           <h3>Functions</h3>
           {/* if isLoading is true, show the circule progress component from MUI*/}
           {isLoading && (

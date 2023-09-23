@@ -33,9 +33,9 @@ const HistoryContainer = () => {
   
   return (
     <div> 
-      {associatedHistoryLog.map((element) => (
+      {associatedHistoryLog.map((element, index) => (
               <HistoryLog
-                key={element.postDate}
+                key={index}
                 historyLogMessage={element.message}
                 historyLogDate={element.postDate}
               />

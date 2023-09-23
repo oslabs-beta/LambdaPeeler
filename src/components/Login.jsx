@@ -71,17 +71,29 @@ const Login = ({ setIsLoggedIn }) => {
 
   return (
     <div id="login">
-      <h1
+      <div id="title"
+      style={{
+        position: 'absolute',
+        left: '50%',
+        top: '10%',
+        transform: 'translate(-50%, -50%)',
+        zIndex: 10,
+      }}>
+        <h1>
+          Welcome to LambdaPeeler!
+        </h1>
+        <h5
         style={{
           position: 'absolute',
-          left: '50%',
-          top: '10%',
+          left: '10%',
+          top: '65%',
           transform: 'translate(-50%, -50%)',
           zIndex: 10,
         }}
       >
-        Welcome to LambdaPeeler!
-      </h1>
+        An AWS tool
+        </h5>
+      </div>
       <p
         style={{
           position: 'absolute',

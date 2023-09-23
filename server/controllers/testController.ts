@@ -259,8 +259,8 @@ import User from '../models/userModel';
           } else {
             // push passing funcs to arr
             if (!passedFuncs.includes(element)) {
-              const failedFuncName: string = lambdaInput.FunctionName;
-              await HistoryLog.create({message: `${failedFuncName} function was succesfully added ${res.locals.layerName}`, ARN: req.cookies['ARN']}) as IHistory;
+              const funcName: string = lambdaInput.FunctionName;
+              await HistoryLog.create({message: `${funcName} function was succesfully added ${res.locals.layerName}`, ARN: req.cookies['ARN']}) as IHistory;
               passedFuncs.push(element);
             }
           }
@@ -297,6 +297,9 @@ import User from '../models/userModel';
     // req.body includes the layer ARN and res.locals includes array of failed funcs
     const ARN: string = req.body.ARN;
     const failedFunctions: string[] = res.locals.failedFunctions;
+    const passFuncs: string[] = res.locals.passFuncs;
+    console.log('failedFuncs: ', failedFunctions);
+    console.log('passedFuncs: ', passFuncs);
     //helper function to remove layer from function on failing
     const disconnect = async (functionName: string): Promise<void> => {
       try {

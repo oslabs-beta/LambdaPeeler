@@ -7,10 +7,9 @@ const Notification = ( {notificationName, notificationDate}) => {
 
 
   return (
-    <div id='notifications'>
+    <div className='notifications'>
       <div>
-        Here is a notification:
-        <ul id='notificationList'>
+        <ul className='notificationList'>
           <li><span>{`Error Message: ${notificationName}`}
           <br /> 
           {`Date: ${notificationDate}`}</span></li>

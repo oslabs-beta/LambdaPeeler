@@ -75,7 +75,7 @@ const Settings = () => {
           gap: 2,
           bgcolor: 'white',
           boxShadow: '0px 0px 10px 1px rgba(0, 0, 0, .4)',
-          width: '50%'
+          width: '50%',
         }}
       >
         <div id='update'>
@@ -83,15 +83,14 @@ const Settings = () => {
           id="outlined-basic1"
           label="Username"
           variant="outlined"
-          sx={{width: '50%', height: '2em', alignSelf: 'center'}}
-          inputProps={{style: { textAlign: 'center' }}}
+          sx={{width: '100%', alignSelf: 'center'}}
           type="text"
           onChange={(e) => setUser(e.target.value)}
         />
         <Button
             onClick={(e) => handleUpdate('username', username)}
             variant="contained"
-            sx={{ mt: 3, mb: 2, width: '50%', backgroundColor: theme.palette.primary.main, '&:hover': {
+            sx={{ width: '40%', height: '3.8em', backgroundColor: theme.palette.primary.main, '&:hover': {
               backgroundColor: theme.palette.primary.main
             }}}
             
@@ -106,12 +105,12 @@ const Settings = () => {
           variant="outlined"
           type="password"
           onChange={(e) => setPassword(e.target.value)}
-          sx={{width: '50%', height: '2em', alignSelf: 'center'}}
+          sx={{width: '100%', alignSelf: 'center'}}
         />
         <Button
             onClick={(e) => handleUpdate('password', password)}
             variant="contained"
-            sx={{ mt: 3, mb: 2, width: '50%', backgroundColor: theme.palette.primary.main, '&:hover': {
+            sx={{ width: '40%', height: '3.8em', backgroundColor: theme.palette.primary.main, '&:hover': {
               backgroundColor: theme.palette.primary.main
             }}}
             
@@ -126,12 +125,12 @@ const Settings = () => {
             variant="outlined"
             type="test"
             onChange={(e) => setARN(e.target.value)}
-            sx={{width: '100%', height: '2em', alignSelf: 'center'}}
+            sx={{width: '100%', alignSelf: 'center'}}
               />
               <Button
                 onClick={(e) => handleUpdate('ARN', ARN)}
                 variant="contained"
-                sx={{ mt: 3, mb: 2, width: '100%', backgroundColor: theme.palette.primary.main, '&:hover': {
+                sx={{ width: '40%', height: '3.8em', backgroundColor: theme.palette.primary.main, '&:hover': {
                   backgroundColor: theme.palette.primary.main
                 }}}
                 

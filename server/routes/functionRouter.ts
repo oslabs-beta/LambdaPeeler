@@ -19,11 +19,8 @@ router.post('/layers', functionController.getLayers, (req: Request, res: Respons
 
 // removes layer from function
 router.post('/remove', functionController.removeLayer, (req: Request, res: Response) => {
-  res.sendStatus(200);
+  res.status(200).json(res.locals.successful);
 })
 
-router.post('/add', (req: Request, res: Response) => {
-  res.sendStatus(200);
-});
 
 export default router;
