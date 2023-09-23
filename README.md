@@ -26,7 +26,38 @@ Lambda Peeler is a web-based dashboard tailored for AWS Lambda developers. It is
 ![Failed](https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/ab1706a9-82e4-4660-89ef-5e51093543ba)    
 
 ## Authors
-![image_67224065](https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/9019a617-31ae-47b8-80ec-d0a814e179d6)
-![T056B52D1M4-U05A38UABSL-e16b88bd76a7-512](https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/8375918d-26df-470e-977c-e579b9d19e1b)
-![T056B52D1M4-U05G075B02F-b27c379b5983-512](https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/3f6738bb-b18d-47ac-8af3-e8a644e73f1e)
-![T056B52D1M4-U05G4DKGMUJ-3b7936988489-512](https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/e23d39b6-45b7-4539-aff5-1c586dfae2c1)
+<table>
+    <tr>
+        <td align="center">
+            <img src="https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/8375918d-26df-470e-977c-e579b9d19e1b" width="100">
+            <br>
+            [Michael Shand][GitHub](https://github.com/shandie231)
+            <br>
+            [LinkedIn](https://www.linkedin.com/in/michael-shand-0a2924163/)
+        </td>
+        <!-- Author 2 -->
+        <td align="center">
+            <img src="https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/3f6738bb-b18d-47ac-8af3-e8a644e73f1e" width="100">
+            <br>
+            [Author Name2](Author2's GitHub URL)
+            <br>
+            [LinkedIn](Author2's LinkedIn URL)
+        </td>
+        <!-- Author 3 -->
+        <td align="center">
+            <img src="https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/e23d39b6-45b7-4539-aff5-1c586dfae2c1" width="100">
+            <br>
+            [Author Name3](Author3's GitHub URL)
+            <br>
+            [LinkedIn](Author3's LinkedIn URL)
+        </td>
+        <!-- Author 4 -->
+        <td align="center">
+            <img src="https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/bd650c13-6dfc-4507-ad83-85fb00475e78" width="100">
+            <br>
+            [Author Name4](Author4's GitHub URL)
+            <br>
+            [LinkedIn](Author4's LinkedIn URL)
+        </td>
+    </tr>
+</table>
