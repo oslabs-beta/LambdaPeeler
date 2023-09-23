@@ -19,4 +19,10 @@ Lambda Peeler is a web-based dashboard tailored for AWS Lambda developers. It is
 
 # Demo
 **Connecting**
-![ConnectingLayerGif](https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/8ac05295-b38d-4fd6-816d-5c10ca45cf22)
+![Connect2](https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/8159a173-0024-4f7b-b315-5e710203128f)  
+**Removing**
+![RemoveGif](https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/532bfef1-75f4-4843-ab00-d3eb4f60edf0)  
+**Failed Compatability**
+![Failed](https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/ab1706a9-82e4-4660-89ef-5e51093543ba)
+
+
