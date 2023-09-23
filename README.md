@@ -42,7 +42,7 @@ Lambda Peeler is a web-based dashboard tailored for AWS Lambda developers. It is
             </a>
         </td>
         <td align="center">
-            <img src="https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/3f6738bb-b18d-47ac-8af3-e8a644e73f1e" width="100">
+            <img src="https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/4c88307f-f388-4c61-b301-695526fdec0d" width="100">
             <br>
             Greg Osborn
             <br>
@@ -55,7 +55,7 @@ Lambda Peeler is a web-based dashboard tailored for AWS Lambda developers. It is
             </a>
         </td>
         <td align="center">
-            <img src="https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/8eb67ae3-7bf0-4529-adf5-87594a794886" width="100">
+            <img src="https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/4c88307f-f388-4c61-b301-695526fdec0d" width="100">
             <br>
             Zach Hamilton
             <br>
@@ -68,7 +68,7 @@ Lambda Peeler is a web-based dashboard tailored for AWS Lambda developers. It is
             </a>
         </td>
         <td align="center">
-            <img src="https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/4d7ce434-bda5-45d4-b39f-79297388beaa" width="100">
+            <img src="https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/4c88307f-f388-4c61-b301-695526fdec0d" width="100">
             <br>
             Nhat Trinh
             <br>
