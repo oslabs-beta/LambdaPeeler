@@ -34,23 +34,23 @@ const Navbar = ({setLogin, setActiveTab}) => {
     <div>
       <div id='navbar'> 
         <ul>
-          <li id='listItem'>
-          <a href="#" onClick={() => setActiveTab('Layers')} id='listItem'>
+          <li className='listItem'>
+          <a href="#" onClick={() => setActiveTab('Layers')} className='listItem'>
             <HomeOutlinedIcon color='secondary'/>
             <span>Home</span>
             </a>
           </li>
-          <li id='listItem'>
-            <a href="#" onClick={() => setActiveTab('Notifications')} id='listItem'>
+          <li className='listItem'>
+            <a href="#" onClick={() => setActiveTab('Notifications')} className='listItem'>
               <HistoryIcon color='secondary'/>
             History
             </a>
           </li>
-          <li id='listItem'><a href="#" onClick={() => setActiveTab('Settings')} id='listItem'>
+          <li className='listItem'><a href="#" onClick={() => setActiveTab('Settings')} className='listItem'>
             <SettingsOutlinedIcon color='secondary' />
             Settings</a>
           </li>
-          <li id='listItem'><a href="#" onClick={() => handleLogout()} id='listItem'>
+          <li className='listItem'><a href="#" onClick={() => handleLogout()} className='listItem'>
             <LogoutIcon color='secondary' />
             Logout</a>
           </li>

@@ -10,7 +10,7 @@ router.post(
   userController.createUser,
   userController.createToken,
   (req: Request, res: Response) => {
-    res.sendStatus(200);
+    res.status(200).json({message: 'Successfully signed up'})
   }
 );
 
@@ -20,7 +20,7 @@ router.post(
   userController.verifyUser,
   userController.createToken,
   (req: Request, res: Response) => {
-    res.sendStatus(200);
+    res.status(200).json({message: 'Successfully signed up'});
   }
 );
 

@@ -34,10 +34,10 @@ const NotificationContainer = () => {
 
   
   return (
-    <div id="notificationContainer"> 
-      {associatedNotifications.map((element) => (
+    <div> 
+      {associatedNotifications.map((element, index) => (
               <Notification
-                key={element.postDate}
+                key={index}
                 notificationName={element.message}
                 notificationDate={element.postDate}
               />

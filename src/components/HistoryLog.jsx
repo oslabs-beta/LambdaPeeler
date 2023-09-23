@@ -5,11 +5,10 @@ const HistoryLog = ( {historyLogMessage, historyLogDate}) => {
 
 
   return (
-    <div id='historyLog'>
+    <div className='historyLog'>
       <div>
-        Here are your past events:
-        <ul id='historyLogList'>
-          <li><span>{`Events: ${historyLogMessage}`}
+        <ul className='historyLogList'>
+          <li><span>{`Event: ${historyLogMessage}`}
           <br /> 
           {`Date: ${historyLogDate}`}</span></li>
         </ul>

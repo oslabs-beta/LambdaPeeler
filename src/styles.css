@@ -4,6 +4,7 @@ body {
   margin: 0px;
   width: 100vw;
   font-family: 'Poppins', sans-serif;
+  background-color: white;
 }
 
 #main {
@@ -179,7 +180,7 @@ input:checked + .slider:before {
 
 
 
-#listItem {
+.listItem {
   display: flex;
   align-items: center;
 }
@@ -197,9 +198,10 @@ input:checked + .slider:before {
 #update {
   display: flex;
   flex-direction: row;
-  justify-content: center;
-  gap: 2em;
-  border: 1px solid black;
+  justify-content: space-between;
+  align-items: center;
+  gap: 3em;
+  margin: 1em;
 }
 
 /* style={{
@@ -211,10 +213,10 @@ input:checked + .slider:before {
 
 #notificationDisplay {
   display: flex;
-  padding: 50px;
+  width: 50%;
 }
 
 #historyDisplay {
   display: flex;
-  padding: 50px;
+  width: 50%
 }

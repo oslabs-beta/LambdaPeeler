@@ -77,8 +77,8 @@ const LayersModal = ({
               padding: 0,
               left: 0,
               }}>
-            <Button type="submit" variant="contained" sx={{width: '40%', '&:hover': {boxShadow: 2}}} style={{margin: 0, backgroundColor: theme.palette.primary.main, '&:hover': {
-              backgroundColor: theme.palette.primary.main, boxShadow: 2
+            <Button type="submit" variant="contained" sx={{width: '40%'}} style={{margin: 0, backgroundColor: theme.palette.primary.main, '&:hover': {
+              backgroundColor: theme.palette.primary.main
             }}}>
               Link
             </Button>

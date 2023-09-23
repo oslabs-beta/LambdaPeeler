@@ -84,7 +84,13 @@ const userController: any = {
           if (!match) {
             // return next with err message
             console.log('no match')
-            return next({ error: 'Incorrect username or password' });
+            return next({
+              log:
+                `Failed to login.`,
+              status: 400,
+              //basic message to user
+              message: {err: 'Failed to login'},
+            })
           }
           res.locals.username = username;
           res.locals.ARN = user.ARN;
@@ -231,6 +237,7 @@ const userController: any = {
       });
       }
     }
+    //deleteUser: async()
     
 };
 

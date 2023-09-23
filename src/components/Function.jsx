@@ -138,7 +138,7 @@ const Function = ({ functionName, ARN, functionLayersARN, layers}) => {
       {/* When button is clicked isCollapsed state changes - 
       display layer information in dropdown  */}
       {!isCollapsed && (
-        <div id="dropdown">
+        <div className="dropdown">
           <h3>Layers</h3>
           {isLoading && (
             <div
@@ -179,11 +179,11 @@ const Function = ({ functionName, ARN, functionLayersARN, layers}) => {
           <Box sx={{
             pl: 2.5,
           }}>
-          <Tooltip title='Add Layer' placement="top" arrow>
+          {/* <Tooltip title='Add Layer' placement="top" arrow>
             <IconButton aria-label="add" onClick={() => openModal()}>
               <LibraryAddIcon fontSize='medium' color='info'/>
             </IconButton>
-          </Tooltip> 
+          </Tooltip>  */}
           </Box>
           {/* When add function on the layer tab is clicked, a modal of all functions will pop up*/}
           <LayerModal
