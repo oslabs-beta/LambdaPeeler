@@ -41,29 +41,41 @@ Lambda Peeler is a web-based dashboard tailored for AWS Lambda developers. It is
                 <img src="https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/a52096b1-552d-4c57-982c-3f22023ed68a" width="20" alt="LinkedIn">
             </a>
         </td>
-        <!-- Author 2 -->
         <td align="center">
             <img src="https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/3f6738bb-b18d-47ac-8af3-e8a644e73f1e" width="100">
             <br>
-            [Author Name2](Author2's GitHub URL)
+            Greg Osborn
+            <a href="https://github.com/greg-osborn">
+                <img src="https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/a772025a-fb46-4304-888e-a5934fd60d82" width="20" alt="GitHub">
+            </a>
             <br>
-            [LinkedIn](Author2's LinkedIn URL)
+            <a href="https://www.linkedin.com/in/gregdosborn/">
+                <img src="https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/a52096b1-552d-4c57-982c-3f22023ed68a" width="20" alt="LinkedIn">
+            </a>
         </td>
-        <!-- Author 3 -->
         <td align="center">
-            <img src="https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/e23d39b6-45b7-4539-aff5-1c586dfae2c1" width="100">
+            <img src="https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/3f6738bb-b18d-47ac-8af3-e8a644e73f1e" width="100">
             <br>
-            [Author Name3](Author3's GitHub URL)
+            Zach Hamilton
+            <a href="https://github.com/ZachMHamilton">
+                <img src="https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/a772025a-fb46-4304-888e-a5934fd60d82" width="20" alt="GitHub">
+            </a>
             <br>
-            [LinkedIn](Author3's LinkedIn URL)
+            <a href="https://www.linkedin.com/in/zach-m-hamilton/">
+                <img src="https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/a52096b1-552d-4c57-982c-3f22023ed68a" width="20" alt="LinkedIn">
+            </a>
         </td>
-        <!-- Author 4 -->
         <td align="center">
-            <img src="https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/bd650c13-6dfc-4507-ad83-85fb00475e78" width="100">
+            <img src="https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/3f6738bb-b18d-47ac-8af3-e8a644e73f1e" width="100">
             <br>
-            [Author Name4](Author4's GitHub URL)
+            Nhat Trinh
+            <a href="https://github.com/Nhat-Trinh1">
+                <img src="https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/a772025a-fb46-4304-888e-a5934fd60d82" width="20" alt="GitHub">
+            </a>
             <br>
-            [LinkedIn](Author4's LinkedIn URL)
+            <a href="https://www.linkedin.com/in/nhattrinh/">
+                <img src="https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/a52096b1-552d-4c57-982c-3f22023ed68a" width="20" alt="LinkedIn">
+            </a>
         </td>
     </tr>
 </table>
