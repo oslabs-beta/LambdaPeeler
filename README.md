@@ -42,12 +42,12 @@ Lambda Peeler is a web-based dashboard tailored for AWS Lambda developers. It is
             </a>
         </td>
         <td align="center">
-            <img src="https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/4c88307f-f388-4c61-b301-695526fdec0d" width="100">
+            <img src="https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/b266f84f-9d5f-436b-aaae-93aacf16aae3" width="100">
             <br>
             Greg Osborn
             <br>
             <a href="https://github.com/greg-osborn">
-                <img src="https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/a772025a-fb46-4304-888e-a5934fd60d82" width="20" alt="GitHub">
+                <img src="https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/4c88307f-f388-4c61-b301-695526fdec0d" width="20" alt="GitHub">
             </a>
             <br>
             <a href="https://www.linkedin.com/in/gregdosborn/">
@@ -55,12 +55,12 @@ Lambda Peeler is a web-based dashboard tailored for AWS Lambda developers. It is
             </a>
         </td>
         <td align="center">
-            <img src="https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/4c88307f-f388-4c61-b301-695526fdec0d" width="100">
+            <img src="https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/053246c1-1360-4bb0-a548-5387298b5ef6" width="100">
             <br>
             Zach Hamilton
             <br>
             <a href="https://github.com/ZachMHamilton">
-                <img src="https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/a772025a-fb46-4304-888e-a5934fd60d82" width="20" alt="GitHub">
+                <img src="https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/4c88307f-f388-4c61-b301-695526fdec0d" width="20" alt="GitHub">
             </a>
             <br>
             <a href="https://www.linkedin.com/in/zach-m-hamilton/">
@@ -68,12 +68,12 @@ Lambda Peeler is a web-based dashboard tailored for AWS Lambda developers. It is
             </a>
         </td>
         <td align="center">
-            <img src="https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/4c88307f-f388-4c61-b301-695526fdec0d" width="100">
+            <img src="https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/6c10ba8b-71a2-4fc1-9bde-b793d8780a24" width="100">
             <br>
             Nhat Trinh
             <br>
             <a href="https://github.com/Nhat-Trinh1">
-                <img src="https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/a772025a-fb46-4304-888e-a5934fd60d82" width="20" alt="GitHub">
+                <img src="https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/4c88307f-f388-4c61-b301-695526fdec0d" width="20" alt="GitHub">
             </a>
             <br>
             <a href="https://www.linkedin.com/in/nhattrinh/">
