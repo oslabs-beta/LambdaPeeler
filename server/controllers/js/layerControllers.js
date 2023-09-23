@@ -176,9 +176,11 @@ layerController.removeFunction = async (req, res, next) => {
     // get the list of layers connected to functionName
     const input = { FunctionName: functionName };
     // gets info about a specific function
+    console.log('getFunctionCommand');
     const getFunctionCommand = new GetFunctionCommand(input);
+    console.log('before config');
     const { Configuration } = await lambdaClient.send(getFunctionCommand);
-
+    console.log('after config');
     // remove the layer from the Layers array by ARN and store it into const newArray
     const newArray = Configuration.Layers.filter((layer) => {
       return layer.Arn !== ARN;

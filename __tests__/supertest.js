@@ -3,9 +3,13 @@ const server = 'http://localhost:3000';
 const Cookies = require("js-cookie");
 const { mockClient } = require('aws-sdk-client-mock');
 const functionController = require('../server/controllers/js/functionControllers.js')
+const layerController = require('../server/controllers/js/layerControllers.js')
+const removeFunction = layerController.removeFunction;
 //import functionController from '../server/controllers/functionController';
 
 const { LambdaClient, UpdateFunctionConfigurationCommand, GetFunctionCommand} = require('@aws-sdk/client-lambda');
+
+
 // import { LambdaClient, UpdateFunctionConfigurationCommand, GetFunctionConfigurationCommand} from '@aws-sdk/client-lambda';
 //const lambdaDB = new LambdaClient;
 const lambdaMock = mockClient(LambdaClient);
@@ -15,6 +19,49 @@ jest.mock('../server/models/js/userModels', () => {
     findOne: jest.fn(),
   }
 })
+
+/*
+Functionality to cover
+Layers
+Get a list of all layers (success)
+Delete all layers from createAccount, LodashFunction, and TestFunctionWithNoLayer.
+Adding a function to a layer (success). Add createAccount to ValidationLayer version 7.
+Adding a function to a layer (runtime fail). Add createAccount to PythonLayer.
+Adding a function to a layer (versions of same layer fail). Add createAccount to ValidationLayer version 2.
+Adding a function to a layer (dependency fail). Add LodashFunction to LodashLayer version 1.
+Adding a function to a layer (no shareable test event fail). Add TestFunctionWithNoLayer to LodashLayer version 1.
+List all functions associated with a specific layer (success). Try for ValidationLayer version 7, should return createAccount.
+Removing a function from a layer (success). Remove createAccount from ValidationLayer version 7.
+
+Functions
+Get a list of all functions (success)
+Get a list of all layers associated with a specific function (success). Try for createAccount, should return ValidationLayer version 7.
+
+Users
+Create a user (success). Use test account 1.
+Create a user (user already exists fail). Use test account 1.
+User log in (success). Use test account 1.  <--- Is it possible to test the JWT being set?
+User log in (fail). Use test account 2, not in the DB.
+
+
+Testing process
+
+Have test account set up with three functions and three layers
+Function 1: createAccount
+Function 2: LodashFunction
+Function 3: TestFunctionWithNoLayer
+
+Layer 1: ValidationLayer.
+Layer 2: LodashLayer version 1.
+Layer 3: PythonLayer.
+
+
+At the beginning of the test, send an empty Layers array for createAccount, LodashFunction, and TestFunctionWithNoLayer.
+Ensure test accounts 1 and 2 are not in the DB and delete them if they are.
+Layers tests using hardcoded test account (not test account 1 or 2).
+Functions tests using hardcoded test account (not test account 1 or 2).
+
+*/
 
 describe('Route integration', () => {
   beforeEach(() => {
@@ -28,6 +75,30 @@ describe('Route integration', () => {
           .get('/layers/list')
           .expect('Content-Type', /application\/json/)
           .expect(200);
+      })
+    })
+
+    describe('POST to /functions/removeAll for each of the three test functions', () => {
+      // do these all need to be under their own describes?
+      it('createAccount', async () => {
+        return await request(server)
+        .post('/functions/removeAll')
+        .send({FunctionName: 'createAccount'})
+        .expect(200);
+      })
+
+      it('LodashFunction', async () => {
+        return await request(server)
+        .post('/functions/removeAll')
+        .send({FunctionName: 'LodashFunction'})
+        .expect(200);
+      })
+
+      it('TestFunctionWithNoLayer', async () => {
+        return await request(server)
+        .post('/functions/removeAll')
+        .send({FunctionName: 'TestFunctionWithNoLayer'})
+        .expect(200);
       })
     })
     // POST to /layers/remove
@@ -65,7 +136,7 @@ describe('Route integration', () => {
       })
     })
   })
-  xdescribe('/functions routes', () => {
+  describe('/functions routes', () => {
     // GET to /functions/list
     xdescribe('GET to /list', () => {
         it('response with 200 status and application/json content type', async () => {
@@ -105,6 +176,9 @@ describe('Route integration', () => {
     // POST to /functions/remove
     // {ARN, funcationName, layerName}
     describe('POST to /remove', () => {
+      beforeEach(() => {
+        lambdaMock.reset();
+      })
       it('responds with 200 status ', async () => {
         // const response = await request(server)
         //   .post('/functions/remove')
@@ -114,18 +188,44 @@ describe('Route integration', () => {
         //   .expect(200)
         // expect(response.body).toBe(true);
 
-        const data = {FunctionName: 'Nhats1stFunction'}
-        const input = {FunctionName: 'Nhats1stFunction', Layers: ['arn:aws:lambda:us-east-1:082338669350:layer:GregLayer:1']};
+        // const data = {FunctionName: 'Nhats1stFunction'}
+        // const input = {FunctionName: 'Nhats1stFunction', Layers: ['arn:aws:lambda:us-east-1:082338669350:layer:GregLayer:1']};
         
-        lambdaMock
-        .on(GetFunctionCommand, data).resolves(
-          {
-            Configuration: {         
-              Layers: [{Arn: 'arn:aws:lambda:us-east-1:082338669350:layer:GregLayer:1'}]
+        // lambdaMock
+        // .on(GetFunctionCommand, data).resolves(
+        //   {
+        //     Configuration: {         
+        //       Layers: [{Arn: 'arn:aws:lambda:us-east-1:082338669350:layer:GregLayer:1'}]
+        //   }
+        // });
+        // lambdaMock.on(UpdateFunctionConfigurationCommand, input).resolves({
+        //   FunctionName: 'Nhats1stFunction',
+        // });
+
+        // const mockreq = {body: {ARN: 'arn:aws:lambda:us-east-1:082338669350:layer:GregLayer:1', functionName: 'Nhats1stFunction'}};
+        // const mockres = {
+        //   status: jest.fn().mockReturnThis(),
+        //   json: jest.fn(),
+        //   locals: {}
+        // };
+        // const mocknext = jest.fn()
+
+        // const response = await functionController.removeLayer(mockreq, mockres, mocknext)
+        // console.log('mockres:', mockres);
+        // console.log('response: ', response)
+        // expect(mockres.status).toHaveBeenCalledWith(200)
+        // expect(mockres.locals.successful).toBe(true)
+        // expect(mocknext).toHaveBeenCalled();
+      
+        lambdaMock.on(GetFunctionCommand({FunctionName: 'Nhats1stFunction'})).resolves({
+          Configuration:{
+            Layers:[]
           }
-        });
-        lambdaMock.on(UpdateFunctionConfigurationCommand, input).resolves({
-          FunctionName: 'Nhats1stFunction',
+          });
+        lambdaMock.on(UpdateFunctionConfigurationCommand, {FunctionName: 'Nhats1stFunction'}).resolves({
+          Configuration: {         
+            Layers: []
+          }
         });
 
         const mockreq = {body: {ARN: 'arn:aws:lambda:us-east-1:082338669350:layer:GregLayer:1', functionName: 'Nhats1stFunction'}};
@@ -135,14 +235,14 @@ describe('Route integration', () => {
           locals: {}
         };
         const mocknext = jest.fn()
+        
 
-        const response = await functionController.removeLayer(mockreq, mockres, mocknext)
-        console.log('mockres:', mockres);
-        console.log('response: ', response)
+        const response = await removeFunction(mockreq, mockres, mocknext)
+        // console.log('mockres:', mockres);
+        // console.log('response: ', response)
         expect(mockres.status).toHaveBeenCalledWith(200)
         expect(mockres.locals.successful).toBe(true)
         expect(mocknext).toHaveBeenCalled();
-      
       })
 
 
@@ -173,7 +273,7 @@ describe('Route integration', () => {
 
     
   })
-  describe('/users routes', () => {
+  xdescribe('/users routes', () => {
     // POST to /users/signup
     describe('POST to /signup', () => {
       it('should create a user successfully', async () => {

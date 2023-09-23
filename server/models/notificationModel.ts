@@ -16,7 +16,7 @@ const hours = currentDate.getHours()
 const minutes = currentDate.getMinutes()
 const seconds = currentDate.getSeconds()
 
-const formattedDate = `${year}/${month}/${day} ${hours}:${minutes}:${seconds}`
+const formattedDate = `${month}/${day}/${year} ${hours}:${minutes}:${seconds}`
 
 //create mongoose Schema of user 
 //used to hold username and passwords for login
