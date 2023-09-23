@@ -65,7 +65,7 @@ const Settings = () => {
         sx={{
           border: '1px solid lightgrey',
           borderRadius: 2,
-          p: 3,
+          p: 5,
           position: 'absolute',
           top: '50%',
           left: '50%',
@@ -75,19 +75,20 @@ const Settings = () => {
           gap: 2,
           bgcolor: 'white',
           boxShadow: '0px 0px 10px 1px rgba(0, 0, 0, .4)',
-          width: '50%',
+          width: '40%',
         }}
       >
-        <div id='update'>
+        <h2>Update Account Details</h2>
+        {/* <div id='update'> */}
         <TextField
           id="outlined-basic1"
-          label="Username"
+          label="Update Username"
           variant="outlined"
           sx={{width: '100%', alignSelf: 'center'}}
           type="text"
           onChange={(e) => setUser(e.target.value)}
         />
-        <Button
+        {/* <Button
             onClick={(e) => handleUpdate('username', username)}
             variant="contained"
             sx={{ width: '40%', height: '3.8em', backgroundColor: theme.palette.primary.main, '&:hover': {
@@ -98,16 +99,16 @@ const Settings = () => {
             Update Username
           </Button>
           </div>
-          <div id='update'>
+          <div id='update'> */}
         <TextField
           id="outlined-basic2"
-          label="Password"
+          label="Update Password"
           variant="outlined"
           type="password"
           onChange={(e) => setPassword(e.target.value)}
           sx={{width: '100%', alignSelf: 'center'}}
         />
-        <Button
+        {/* <Button
             onClick={(e) => handleUpdate('password', password)}
             variant="contained"
             sx={{ width: '40%', height: '3.8em', backgroundColor: theme.palette.primary.main, '&:hover': {
@@ -116,12 +117,12 @@ const Settings = () => {
             
           >
             Update Password
-          </Button>
-          </div>
-          <div id='update'>
+          </Button> */}
+          {/* </div>
+          <div id='update'> */}
             <TextField
             id="outlined-basic3"
-            label="ARN"
+            label="Update ARN"
             variant="outlined"
             type="test"
             onChange={(e) => setARN(e.target.value)}
@@ -130,14 +131,15 @@ const Settings = () => {
               <Button
                 onClick={(e) => handleUpdate('ARN', ARN)}
                 variant="contained"
-                sx={{ width: '40%', height: '3.8em', backgroundColor: theme.palette.primary.main, '&:hover': {
+                fullWidth='true'
+                sx={{ height: '3em', backgroundColor: theme.palette.primary.main, '&:hover': {
                   backgroundColor: theme.palette.primary.main
                 }}}
                 
               >
-                Update ARN
+                Submit
           </Button>
-        </div>
+        {/* </div> */}
       </Box>
     </div>
   )

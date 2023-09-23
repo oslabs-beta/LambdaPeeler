@@ -4,7 +4,7 @@ import LinkedFunctions from './LinkedFunctions.jsx';
 import FunctionModal from './FunctionModal.jsx';
 import axios from 'axios';
 import CircularProgress from '@mui/material/CircularProgress';
-import { Button, IconButton, Tooltip, Box } from '@mui/material';
+import { Button, IconButton, Tooltip, Box, Skeleton } from '@mui/material';
 import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
 
 const Layer = ({ layerName, versionNumber, ARN, functions }) => {
@@ -45,7 +45,7 @@ const Layer = ({ layerName, versionNumber, ARN, functions }) => {
     if (!isCollapsed) {
       fetchAssociatedFunctions();
     }
-  }, [isCollapsed, isOpened]);
+  }, [isCollapsed]);
 
   // changes the state for when function Modal opens and closes
   // openModal is passed down to the add function button
@@ -109,7 +109,9 @@ const Layer = ({ layerName, versionNumber, ARN, functions }) => {
       >
         <span>
           {' '}
-          Layer: {layerName}, Ver: {versionNumber}
+          {layerName}
+          <br></br>
+          Version: {versionNumber}
           <br></br>
           ARN: {ARN}
         </span>

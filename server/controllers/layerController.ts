@@ -177,6 +177,7 @@ removeFunction: async (req: Request, res: Response, next: NextFunction): Promise
     const input = { FunctionName: functionName };
     // gets info about a specific function
     const getFunctionCommand = new GetFunctionCommand(input);
+    console.log('getFunctionCommand: ', getFunctionCommand);
     const { Configuration } = await lambdaClient.send(getFunctionCommand);
 
     // remove the layer from the Layers array by ARN and store it into const newArray
@@ -243,6 +244,7 @@ addFunction: async (req: Request, res: Response, next: NextFunction) => {
       const updateFunctionConfigurationCommand = new UpdateFunctionConfigurationCommand(updateFunctionConfigurationInput);
       await lambdaClient.send(updateFunctionConfigurationCommand);
     } catch (error) {
+      res.locals.allFailingFuncs.push(functionName);
       await ErrorMessage.create({message: `Failed to update function ${functionName}. Error: ${error.message}`, ARN: req.cookies['ARN']}) as IError;
       // add error message to error object to be sent to frontend
       res.locals.addError.push(

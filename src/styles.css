@@ -4,7 +4,6 @@ body {
   margin: 0px;
   width: 100vw;
   font-family: 'Poppins', sans-serif;
-  background-color: white;
 }
 
 #main {
@@ -75,6 +74,7 @@ a {
   text-align: left;
   outline: none;
   font-size: 15px;
+  transition: background-color 1s ease-in-out;
 }
 
 /* add by michael */
@@ -91,6 +91,7 @@ a {
   text-align: left;
   outline: none;
   font-size: 15px;
+  transition: background-color .5s ease-in-out;
 }
 
 .active,
@@ -172,12 +173,18 @@ input:checked + .slider:before {
 
 #loginButtons {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   gap: 10px;
   justify-content: center;
 }
 
-
+#login {
+  height: 100vh;
+  width: 100vw;
+  margin: 0;
+  /* background-color: #ffdcb4; */
+  background-color: #ffeeda;
+}
 
 
 .listItem {
@@ -219,4 +226,8 @@ input:checked + .slider:before {
 #historyDisplay {
   display: flex;
   width: 50%
+}
+
+#link:hover {
+  text-decoration: underline;
 }

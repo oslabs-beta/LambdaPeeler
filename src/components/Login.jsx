@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { TextField, Box, Button } from '@mui/material';
+import { TextField, Box, Button, IconButton } from '@mui/material';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { useTheme } from "@mui/material/styles";
 import axios from 'axios';
 
@@ -9,9 +10,15 @@ const Login = ({ setIsLoggedIn }) => {
   const [ARN, setARN] = useState();
   const [signUp, setSignUp] = useState(false)
   const [message, setMessage] = useState('');
+  const [action, setAction] = useState('Login')
   const theme = useTheme();
 
   const handleLogin = async (e) => {
+        if (signUp) {
+          setSignUp(false);
+          setAction('Login')
+          return;
+        }
         // signup functionality here
         try {
           const result = await axios.post(
@@ -42,6 +49,7 @@ const Login = ({ setIsLoggedIn }) => {
   const handleSignUp = async (e) => {
     if (!signUp) {
       setSignUp(true);
+      setAction('Sign Up')
       return;
     }
     // signup functionality here
@@ -98,10 +106,11 @@ const Login = ({ setIsLoggedIn }) => {
         style={{
           position: 'absolute',
           left: '50%',
-          top: '75%',
+          top: '32%',
           transform: 'translate(-50%, -50%)',
           color: 'red',
           visibility: message ? 'visible' : 'hidden',
+          zIndex: 10,
         }}
       >
         {message}
@@ -116,7 +125,7 @@ const Login = ({ setIsLoggedIn }) => {
           borderRadius: 2,
           p: 3,
           position: 'absolute',
-          top: '50%',
+          top: '60%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
           display: 'flex',
@@ -124,8 +133,13 @@ const Login = ({ setIsLoggedIn }) => {
           gap: 2,
           bgcolor: 'white',
           boxShadow: '0px 0px 10px 1px rgba(0, 0, 0, .4)',
+          height: '50%',
         }}
       >
+        <IconButton sx={{pl: 1, pr:0,  m: 0, left: '4%', top: '2.5%', position: 'absolute', visibility: action==='Sign Up' ? 'visible' : 'hidden' }} size='small' onClick={(e) => handleLogin(e)}> 
+        <ArrowBackIosIcon sx={{p: 0, m: 0}} fontSize='small'/>
+        </IconButton>
+        <h2>{action}</h2>
         <TextField
           id="outlined-basic1"
           label="Username"
@@ -156,20 +170,29 @@ const Login = ({ setIsLoggedIn }) => {
           <Button
             onClick={(e) => handleLogin(e)}
             variant="contained"
-            sx={{ mt: 3, mb: 2, width: '50%', backgroundColor: theme.palette.primary.main, '&:hover': {
+            fullWidth='true'
+            sx={{ mt: 3, mb: 2, backgroundColor: theme.palette.primary.main, '&:hover': {
               backgroundColor: theme.palette.primary.main
             }}}
             
           >
-            Sign In
+            {action}
           </Button>
-          <Button
+          <span style={{
+            display: 'flex', justifyContent: 'center', alignItems: 'center' , width: '100%',
+            visibility: action==='Login' ? 'visible' : 'hidden'
+          }}>
+            Need an account?&nbsp; 
+            <a id='link' href='#' onClick={(e) => handleSignUp(e)}>Sign Up</a>
+          {/* <Button
             onClick={(e) => handleSignUp(e)}
-            variant="outlined"
-            sx={{ mt: 3, mb: 2, width: '50%', color: theme.palette.primary.dark, border: .8 }}
+            variant="text"
+            size='small'
+            sx={{ mt: 3, mb: 2, color: theme.palette.primary.dark, border: .8 }}
           >
             Sign Up
-          </Button>
+          </Button> */}
+          </span>
         </div>
       </Box>
     </div>

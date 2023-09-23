@@ -44,6 +44,7 @@ import User from '../models/userModel';
 
    // Begin: To connect to users' AWS accounts
    assumeRole: async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    res.locals.allFailingFuncs = [];
     try {
         const stsClient: STSClient = new STSClient({
             region: 'us-east-1',
@@ -138,6 +139,9 @@ import User from '../models/userModel';
           passFuncs.push(element);
 
         } else {
+          console.log('res.locals.failedFunctions before: ', res.locals.allFailingFuncs);
+          res.locals.allFailingFuncs.push(element);
+          console.log('res.locals.failedFunctions after: ', res.locals.allFailingFuncs);
           await ErrorMessage.create({message: `${element} does not have the correct runtime`, ARN: req.cookies['ARN']}) as IError;
           // add error to locals and push func to failed
           res.locals.addError.push(
@@ -171,6 +175,7 @@ import User from '../models/userModel';
   getTest: async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     // pull func names that pass initial runtime compatibility tests
     const funcNames: string[] = res.locals.passedRuntime;
+    
     // initialize locals array to store funcs that have no shareable tests or fail tests
     res.locals.failedFunctions = [];
     try {
@@ -190,6 +195,7 @@ import User from '../models/userModel';
             // dataComp is the shareable tests associated with a function, will be an array
             return dataComp;
           } catch {
+            res.locals.allFailingFuncs.push(funcName);
             await ErrorMessage.create({message: `No shareable tests available for ${funcName}`, ARN: req.cookies['ARN']}) as IError;
             // if no shareable tests, push to errors and failed funcs
             // also return null to the schemaData array
@@ -248,6 +254,7 @@ import User from '../models/userModel';
           if (response.FunctionError) {
             // push the function name to failedFunctions array, initialized on line 142
             res.locals.failedFunctions.push(lambdaInput.FunctionName);
+            res.locals.allFailingFuncs.push(lambdaInput.FunctionName);
             const failedFuncName: string = lambdaInput.FunctionName;
             const errorType: string = response.Payload.transformToString();
             const errorParse: any = JSON.parse(errorType);
@@ -258,9 +265,9 @@ import User from '../models/userModel';
             
           } else {
             // push passing funcs to arr
-            if (!passedFuncs.includes(element)) {
-              const funcName: string = lambdaInput.FunctionName;
-              await HistoryLog.create({message: `${funcName} function was succesfully added ${res.locals.layerName}`, ARN: req.cookies['ARN']}) as IHistory;
+            if (!res.locals.allFailingFuncs.includes(element)) {
+              await HistoryLog.create({message: `${lambdaInput.FunctionName} function was successfully added ${res.locals.layerName}`, ARN: req.cookies['ARN']}) as IHistory;
+              
               passedFuncs.push(element);
             }
           }
@@ -285,21 +292,18 @@ import User from '../models/userModel';
         await Promise.all(
           funcNames.map((func: string, index: number) => dependenciesFunction(func, index))
         );
-        next();
+        return next();
       }, 5000);
     } catch (error) {
       return res.status(403).send(error.message);
     }
   },
 
-  // Middleware to disconnect all the functions that failed our runtime and dependecies tests
+  // Middleware to disconnect all the functions that failed our runtime and dependencies tests
   removeFailedFunc: async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     // req.body includes the layer ARN and res.locals includes array of failed funcs
     const ARN: string = req.body.ARN;
     const failedFunctions: string[] = res.locals.failedFunctions;
-    const passFuncs: string[] = res.locals.passFuncs;
-    console.log('failedFuncs: ', failedFunctions);
-    console.log('passedFuncs: ', passFuncs);
     //helper function to remove layer from function on failing
     const disconnect = async (functionName: string): Promise<void> => {
       try {

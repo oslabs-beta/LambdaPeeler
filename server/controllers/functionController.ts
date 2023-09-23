@@ -142,6 +142,7 @@ const functionController: any = {
     // removes a layer from a specific function
     removeLayer: async (req: Request, res: Response, next: NextFunction): Promise<void> => {
       try {
+        // layer ARN
         const ARN: string = req.body.ARN;
         const functionName: string = req.body.functionName
         const input: {FunctionName: string} = { FunctionName: functionName };
@@ -165,7 +166,28 @@ const functionController: any = {
       } catch (err) {
         res.status(500).json({ error: 'Failed to remove layer from function' });
       }
+    },
+
+    // removes all layers from a specific function
+    removeAllLayers: async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+
+      const functionName: string = req.body.functionName;
+      try {
+        const updateInput: UpdateFunctionConfigurationCommandInput = {
+          FunctionName: functionName,
+          Layers: [],
+        };
+        const updateFunctionConfigurationCommand: UpdateFunctionConfigurationCommand =
+          new UpdateFunctionConfigurationCommand(updateInput);
+        const response = await lambdaClient.send(updateFunctionConfigurationCommand);
+        return next();
+      }
+      catch(err) {
+        res.status(500).json({ error: `Failed to remove all layers from function ${functionName}` });
+      }
     }
+
+    
 };
 
 export default functionController;
