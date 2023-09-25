@@ -29,7 +29,7 @@ const layerController = {
 assumeRole: async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const stsClient = new STSClient({
-      region: 'us-east-1',
+      region: req.cookies.region,
     });
     const roleToAssume: {RoleArn: string, RoleSessionName: string} = {
       //RoleArn has to end in /OSPTool
@@ -49,7 +49,7 @@ assumeRole: async (req: Request, res: Response, next: NextFunction): Promise<voi
     };
   
     lambdaClient = new LambdaClient({
-      region: 'us-east-1',
+      region: req.cookies.region,
       credentials: tempCredentials,
     });
     console.log(lambdaClient)
