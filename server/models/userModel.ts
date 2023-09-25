@@ -1,6 +1,9 @@
 import mongoose, { Schema, Document, Model } from 'mongoose'
 // const mongoose = require('mongoose');
 
+import dotenv from 'dotenv';
+dotenv.config();
+
 export interface IUser extends Document {
   username: string;
   password: string;

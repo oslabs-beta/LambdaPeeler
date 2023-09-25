@@ -15,9 +15,7 @@ const Login = ({ setIsLoggedIn }) => {
 
   const handleLogin = async (e) => {
         if (signUp) {
-          setSignUp(false);
-          setAction('Login')
-          return;
+          handleSignUp();
         }
         // signup functionality here
         try {
@@ -136,7 +134,7 @@ const Login = ({ setIsLoggedIn }) => {
           height: '50%',
         }}
       >
-        <IconButton sx={{pl: 1, pr:0,  m: 0, left: '4%', top: '2.5%', position: 'absolute', visibility: action==='Sign Up' ? 'visible' : 'hidden' }} size='small' onClick={(e) => handleLogin(e)}> 
+        <IconButton sx={{pl: 1, pr:0,  m: 0, left: '4%', top: '2.5%', position: 'absolute', visibility: action==='Sign Up' ? 'visible' : 'hidden' }} size='small' onClick={() => setSignUp(false)}> 
         <ArrowBackIosIcon sx={{p: 0, m: 0}} fontSize='small'/>
         </IconButton>
         <h2>{action}</h2>

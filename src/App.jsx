@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Main from './components/Main.jsx';
 import Login from './components/Login.jsx';
+import Splash from './components/Splash.jsx';
 import NotificationContainer from './containers/NotificationContainer.jsx';
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { blue, red } from "@mui/material/colors";
@@ -33,6 +34,10 @@ const App = () => {
         <Route
           path="/"
           element={isLoggedIn ? <Main setLogin={setIsLoggedIn}/> : <Navigate replace to={'/login'} />}
+        />
+        <Route 
+          path='/home'
+          element={<Splash />}
         />
         <Route
           path="/login"
