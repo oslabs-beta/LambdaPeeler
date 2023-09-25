@@ -19,9 +19,9 @@ router.post('/layers', functionController.getLayers, (req: Request, res: Respons
 
 // // removes layer from function
 // // functionality removed for now. layer-function interactions will take place through Layers tab and /layers routes
-// router.post('/remove', functionController.removeLayer, (req: Request, res: Response) => {
-//   res.status(200).json(res.locals.successful);
-// })
+router.post('/remove', functionController.removeLayer, (req: Request, res: Response) => {
+  res.status(200).json(res.locals.successful);
+})
 
 
 // removes all layers from function

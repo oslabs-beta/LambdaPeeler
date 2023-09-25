@@ -45,7 +45,7 @@ const Layer = ({ layerName, versionNumber, ARN, functions }) => {
     if (!isCollapsed) {
       fetchAssociatedFunctions();
     }
-  }, [isCollapsed]);
+  }, [isCollapsed, isOpened]);
 
   // changes the state for when function Modal opens and closes
   // openModal is passed down to the add function button
@@ -139,10 +139,10 @@ const Layer = ({ layerName, versionNumber, ARN, functions }) => {
             </div>
           )}
           {/* Takes the functions from the state associatedFunctions and create seperate components called LinkedFunctions*/}
-          {associatedFunctions.map((element) => (
-            <div>
+          {associatedFunctions.map((element, index) => (
+            <div id={ARN + element + '_div'}>
               <LinkedFunctions
-                key={ARN + element}
+                key={index}
                 functionName={element}
                 ARN={ARN}
                 fetch={fetchAssociatedFunctions}

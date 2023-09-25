@@ -6,17 +6,19 @@ export interface IError extends Document {
   ARN: string;
 }
 
-const currentTimestamp = Date.now()
-const currentDate = new Date(currentTimestamp)
 
-const year = currentDate.getFullYear()
-const month = currentDate.getMonth() + 1
-const day = currentDate.getDate()
-const hours = currentDate.getHours()
-const minutes = currentDate.getMinutes()
-const seconds = currentDate.getSeconds()
-
-const formattedDate = `${month}/${day}/${year} ${hours}:${minutes}:${seconds}`
+const formattedDate = () => {
+  const currentTimestamp = Date.now()
+  const currentDate = new Date(currentTimestamp)
+  
+  const year = currentDate.getFullYear()
+  const month = currentDate.getMonth() + 1
+  const day = currentDate.getDate()
+  const hours = currentDate.getHours()
+  const minutes = currentDate.getMinutes()
+  const seconds = currentDate.getSeconds()
+  return `${month}/${day}/${year} ${hours}:${minutes}:${seconds}`
+} 
 
 //create mongoose Schema of user 
 //used to hold username and passwords for login

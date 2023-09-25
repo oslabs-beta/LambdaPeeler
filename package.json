@@ -6,6 +6,7 @@
   "scripts": {
     "test": "jest --verbose",
     "start": "concurrently \"npm run server\" \"npm run client\"",
+    "dev:hot": "nodemon ./server/server.js & webpack-dev-server --open --hot",
     "server": "nodemon",
     "client": "webpack serve --config webpack.config.js"
   },

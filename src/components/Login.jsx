@@ -8,6 +8,7 @@ const Login = ({ setIsLoggedIn }) => {
   const [username, setUser] = useState();
   const [password, setPassword] = useState();
   const [ARN, setARN] = useState();
+  const [region, setRegion] = useState();
   const [signUp, setSignUp] = useState(false)
   const [message, setMessage] = useState('');
   const [action, setAction] = useState('Login')
@@ -15,9 +16,7 @@ const Login = ({ setIsLoggedIn }) => {
 
   const handleLogin = async (e) => {
         if (signUp) {
-          setSignUp(false);
-          setAction('Login')
-          return;
+          handleSignUp();
         }
         // signup functionality here
         try {
@@ -56,7 +55,7 @@ const Login = ({ setIsLoggedIn }) => {
     try {
       const result = await axios.post(
         'http://localhost:3000/user/signup',
-        { username: username, password: password, ARN: ARN },
+        { username: username, password: password, ARN: ARN , region: region},
         {
           withCredentials: true,
           headers: {
@@ -133,10 +132,10 @@ const Login = ({ setIsLoggedIn }) => {
           gap: 2,
           bgcolor: 'white',
           boxShadow: '0px 0px 10px 1px rgba(0, 0, 0, .4)',
-          height: '50%',
+          height: action==='Sign Up' ? '60%' : '45%',
         }}
       >
-        <IconButton sx={{pl: 1, pr:0,  m: 0, left: '4%', top: '2.5%', position: 'absolute', visibility: action==='Sign Up' ? 'visible' : 'hidden' }} size='small' onClick={(e) => handleLogin(e)}> 
+        <IconButton sx={{pl: 1, pr:0,  m: 0, left: '4%', top: '2.5%', position: 'absolute', visibility: action==='Sign Up' ? 'visible' : 'hidden' }} size='small' onClick={() => setSignUp(false)}> 
         <ArrowBackIosIcon sx={{p: 0, m: 0}} fontSize='small'/>
         </IconButton>
         <h2>{action}</h2>
@@ -166,11 +165,20 @@ const Login = ({ setIsLoggedIn }) => {
         onChange={(e) => setARN(e.target.value)}
           />
         )}
+        {signUp && (
+        <TextField
+        id="outlined-basic4"
+        label="Region"
+        variant="outlined"
+        type="test"
+        onChange={(e) => setRegion(e.target.value)}
+          />
+        )}
         <div id="loginButtons">
           <Button
             onClick={(e) => handleLogin(e)}
             variant="contained"
-            fullWidth='true'
+            fullWidth={true}
             sx={{ mt: 3, mb: 2, backgroundColor: theme.palette.primary.main, '&:hover': {
               backgroundColor: theme.palette.primary.main
             }}}
