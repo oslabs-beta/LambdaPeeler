@@ -7,7 +7,7 @@ Lambda Peeler is a web-based dashboard tailored for AWS Lambda developers. It is
 # Table of Contents
 - [Features](#features)
 - [Demo](#demo)
-- [Connecting to our App](#connectingtoourapp)
+- [Connecting to our App](#connecting-to-our-app)
 - [Authors](#authors)
 ## Features
 **Bulk Operations**: Time is of the essence. And Lambda Peeler understands that. Perform bulk connections and disconnections without a hitch, and with the assurance of compatibility.  
