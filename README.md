@@ -28,15 +28,19 @@ Lambda Peeler is a web-based dashboard tailored for AWS Lambda developers. It is
 ## Authors
 <table>
     <tr>
-        <td align="center">
-            <img src="https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/8375918d-26df-470e-977c-e579b9d19e1b" width="100">
-            <br>
-            Michael Shand
-            <br>
-            [![GitHub](https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/4c88307f-f388-4c61-b301-695526fdec0d)](https://github.com/shandie231)
-            <br>
-            [![LinkedIn](https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/a52096b1-552d-4c57-982c-3f22023ed68a)](https://www.linkedin.com/in/michael-shand-0a2924163/)
-        </td>
+<td align="center">
+    <img src="https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/8375918d-26df-470e-977c-e579b9d19e1b" width="100">
+    <br>
+    Michael Shand
+    <br>
+    <a href="https://github.com/shandie231">
+        <img src="https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/4c88307f-f388-4c61-b301-695526fdec0d" width="20" alt="GitHub">
+    </a>
+    <br>
+    <a href="https://www.linkedin.com/in/michael-shand-0a2924163/">
+        <img src="https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/a52096b1-552d-4c57-982c-3f22023ed68a" width="20" alt="LinkedIn">
+    </a>
+</td>
         <td align="center">
             <img src="https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/b266f84f-9d5f-436b-aaae-93aacf16aae3" width="100">
             <br>
