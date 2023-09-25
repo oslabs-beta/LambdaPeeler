@@ -161,7 +161,7 @@ const Function = ({ functionName, ARN, functionLayersARN, layers}) => {
           {/* iterate through associatedLayers array */}
           {associatedLayers.map((element) => (
             
-            <div>
+            <div id={functionName + element.LayerName + '_div'}>
               {/* Pass data to LinkedLayers to display details */}
               <LinkedLayers 
                 key = {functionName + element.LayerName}

@@ -170,7 +170,7 @@ const Login = ({ setIsLoggedIn }) => {
           <Button
             onClick={(e) => handleLogin(e)}
             variant="contained"
-            fullWidth='true'
+            fullWidth={true}
             sx={{ mt: 3, mb: 2, backgroundColor: theme.palette.primary.main, '&:hover': {
               backgroundColor: theme.palette.primary.main
             }}}
