@@ -33,7 +33,7 @@ Lambda Peeler is a web-based dashboard tailored for AWS Lambda developers. It is
             <br>
             Michael Shand
             <br>
-            <a href="https://github.com/shandie231">
+            <a href="[![GitHub](https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/4c88307f-f388-4c61-b301-695526fdec0d)](https://github.com/shandie231)">
                 <img src="https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/4c88307f-f388-4c61-b301-695526fdec0d" width="20" alt="GitHub">
             </a>
             <br>
