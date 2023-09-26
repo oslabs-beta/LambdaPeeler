@@ -47,7 +47,7 @@ import User from '../models/userModel';
     res.locals.allFailingFuncs = [];
     try {
         const stsClient: STSClient = new STSClient({
-            region: 'us-east-1',
+            region: req.cookies.region,
         });
         const roleToAssume: {RoleArn: string, RoleSessionName: string} = {
             //RoleArn has to end in /OSPTool
@@ -70,12 +70,12 @@ import User from '../models/userModel';
         }
         
         lambdaClient = new LambdaClient({
-          region: 'us-east-1',
+          region: req.cookies.region,
           credentials: tempCredentials,
         });
         
         schemasClient = new SchemasClient({
-          region: 'us-east-1',
+          region: req.cookies.region,
           credentials: tempCredentials,
         });
         return next();
@@ -139,7 +139,9 @@ import User from '../models/userModel';
           passFuncs.push(element);
 
         } else {
+
           res.locals.allFailingFuncs.push(element);
+
           await ErrorMessage.create({message: `${element} does not have the correct runtime`, ARN: req.cookies['ARN']}) as IError;
           // add error to locals and push func to failed
           res.locals.addError.push(

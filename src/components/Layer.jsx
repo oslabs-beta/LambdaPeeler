@@ -139,10 +139,10 @@ const Layer = ({ layerName, versionNumber, ARN, functions }) => {
             </div>
           )}
           {/* Takes the functions from the state associatedFunctions and create seperate components called LinkedFunctions*/}
-          {associatedFunctions.map((element) => (
-            <div>
+          {associatedFunctions.map((element, index) => (
+            <div id={ARN + element + '_div'}>
               <LinkedFunctions
-                key={ARN + element}
+                key={index}
                 functionName={element}
                 ARN={ARN}
                 fetch={fetchAssociatedFunctions}
