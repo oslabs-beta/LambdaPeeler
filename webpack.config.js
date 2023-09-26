@@ -44,19 +44,17 @@ devServer: {
   hot: true,
   historyApiFallback: true,
   static: {
-    publicPath: '/build',
-    directory: path.join(__dirname, 'build'),
+    publicPath: '/assets',
+    directory: path.join(__dirname, './src/assets'),
   },
-  header: {'Access-Control-Allow-Origin': '*'},
+  headers: {'Access-Control-Allow-Origin': '*'},
   proxy: {
-    '/api/**':{
+    '/**':{
       target: 'http://localhost:3000/',
       secure: false,
     }
   },
 },
   
-  
-
   plugins: [htmlPlugin]
 };
