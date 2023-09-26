@@ -45,7 +45,7 @@ const Layer = ({ layerName, versionNumber, ARN, functions }) => {
     if (!isCollapsed) {
       fetchAssociatedFunctions();
     }
-  }, [isCollapsed]);
+  }, [isCollapsed, isOpened]);
 
   // changes the state for when function Modal opens and closes
   // openModal is passed down to the add function button
