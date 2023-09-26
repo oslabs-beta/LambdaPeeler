@@ -39,15 +39,17 @@ assumeRole: async (req: Request, res: Response, next: NextFunction): Promise<voi
       RoleSessionName: 'LayerControllerSession',
     };
     console.log(roleToAssume)
+    console.log(req.cookies.region);
     const command = new AssumeRoleCommand(roleToAssume);
+    console.log('command: ', command)
     const { Credentials } = await stsClient.send(command);
-  
+    console.log('after send')
     const tempCredentials = {
       accessKeyId: Credentials.AccessKeyId,
       secretAccessKey: Credentials.SecretAccessKey,
       sessionToken: Credentials.SessionToken,
     };
-  
+    console.log('after temp')
     lambdaClient = new LambdaClient({
       region: req.cookies.region,
       credentials: tempCredentials,
@@ -61,7 +63,7 @@ assumeRole: async (req: Request, res: Response, next: NextFunction): Promise<voi
         `Failed to assume role. Error: ${err}`,
       status: 500,
       //basic message to user
-      message: {err: 'Failed to assume role'},
+      message: {err: `Failed to assume role. Err ', ${err}`},
     })
   }
 },
