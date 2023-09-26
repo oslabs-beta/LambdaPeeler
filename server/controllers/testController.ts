@@ -139,9 +139,7 @@ import User from '../models/userModel';
           passFuncs.push(element);
 
         } else {
-          console.log('res.locals.failedFunctions before: ', res.locals.allFailingFuncs);
           res.locals.allFailingFuncs.push(element);
-          console.log('res.locals.failedFunctions after: ', res.locals.allFailingFuncs);
           await ErrorMessage.create({message: `${element} does not have the correct runtime`, ARN: req.cookies['ARN']}) as IError;
           // add error to locals and push func to failed
           res.locals.addError.push(
