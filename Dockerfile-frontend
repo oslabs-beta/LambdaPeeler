@@ -6,15 +6,22 @@ FROM node:16.13
 # Working directory be app
 WORKDIR /usr/src/app
 
-COPY package*.json ./
+# COPY package*.json ./
+COPY . /usr/src/app
+
+# copy local files to app folder
+# COPY ./src ./src
+# COPY webpack.config.js .
 
 ###  Installing dependencies
 
-RUN npm install --silent && npm prune
+RUN npm install --silent
+RUN npm run build
 
-# copy local files to app folder
-COPY . .
+# ENTRYPOINT ["node", "server/server.js"]
 
 EXPOSE 3000
+# ENTRYPOINT ["node", "./server/server"]
+# ENTRYPOINT node ./build/bundle.js
 
-CMD ["npm","start"]
+CMD ["npx", "ts-node", "./server/server"]

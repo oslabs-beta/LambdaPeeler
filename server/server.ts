@@ -1,14 +1,16 @@
-
+// const express = require('express');
+// const {NextFunction} = require('express');
 import express, { Request, Response, NextFunction } from 'express';
-//const layerRouter = require('./routes/layerRouter');
+// const layerRouter = require('./routes/layerRouter');
 import layerRouter from './routes/layerRouter';
-//const functionRouter = require('./routes/functionRouter');
+// const functionRouter = require('./routes/functionRouter');
 import functionRouter from './routes/functionRouter';
-//const userRouter = require('./routes/userRouter');
+// const userRouter = require('./routes/userRouter');
 import userRouter from './routes/userRouter';
-//const connectDB = require('./db');
+// const connectDB = require('./db');
 import connectDB from './db';
 import path from 'path';
+// const path = require('path');
 
 // const cookieParser = require('cookie-parser');
 import cookieParser from 'cookie-parser';
