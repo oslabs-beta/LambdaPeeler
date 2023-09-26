@@ -1,59 +1,27 @@
 import React, { useState } from 'react';
 import { TextField, Box, Button, IconButton } from '@mui/material';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import { useTheme } from "@mui/material/styles";
+import { useTheme } from '@mui/material/styles';
 import axios from 'axios';
 
 const Login = ({ setIsLoggedIn }) => {
   const [username, setUser] = useState();
   const [password, setPassword] = useState();
   const [ARN, setARN] = useState();
-  const [signUp, setSignUp] = useState(false)
+  const [region, setRegion] = useState();
+  const [signUp, setSignUp] = useState(false);
   const [message, setMessage] = useState('');
-  const [action, setAction] = useState('Login')
+  const [action, setAction] = useState('Login');
   const theme = useTheme();
 
   const handleLogin = async (e) => {
-        if (signUp) {
-          handleSignUp();
-        }
-        // signup functionality here
-        try {
-          const result = await axios.post(
-            'http://localhost:3000/user/login',
-            { username: username, password: password, ARN: ARN },
-            {
-              withCredentials: true,
-              headers: {
-                'Content-Type': 'application/json',
-              },
-            }
-            );
-          if (result.status === 200) {
-            setIsLoggedIn(true);
-            return;
-          } else {
-            console.log('incorrect username or password')
-            setMessage('Incorrect username or password. Try again!')
-          }
-        } catch (error) {
-          setMessage('Incorrect username or password. Try again!')
-          console.log(message);
-          console.log(error)
-        }
-  };
-
-
-  const handleSignUp = async (e) => {
-    if (!signUp) {
-      setSignUp(true);
-      setAction('Sign Up')
-      return;
+    if (signUp) {
+      handleSignUp();
     }
     // signup functionality here
     try {
       const result = await axios.post(
-        'http://localhost:3000/user/signup',
+        'http://localhost:3000/user/login',
         { username: username, password: password, ARN: ARN },
         {
           withCredentials: true,
@@ -63,41 +31,72 @@ const Login = ({ setIsLoggedIn }) => {
         }
       );
       if (result.status === 200) {
-        console.log('result ok')
         setIsLoggedIn(true);
         return;
       } else {
-        setMessage('Error signing up. Try again!')
+        console.log('incorrect username or password');
+        setMessage('Incorrect username or password. Try again!');
       }
     } catch (error) {
-      console.log(error)
+      setMessage('Incorrect username or password. Try again!');
+      console.log(message);
+      console.log(error);
     }
-  }
+  };
 
+  const handleSignUp = async (e) => {
+    if (!signUp) {
+      setSignUp(true);
+      setAction('Sign Up');
+      return;
+    }
+    // signup functionality here
+    try {
+      const result = await axios.post(
+        'http://localhost:3000/user/signup',
+        { username: username, password: password, ARN: ARN, region: region },
+        {
+          withCredentials: true,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+      if (result.status === 200) {
+        console.log('result ok');
+        setIsLoggedIn(true);
+        return;
+      } else {
+        setMessage('Error signing up. Try again!');
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div id="login">
-      <div id="title"
-      style={{
-        position: 'absolute',
-        left: '50%',
-        top: '10%',
-        transform: 'translate(-50%, -50%)',
-        zIndex: 10,
-      }}>
-        <h1>
-          Welcome to LambdaPeeler!
-        </h1>
-        <h5
+      <div
+        id="title"
         style={{
           position: 'absolute',
-          left: '10%',
-          top: '65%',
+          left: '50%',
+          top: '10%',
           transform: 'translate(-50%, -50%)',
           zIndex: 10,
         }}
       >
-        An AWS tool
+        <h1>Welcome to LambdaPeeler!</h1>
+        <h5
+          style={{
+            position: 'absolute',
+            left: '10%',
+            top: '65%',
+            transform: 'translate(-50%, -50%)',
+            zIndex: 10,
+          }}
+        >
+          An AWS tool
         </h5>
       </div>
       <p
@@ -113,8 +112,8 @@ const Login = ({ setIsLoggedIn }) => {
       >
         {message}
       </p>
-      <div id='imgid'>
-        <img src='/assets/Lambda_Potato-removebg-preview.png'></img>
+      <div id="imgid">
+        <img src="/assets/Lambda_Potato-removebg-preview.png"></img>
       </div>
       <Box
         component="form"
@@ -131,11 +130,26 @@ const Login = ({ setIsLoggedIn }) => {
           gap: 2,
           bgcolor: 'white',
           boxShadow: '0px 0px 10px 1px rgba(0, 0, 0, .4)',
-          height: '50%',
+          height: action === 'Sign Up' ? '60%' : '45%',
         }}
       >
-        <IconButton sx={{pl: 1, pr:0,  m: 0, left: '4%', top: '2.5%', position: 'absolute', visibility: action==='Sign Up' ? 'visible' : 'hidden' }} size='small' onClick={() => setSignUp(false)}> 
-        <ArrowBackIosIcon sx={{p: 0, m: 0}} fontSize='small'/>
+        <IconButton
+          sx={{
+            pl: 1,
+            pr: 0,
+            m: 0,
+            left: '4%',
+            top: '2.5%',
+            position: 'absolute',
+            visibility: action === 'Sign Up' ? 'visible' : 'hidden',
+          }}
+          size="small"
+          onClick={() => {
+            setSignUp(false);
+            setAction('Login');
+          }}
+        >
+          <ArrowBackIosIcon sx={{ p: 0, m: 0 }} fontSize="small" />
         </IconButton>
         <h2>{action}</h2>
         <TextField
@@ -156,12 +170,21 @@ const Login = ({ setIsLoggedIn }) => {
           onChange={(e) => setPassword(e.target.value)}
         />
         {signUp && (
-        <TextField
-        id="outlined-basic3"
-        label="ARN"
-        variant="outlined"
-        type="test"
-        onChange={(e) => setARN(e.target.value)}
+          <TextField
+            id="outlined-basic3"
+            label="ARN"
+            variant="outlined"
+            type="test"
+            onChange={(e) => setARN(e.target.value)}
+          />
+        )}
+        {signUp && (
+          <TextField
+            id="outlined-basic4"
+            label="Region"
+            variant="outlined"
+            type="test"
+            onChange={(e) => setRegion(e.target.value)}
           />
         )}
         <div id="loginButtons">
@@ -169,27 +192,30 @@ const Login = ({ setIsLoggedIn }) => {
             onClick={(e) => handleLogin(e)}
             variant="contained"
             fullWidth={true}
-            sx={{ mt: 3, mb: 2, backgroundColor: theme.palette.primary.main, '&:hover': {
-              backgroundColor: theme.palette.primary.main
-            }}}
-            
+            sx={{
+              mt: 3,
+              mb: 2,
+              backgroundColor: theme.palette.primary.main,
+              '&:hover': {
+                backgroundColor: theme.palette.primary.main,
+              },
+            }}
           >
             {action}
           </Button>
-          <span style={{
-            display: 'flex', justifyContent: 'center', alignItems: 'center' , width: '100%',
-            visibility: action==='Login' ? 'visible' : 'hidden'
-          }}>
-            Need an account?&nbsp; 
-            <a id='link' href='#' onClick={(e) => handleSignUp(e)}>Sign Up</a>
-          {/* <Button
-            onClick={(e) => handleSignUp(e)}
-            variant="text"
-            size='small'
-            sx={{ mt: 3, mb: 2, color: theme.palette.primary.dark, border: .8 }}
+          <span
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              width: '100%',
+              visibility: action === 'Login' ? 'visible' : 'hidden',
+            }}
           >
-            Sign Up
-          </Button> */}
+            Need an account?&nbsp;
+            <a id="link" href="#" onClick={(e) => handleSignUp(e)}>
+              Sign Up
+            </a>
           </span>
         </div>
       </Box>

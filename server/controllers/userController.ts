@@ -22,6 +22,7 @@ const userController: any = {
       //const { username, password, ARN } = req.body;
       const username: string = req.body.username;
       const password: string = req.body.password;
+      const region: string = req.body.region;
       const ARN: string = req.body.ARN;
       try {
         // check if username already exists in DB
@@ -45,8 +46,9 @@ const userController: any = {
           }
           // insert into db using user, hash and arn
           try {
-            await User.create({username: username, password: hashedPassword, ARN: ARN})
+            await User.create({username: username, password: hashedPassword, ARN: ARN, region: region})
             res.locals.username = username;
+            res.locals.region = region;
             res.locals.ARN = ARN;
             return next();
           } catch(err) {
@@ -94,6 +96,7 @@ const userController: any = {
           }
           res.locals.username = username;
           res.locals.ARN = user.ARN;
+          res.locals.region = user.region;
           // return next
           return next();
         } catch (err) {
@@ -109,7 +112,8 @@ const userController: any = {
       try {
         // pull user off res.locals
         const username: string = res.locals.username;
-        const ARN: string = res.locals.ARN
+        const ARN: string = res.locals.ARN;
+        const region: string = res.locals.region;
         // find user in db
         const user = await User.findOne({username: username}) as IUser;
         // use jwt.sign on user obj with secret env key
@@ -123,6 +127,7 @@ const userController: any = {
         })
         // create cookie with arn 
         await res.cookie('ARN', ARN);
+        await res.cookie('region', region);
         // give this an expiration to persist session?
         // ex. delete when they logout
         // and delete after an hour
@@ -152,8 +157,10 @@ const userController: any = {
   
     deleteToken: (req: Request, res: Response, next: NextFunction): void => {
       try {
-        // use res.clearCookie to delete both cookies
+        // use res.clearCookie to delete all cookies
         res.clearCookie('token');
+        res.clearCookie('ARN');
+        res.clearCookie('region');
         return next();
       } catch (err) {
         console.log(err);
