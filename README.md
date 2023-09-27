@@ -13,8 +13,8 @@
 ![image](https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/5e25d4e4-dbc5-4667-8721-c23ce76fe600)
 ![image](https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/b270f1ae-79f4-4c6d-a2c7-1dbf7342008e)
 ![image](https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/9a2a204b-c276-4ada-94fa-a9ec35062b10)
-![image](https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/4963c2d6-fa49-43a1-9d83-fdea0822eb9d)
 ![image](https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/d636b736-1f70-4860-965b-3ab6627d7d27)
+![image](https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/4963c2d6-fa49-43a1-9d83-fdea0822eb9d)
 ![image](https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/982f9d6e-cf86-4ce6-b1ff-bee89edb2fa6)
 
 <p align="center"><strong>Web dashboard for managing AWS Lambda functions and layers</strong></p>
