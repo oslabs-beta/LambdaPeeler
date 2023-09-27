@@ -36,6 +36,7 @@ Lambda Peeler is a web-based dashboard tailored for AWS Lambda developers. It is
 **Direct AWS Integration**: Leveraging the AWS SDK, Lambda Peeler is deeply integrated with AWS services. This ensures real-time operations and a seamless user experience.  
 
 ## Demo
+**Please note that lambda functions must have at least one shareable test event in order to connect via our dashboard**
 **Connecting**
 ![Connect2](https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/8159a173-0024-4f7b-b315-5e710203128f)        
 **Removing**
@@ -44,7 +45,26 @@ Lambda Peeler is a web-based dashboard tailored for AWS Lambda developers. It is
 ![Failed](https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/ab1706a9-82e4-4660-89ef-5e51093543ba)    
 
 ## Connecting to our App
-1. Navigate to your IAM dashboard on your AWS account.
+1. Navigate to your IAM dashboard on your AWS account and create a new role.
+![img1](https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/fcc97b75-2fd7-41a8-a328-6c9d5ff75ba9)
+
+2. Select AWS Account as the trusted entity and enter our tool's ARN number: 524403604286.
+![img2](https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/200c84c7-7767-4d9c-ba68-aa495edf907c)
+
+3. When add permissions, make sure to add AmazonEventBridgeSchemasFullAccess and AWSLambda_FullAccess. Your permissions should end up looking like this when you are finalizing the role.
+![img3](https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/d2d2cc54-47db-4d38-8eaa-774fa66e001f)
+
+4. The role name has to be OSPTool.
+![img4](https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/370fd6ee-ca1b-4178-8d33-dda603c6beee)
+
+5. Click on OSPTool under roles and copy the ARN number.
+![img6](https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/eadb46d5-ee24-497b-b42b-e85b0b2d78ed)
+
+6. Your trust relationships under your OSPTool role should also look like this.
+![img5](https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/15767a90-c054-4502-8cba-d4ca0e421859)
+
+7. Head over to our website and sign up by entering your ARN number as well as the region of your AWS account.
+![Screenshot 2023-09-27 at 11 44 49 AM](https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/23a6580a-aff6-4917-a61a-b9467e7dcb16)
 
 ## Contributing
 Contributions are the foundation of the Open Source Community, fostering an environment where developers can openly share, collaborate, and ignite inspiration! Your contributions, whatever you decide to offer, are deeply valued and welcomed. Please create a fork of the dev branch and create a feature branch on your own repo. Make all pull request from your feature branch into LambdaPeeler's dev branch. Also feel free to open an issue!
