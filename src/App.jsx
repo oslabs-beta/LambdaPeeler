@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import Main from './components/Main.jsx';
+import Main from './components/MainDisplay.jsx';
 import Login from './components/Login.jsx';
 import Splash from './components/Splash.jsx';
 import NotificationContainer from './containers/NotificationContainer.jsx';
