@@ -21,7 +21,7 @@ const PORT = process.env.PORT || 3000;
 
 // CORS
 const cors = require('cors'); 
-app.use(cors({ origin: 'https://personal-lambda-peeler.vercel.app/', credentials: true }));
+app.use(cors({ origin: 'https://personal-lambda-peeler.vercel.app/', methods: ["POST", "GET"], credentials: true }));
 // app.use(cors());
 
 
