@@ -57,7 +57,7 @@ Lambda Peeler is a web-based dashboard tailored for AWS Lambda developers. It is
 2. Select AWS Account as the trusted entity and enter our tool's ARN number: 524403604286.
 ![img2](https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/200c84c7-7767-4d9c-ba68-aa495edf907c)
 
-3. When add permissions, make sure to add AmazonEventBridgeSchemasFullAccess and AWSLambda_FullAccess. Your permissions should end up looking like this when you are finalizing the role.
+3. When adding permissions, make sure to add AmazonEventBridgeSchemasFullAccess and AWSLambda_FullAccess. Your permissions should end up looking like this when you are finalizing the role.
 ![img3](https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/d2d2cc54-47db-4d38-8eaa-774fa66e001f)
 
 4. The role name has to be OSPTool.
