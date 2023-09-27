@@ -26,8 +26,8 @@ app.use(cors({ origin: 'https://lambda-peeler.onrender.com/', methods: ["POST", 
 
 
 // // app.use(express.static('assets'));
-// app.use(express.static(path.join(__dirname, '../dist')));
-app.use('/assets', express.static(path.join(__dirname, '../public/assets')));
+app.use(express.static(path.join(__dirname, '../dist')));
+// app.use('/assets', express.static(path.join(__dirname, '../public/assets')));
 
 app.use(cookieParser());
 app.use(express.json()); // for parsing application/json
