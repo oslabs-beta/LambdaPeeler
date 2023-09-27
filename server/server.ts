@@ -41,7 +41,7 @@ app.use(express.urlencoded({ extended: true })); // for parsing application/x-ww
 //   app.locals.ARN = ARN;
 //   next();
 // });
-app.use('/favicon.ico', (req, res) => {
+app.get('/favicon.ico', (req, res) => {
   res.status(401);
 })
 app.use('/layers', layerRouter);
