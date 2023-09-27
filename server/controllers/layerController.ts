@@ -178,7 +178,7 @@ removeFunction: async (req: Request, res: Response, next: NextFunction): Promise
     const input = { FunctionName: functionName };
     // gets info about a specific function
     const getFunctionCommand = new GetFunctionCommand(input);
-    console.log('getFunctionCommand: ', getFunctionCommand);
+
     const { Configuration } = await lambdaClient.send(getFunctionCommand);
 
     // remove the layer from the Layers array by ARN and store it into const newArray
