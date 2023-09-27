@@ -24,7 +24,7 @@ const Display = ({ setActiveTab, activeTab }) => {
   useEffect(() => {
     //get to layerRouter.js
     axios
-      .get('http://localhost:3000/api/layers/list', {
+      .get('https://lambda-peeler.onrender.com/api/layers/list', {
         withCredentials: true,
       })
       .then((response) => {
@@ -38,7 +38,7 @@ const Display = ({ setActiveTab, activeTab }) => {
 
     //get to functionRouter.js
     axios
-      .get('http://localhost:3000/api/functions/list', {
+      .get('https://lambda-peeler.onrender.com/api/functions/list', {
         withCredentials: true,
       })
       .then((response) => {

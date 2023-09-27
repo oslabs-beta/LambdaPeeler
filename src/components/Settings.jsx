@@ -50,7 +50,7 @@ const Settings = () => {
     const input = {[operation]: value}
     try {
       console.log(input)
-      await axios.patch('http://localhost:3000/api/user/changeinfo', input, {withCredentials: true});
+      await axios.patch('https://lambda-peeler.onrender.com/api/user/changeinfo', input, {withCredentials: true});
       console.log('Update successful')
     } catch(err) {
       console.log(err);

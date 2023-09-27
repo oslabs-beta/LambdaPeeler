@@ -21,7 +21,7 @@ const LinkedFunctions = ({
     setIsLoading(true);
     try {
       const result = await axios.post(
-        'http://localhost:3000/api/layers/remove',
+        'https://lambda-peeler.onrender.com/api/layers/remove',
         { ARN: ARN, functionName: functionName, layerName: layerName },
         {
           withCredentials: true, 
