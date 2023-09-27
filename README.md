@@ -24,6 +24,7 @@ Lambda Peeler is a web-based dashboard tailored for AWS Lambda developers. It is
 - [Demo](#demo)
 - [Connecting to our App](#connecting-to-our-app)
 - [Contributing](#contributing)
+- [License](#license)
 - [Authors](#authors)
 ## Features
 **Bulk Operations**: Time is of the essence. And Lambda Peeler understands that. Perform bulk connections and disconnections without a hitch, and with the assurance of compatibility.  
@@ -54,6 +55,9 @@ Contributions are the foundation of the Open Source Community, fostering an envi
 - The ability for users to see information about their layers on our dashboard such as dependecies and runtime enviroment
 
 If there you have any questions or need help troubleshooting, please feel free to reach out on <a href="https://www.linkedin.com/in/lambda-peeler/"> Linkedin! </a>
+
+## License
+LambdaPeeler is licensed under the MIT License. See LICENSE.md for more details.
 
 ## Authors
 <div align="center">
