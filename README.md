@@ -49,13 +49,14 @@ Lambda Peeler is a web-based dashboard tailored for AWS Lambda developers. It is
 Contributions are the foundation of the Open Source Community, fostering an environment where developers can openly share, collaborate, and ignite inspiration! Your contributions, whatever you decide to offer, are deeply valued and welcomed. Please create a fork of the dev branch and create a feature branch on your own repo. Please make all pull request from your feature branch into LambdaPeeler's dev branch. Also feel free to open an issue!
 
 **Features to Add**
-- Users can currently connect functions to layers on the layers tab but not the other way around on the functoins tab
+- Users can currently connect functions to layers on the layers tab but not the other way around on the functions tab
 - We would like to move any unused layers to a separate log in order to reduce clutter on the dashboard
 - The ability for users to see information about their layers on our dashboard such as dependecies and runtime enviroment
 
 If there you have any questions or need help troubleshooting, please feel free to reach out on <a href="https://www.linkedin.com/in/lambda-peeler/"> Linkedin! </a>
 
 ## Authors
+<div align="center">
 <table>
     <tr>
         <td align="center">
@@ -112,3 +113,4 @@ If there you have any questions or need help troubleshooting, please feel free t
         </td>
     </tr>
 </table>
+</div>
