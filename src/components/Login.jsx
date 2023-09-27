@@ -29,7 +29,7 @@ const Login = ({ setIsLoggedIn }) => {
     // signup functionality here
     try {
       const result = await axios.post(
-        'http://localhost:3000/api/user/login',
+        'https://personal-lambda-peeler.vercel.app/api/user/login',
         { username: username, password: password, ARN: ARN },
         {
           withCredentials: true,
