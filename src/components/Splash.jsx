@@ -31,7 +31,7 @@ const Splash = () => {
             <div style={{ display: 'flex', gap: '2em' }}>
               <RouterLink to="/">Home</RouterLink>
               <a href="https://github.com/oslabs-beta/LambdaPeeler">Docs</a>
-              <RouterLink to="/">Contact</RouterLink>
+              <a href="https://www.linkedin.com/in/lambda-peeler/">Contact</a>
             </div>
             <div>
               <RouterLink to="/login">Get Started</RouterLink>
