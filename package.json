@@ -4,6 +4,7 @@
   "description": "ECRI42 OSP3",
   "main": "index.js",
   "scripts": {
+    "build": "webpack",
     "test": "jest --verbose",
     "start": "concurrently \"npm run server\" \"npm run client\"",
     "server": "nodemon",
