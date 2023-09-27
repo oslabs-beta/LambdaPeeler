@@ -31,9 +31,9 @@ app.use(cookieParser());
 app.use(express.json()); // for parsing application/json
 app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 // app.use('/', express.static(path.join(__dirname, '../src')));
-// app.get('*', (req, res) => {
-//   res.sendFile(path.join(__dirname, '../build', 'index.html'));
-// });
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../build', 'index.html'));
+});
 
 // grab arn from cookies to use for connection in middleware
 // app.use((req: Request, res: Response, next: NextFunction) => {
