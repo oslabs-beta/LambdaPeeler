@@ -1,7 +1,6 @@
 {
   "rewrites": [
     { "source": "/api/:path(.*)", "destination": "https://personal-lambda-peeler.vercel.app/api/:path" }
-
   ],
   "headers": [
     {
