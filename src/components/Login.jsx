@@ -136,7 +136,7 @@ const Login = ({ setIsLoggedIn }) => {
         style={{
           position: 'absolute',
           left: '50%',
-          top: '32%',
+          top: '7%',
           transform: 'translate(-50%, -50%)',
           color: 'red',
           visibility: message ? 'visible' : 'hidden',

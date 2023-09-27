@@ -267,7 +267,7 @@ input:checked + .slider:before {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-top: 2em;
+  padding-top: 5em;
   padding-bottom: 10em;
   gap: 15em;
 }
@@ -288,6 +288,7 @@ input:checked + .slider:before {
   align-items: center;
   width: 100%;
   padding: 5em;
+  gap: 3em;
 }
 
 #people {

@@ -110,7 +110,7 @@ const Splash = () => {
               src="/assets/nhat.jpeg"
               style={{ width: '15em', borderRadius: '15px' }}
             ></img>
-            Nhat
+            Nhat Trinh
             <div id="profileLinks">
               <IconButton href="https://www.linkedin.com/in/nhattrinh/">
                 <LinkedInIcon />
@@ -125,7 +125,7 @@ const Splash = () => {
               src="/assets/greg.jpeg"
               style={{ width: '15em', borderRadius: '15px' }}
             ></img>
-            Greg
+            Greg Osborn
             <div id="profileLinks">
               <IconButton href="https://www.linkedin.com/in/gregdosborn/">
                 <LinkedInIcon />
@@ -140,7 +140,7 @@ const Splash = () => {
               src="/assets/michael.png"
               style={{ width: '15em', borderRadius: '15px' }}
             ></img>
-            Michael
+            Michael Shand
             <div id="profileLinks">
               <IconButton href="https://www.linkedin.com/in/shand-michael/">
                 <LinkedInIcon />
@@ -155,7 +155,7 @@ const Splash = () => {
               src="/assets/zach.png"
               style={{ width: '15em', borderRadius: '15px' }}
             ></img>
-            Zach
+            Zach Hamilton
             <div id="profileLinks">
               <IconButton href="https://www.linkedin.com/in/zach-m-hamilton/">
                 <LinkedInIcon />
