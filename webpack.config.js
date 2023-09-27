@@ -2,7 +2,7 @@ const HtmlWebPackPlugin = require("html-webpack-plugin");
 const path = require('path');
 const htmlPlugin = new HtmlWebPackPlugin({
  template: "./src/index.html",
- favicon: path.resolve(__dirname, './src/assets/images/Lambda_Potato-removebg-preview.png'),
+ favicon: path.resolve(__dirname, './src/assets/Lambda_Potato-removebg-preview.png'),
  filename: "./index.html"
 });
 module.exports = {
