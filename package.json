@@ -10,7 +10,6 @@
     "server": "nodemon ./server/server.ts",
     "client": "webpack-dev-server --open --hot"
   },
-
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -75,6 +74,7 @@
     "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.1.0",
     "mongoose": "^7.5.2",
+    "npm": "^10.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.15.0",
