@@ -21,7 +21,7 @@ const PORT = 3000;
 
 // CORS
 const cors = require('cors'); 
-app.use(cors({ origin: 'http://localhost:8080', credentials: true }));
+app.use(cors({ origin: 'http://localhost:*', credentials: true }));
 // app.use(cors());
 
 
