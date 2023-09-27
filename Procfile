@@ -1,1 +1,1 @@
-web: nodemon ./serve/server.ts
+web: nodemon serve/server.ts
