@@ -53,8 +53,8 @@ Contributions are the foundation of the Open Source Community, fostering an envi
 - We would like to move any unused layers to a separate log in order to reduce clutter on the dashboard
 - The ability for users to see information about their layers on our dashboard such as dependecies and runtime enviroment
 
-If there you have any questions or need help troubleshooting, please feel free to reach out on Linkedin!
-https://codesmithecri42.slack.com/archives/C05QF6851A4/p1695826690770619
+If there you have any questions or need help troubleshooting, please feel free to reach out on <a href="https://www.linkedin.com/in/lambda-peeler/"> Linkedin! </a>
+
 ## Authors
 <table>
     <tr>
