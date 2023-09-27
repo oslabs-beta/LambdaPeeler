@@ -23,6 +23,7 @@ Lambda Peeler is a web-based dashboard tailored for AWS Lambda developers. It is
 - [Features](#features)
 - [Demo](#demo)
 - [Connecting to our App](#connecting-to-our-app)
+- [Contributing](#contributing)
 - [Authors](#authors)
 ## Features
 **Bulk Operations**: Time is of the essence. And Lambda Peeler understands that. Perform bulk connections and disconnections without a hitch, and with the assurance of compatibility.  
@@ -44,7 +45,14 @@ Lambda Peeler is a web-based dashboard tailored for AWS Lambda developers. It is
 ## Connecting to our App
 1. Navigate to your IAM dashboard on your AWS account.
 
+## Contributing
+Contributions are the foundation of the Open Source Community, fostering an environment where developers can openly share, collaborate, and ignite inspiration! Your contributions, whatever you decide to offer, are deeply valued and welcomed. Please create a fork of the dev branch and create a feature branch on your own repo. Please make all pull request from your feature branch into LambdaPeeler's dev branch. Also feel free to open an issue!
 
+**Features to Add**
+- Users can currently connect functions to layers on the layers tab but not the other way around on the functoins tab
+- We would like to move any unused layers to a separate log in order to reduce clutter on the dashboard
+- The ability for users to see information about their layers on our dashboard such as dependecies and runtime enviroment
+  
 ## Authors
 <table>
     <tr>
