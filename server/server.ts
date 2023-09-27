@@ -23,12 +23,14 @@ const PORT = 3000;
 const cors = require('cors'); 
 app.use(cors({ origin: 'http://localhost:8080', credentials: true }));
 
-app.use(express.static('assets'));
+// app.use(express.static('assets'));
+app.use(express.static(path.join(__dirname, '../dist')));
+app.use('/assets', express.static(path.join(__dirname, '../src/assets')));
 
 app.use(cookieParser());
 app.use(express.json()); // for parsing application/json
 app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
-app.use('/', express.static(path.join(__dirname, '../src')));
+// app.use('/', express.static(path.join(__dirname, '../src')));
 
 // grab arn from cookies to use for connection in middleware
 // app.use((req: Request, res: Response, next: NextFunction) => {
