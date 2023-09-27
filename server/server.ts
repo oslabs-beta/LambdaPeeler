@@ -12,6 +12,8 @@ import path from 'path';
 
 // const cookieParser = require('cookie-parser');
 import cookieParser from 'cookie-parser';
+import dotenv from 'dotenv';
+dotenv.config();
 
 
 connectDB();
@@ -31,9 +33,7 @@ app.use(cookieParser());
 app.use(express.json()); // for parsing application/json
 app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 // app.use('/', express.static(path.join(__dirname, '../src')));
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../build', 'index.html'));
-});
+
 
 // grab arn from cookies to use for connection in middleware
 // app.use((req: Request, res: Response, next: NextFunction) => {
@@ -61,6 +61,9 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   const errorObj = Object.assign({}, defaultErr, err);
   //send error message to frontend
   return res.status(errorObj.status).json(errorObj.message);
+});
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../build', 'index.html'));
 });
 
 // Start Express Server

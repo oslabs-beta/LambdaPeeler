@@ -1,5 +1,8 @@
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 const path = require('path');
+const dotenv = require('dotenv');
+dotenv.config();
+
 const htmlPlugin = new HtmlWebPackPlugin({
  template: "./src/index.html",
 //  favicon: path.resolve(__dirname, './src/assets/Lambda_Potato-removebg-preview.co'),
@@ -39,8 +42,16 @@ module.exports = {
   devServer: {
     historyApiFallback: true,
     static: {
-      publicPath: '/assets',
-      directory: path.join(__dirname, './src/assets'),
+      publicPath: '/build',
+      directory: path.join(__dirname, 'build'),
+    },
+    port: 8080,
+    open: true,
+    hot: true,
+    compress: true,
+    headers: { 'Access-Control-Allow-Origin': '*' },
+    proxy: {
+      '*': `http://localhost:3000`,
     },
   },
 
