@@ -65,8 +65,8 @@ const Splash = () => {
       </div>
       <div id="features">
         <h1>Features</h1>
-        <div class="feature">
-          <div class="featureDiscription">
+        <div className="feature">
+          <div className="featureDiscription">
             <h3>Connecting a function</h3>
             <p>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
@@ -77,8 +77,8 @@ const Splash = () => {
           </div>
           <img id="gif" src="/assets/connecting.gif"></img>
         </div>
-        <div class="feature">
-          <div class="featureDiscription">
+        <div className="feature">
+          <div className="featureDiscription">
             <h3>Removing a function</h3>
             <p>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
@@ -89,8 +89,8 @@ const Splash = () => {
           </div>
           <img id="gif" src="/assets/removing.gif"></img>
         </div>
-        <div class="feature">
-          <div class="featureDiscription">
+        <div className="feature">
+          <div className="featureDiscription">
             <h3>Failing Compatability</h3>
             <p>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
@@ -105,7 +105,7 @@ const Splash = () => {
       <div id="team">
         <h1>Meet the Team</h1>
         <div id="people">
-          <div class="person">
+          <div className="person">
             <img
               src="/assets/nhat.jpeg"
               style={{ width: '15em', borderRadius: '15px' }}
@@ -120,7 +120,7 @@ const Splash = () => {
               </IconButton>
             </div>
           </div>
-          <div class="person">
+          <div className="person">
             <img
               src="/assets/greg.jpeg"
               style={{ width: '15em', borderRadius: '15px' }}
@@ -135,7 +135,7 @@ const Splash = () => {
               </IconButton>
             </div>
           </div>
-          <div class="person">
+          <div className="person">
             <img
               src="/assets/michael.png"
               style={{ width: '15em', borderRadius: '15px' }}
@@ -150,7 +150,7 @@ const Splash = () => {
               </IconButton>
             </div>
           </div>
-          <div class="person">
+          <div className="person">
             <img
               src="/assets/zach.png"
               style={{ width: '15em', borderRadius: '15px' }}

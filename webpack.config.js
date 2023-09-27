@@ -9,40 +9,37 @@ module.exports = {
   entry: './src/index.js',
   output: {
     path: path.resolve(__dirname, 'build'),
-    publicPath: '/',
     filename: 'bundle.js',
-  },
-  module: {
-    rules: [{
-      test: /.(js|jsx)$/,
-      exclude: /node_modules/,
-      use: {
-        loader: 'babel-loader',
-        options: {
-          presets: ['@babel/preset-env', '@babel/preset-react', '@babel/preset-typescript'],
-        },
-      },
-      },
-      {
-        test: /.(ts|tsx)$/,
+},
+    module: {
+      rules: [{
+        test: /\.js$|jsx/,
         exclude: /node_modules/,
-        use: ['ts-loader']
-      },
-      {
-      test: /\.css$/,
-      use: ["style-loader", "css-loader"]
-      }
-    ]},
-  resolve: {
-    extensions: ['.js', '.jsx', '.scss', '.css', '.gif', '.ts', '.tsx'],
-  },
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env', '@babel/preset-react', '@babel/preset-typescript'],
+          },
+        },
+        },
+        {
+          test: /\.(ts|tsx)$/,
+          exclude: /node_modules/,
+          use: ['ts-loader']
+        },
+        {
+        test: /\.css$/,
+        use: ["style-loader", "css-loader"]
+        }
+      ]},
+    resolve: {
+      extensions: ['.js', '.jsx', '.scss', '.css', '.gif', '.ts', '.tsx'],
+    },
   devServer: {
-    host: '0.0.0.0',
-    port: 8080,
     historyApiFallback: true,
     static: {
-      publicPath: '/build',
-      directory: path.join(__dirname, 'build'),
+      publicPath: '/assets',
+      directory: path.join(__dirname, './src/assets'),
     },
   },
 

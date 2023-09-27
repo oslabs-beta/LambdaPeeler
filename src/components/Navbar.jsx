@@ -16,7 +16,6 @@ const Navbar = ({ setLogin, setActiveTab }) => {
     try {
       // '/logout'
       setLogin(false);
-      console.log('changed page');
       await axios.delete('http://localhost:3000/user/logout', {
         headers: {
           'Content-Type': 'application/json',

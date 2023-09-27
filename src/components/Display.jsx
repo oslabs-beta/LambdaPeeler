@@ -11,7 +11,6 @@ import { Routes, Route, useNavigate } from 'react-router-dom';
 import Settings from './Settings.jsx'
 
 const Display = ({ setActiveTab, activeTab }) => {
-  console.log(activeTab)
   //initialize state for Layers and Functions
   //active tab state determines if list of Layers or list of Functions is displayed
   const [layers, setLayers] = useState([]);
@@ -28,7 +27,6 @@ const Display = ({ setActiveTab, activeTab }) => {
     })
     .then(response => {
       //update the Layers state with data from get request
-      console.log(response.data);
       setLayers(response.data);
     })
     .catch(err => {
@@ -41,7 +39,6 @@ const Display = ({ setActiveTab, activeTab }) => {
     })
     .then(response => {
       //update the Functions state with data from get request
-      console.log('response.data.Functions: ', response.data.Functions);
       setFunctions(response.data.Functions);
     })
     .catch(err => {

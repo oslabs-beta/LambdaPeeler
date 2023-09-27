@@ -42,12 +42,10 @@ const Login = ({ setIsLoggedIn }) => {
         setIsLoggedIn(true);
         return;
       } else {
-        console.log('incorrect username or password');
         setMessage('Incorrect username or password. Try again!');
       }
     } catch (error) {
       setMessage('Incorrect username or password. Try again!');
-      console.log(message);
       console.log(error);
     }
   };
@@ -71,7 +69,6 @@ const Login = ({ setIsLoggedIn }) => {
         }
       );
       if (result.status === 200) {
-        console.log('result ok');
         setIsLoggedIn(true);
         return;
       } else {

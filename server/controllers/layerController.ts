@@ -38,7 +38,6 @@ assumeRole: async (req: Request, res: Response, next: NextFunction): Promise<voi
       //RoleArn: ARN,
       RoleSessionName: 'LayerControllerSession',
     };
-    console.log(roleToAssume)
     const command = new AssumeRoleCommand(roleToAssume);
     const { Credentials } = await stsClient.send(command);
   
@@ -52,7 +51,6 @@ assumeRole: async (req: Request, res: Response, next: NextFunction): Promise<voi
       region: req.cookies.region,
       credentials: tempCredentials,
     });
-    console.log(lambdaClient)
     next();
   }
   catch (err) {
