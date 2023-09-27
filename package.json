@@ -4,6 +4,7 @@
   "description": "ECRI42 OSP3",
   "main": "index.js",
   "scripts": {
+    "heroku-prebuild": "npm install --dev",
     "build": "webpack --config ./webpack.config.js",
     "test": "jest --verbose",
     "start": "NODE_ENV=development nodemon ./server/server.ts & webpack-dev-server --open --hot",
