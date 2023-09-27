@@ -7,7 +7,7 @@
     "build": "webpack --config ./webpack.config.js",
     "test": "jest --verbose",
     "start": "concurrently \"npm run server\" \"npm run client\"",
-    "server": "nodemon",
+    "server": "nodemon server/server.ts",
     "client": "webpack serve --config webpack.config.js"
   },
   "keywords": [],
