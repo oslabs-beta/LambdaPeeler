@@ -59,6 +59,8 @@ module.exports = {
     },
   },
 
+  //sdsd
+  
   plugins: [
     new HtmlWebPackPlugin({
       favicon: path.resolve(__dirname, './src/assets/Lambda_Potato-removebg-preview.ico'),
