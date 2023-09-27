@@ -41,8 +41,8 @@ module.exports = {
     port: 8080,
     historyApiFallback: true,
     static: {
-      publicPath: '/assets',
-      directory: path.join(__dirname, './src/assets'),
+      publicPath: '/build',
+      directory: path.join(__dirname, 'build'),
     },
   },
 
