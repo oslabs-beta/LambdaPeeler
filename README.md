@@ -36,7 +36,11 @@ Lambda Peeler is a web-based dashboard tailored for AWS Lambda developers. It is
 **Direct AWS Integration**: Leveraging the AWS SDK, Lambda Peeler is deeply integrated with AWS services. This ensures real-time operations and a seamless user experience.  
 
 ## Demo
-**Please note that lambda functions must have at least one shareable test event in order to connect via our dashboard**
+**Please note that lambda functions must have at least one shareable test event in order to connect via our dashboard**  
+
+**How to Make a Shareable Test**  
+![Sep-27-2023 11-55-21](https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/7ba6bd04-fc74-4bc0-8899-741aca452af0)
+
 **Connecting**
 ![Connect2](https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/8159a173-0024-4f7b-b315-5e710203128f)        
 **Removing**
