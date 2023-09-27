@@ -6,10 +6,11 @@
   "scripts": {
     "build": "webpack --config ./webpack.config.js",
     "test": "jest --verbose",
-    "start": "nodemon ./server/server.ts & webpack-dev-server --open --hot",
+    "start:dev": "NODE_ENV=development nodemon ./server/server.ts & webpack-dev-server --open --hot",
     "server": "nodemon ./server/server.ts",
-    "client": "webpack-dev-server --open --hot"
+    "start": "webpack-dev-server --open --hot"
   },
+
   "keywords": [],
   "author": "",
   "license": "ISC",
