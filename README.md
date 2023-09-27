@@ -36,19 +36,19 @@ Lambda Peeler is a web-based dashboard tailored for AWS Lambda developers. It is
 **Direct AWS Integration**: Leveraging the AWS SDK, Lambda Peeler is deeply integrated with AWS services. This ensures real-time operations and a seamless user experience.  
 
 ## Demo
-**Please note that Lambda functions must have at least one shareable test event in order to connect via our dashboard!**  
-
-**How to Make a Shareable Test**  
-![Sep-27-2023 11-55-21](https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/7ba6bd04-fc74-4bc0-8899-741aca452af0)
-
 **Connecting a function to a layer**  
 ![Connect2](https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/8159a173-0024-4f7b-b315-5e710203128f)  
 
 **Removing a function from a layer**  
 ![RemoveGif](https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/532bfef1-75f4-4843-ab00-d3eb4f60edf0)  
 
-**Failed Compatability**  
+**Failed Compatibility**  
 ![Failed](https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/ab1706a9-82e4-4660-89ef-5e51093543ba)    
+
+**Please note that Lambda functions must have at least one shareable test event in order to connect via our dashboard!**  
+
+**How to Make a Shareable Test**  
+![Sep-27-2023 11-55-21](https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/7ba6bd04-fc74-4bc0-8899-741aca452af0)
 
 ## Connecting to our App
 1. Navigate to your IAM dashboard on your AWS account and create a new role.
@@ -73,7 +73,7 @@ Lambda Peeler is a web-based dashboard tailored for AWS Lambda developers. It is
 ![Screenshot 2023-09-27 at 11 44 49 AM](https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/23a6580a-aff6-4917-a61a-b9467e7dcb16)
 
 ## Contributing
-Contributions are the foundation of the Open Source Community, fostering an environment where developers can openly share, collaborate, and ignite inspiration! Your contributions, whatever you decide to offer, are deeply valued and welcomed. Please create a fork of the dev branch and create a feature branch on your own repo. Make all pull request from your feature branch into LambdaPeeler's dev branch. Also feel free to open an issue!
+Contributions are the foundation of the Open Source Community, fostering an environment where developers can openly share, collaborate, and ignite inspiration! Your contributions, whatever you decide to offer, are deeply valued and welcomed. Please create a fork of the dev branch and create a feature branch on your own repo. Make all pull requests from your feature branch into LambdaPeeler's dev branch. Also, feel free to open an issue!
 
 **Features to Add**
 - Users can currently connect functions to layers on the layers tab but not the other way around on the functions tab
