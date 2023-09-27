@@ -42,18 +42,27 @@ module.exports = {
   devServer: {
     historyApiFallback: true,
     static: {
-      publicPath: '/build',
+      publicPath: '/',
       directory: path.join(__dirname, 'build'),
     },
+    host: '0.0.0.0',
     port: 8080,
     open: true,
     hot: true,
     compress: true,
     headers: { 'Access-Control-Allow-Origin': '*' },
     proxy: {
-      '*': `http://localhost:3000`,
+      '/**':{
+        target: `http://localhost:3000`,
+        secure: false
+      }
     },
   },
 
-  plugins: [htmlPlugin]
+  plugins: [
+    new HtmlWebPackPlugin({
+      favicon: path.resolve(__dirname, './src/assets/Lambda_Potato-removebg-preview.ico'),
+      template: './src/index.html'
+    })
+  ]
 };
