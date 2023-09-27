@@ -17,7 +17,7 @@ import cookieParser from 'cookie-parser';
 connectDB();
 // Initialize Express
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 // CORS
 const cors = require('cors'); 
