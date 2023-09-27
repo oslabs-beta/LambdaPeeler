@@ -42,7 +42,7 @@ app.use(express.urlencoded({ extended: true })); // for parsing application/x-ww
 //   next();
 // });
 app.get('/favicon.ico', (req, res) => {
-  res.status(401);
+  return res.status(401);
 })
 app.use('/layers', layerRouter);
 app.use('/functions', functionRouter);
