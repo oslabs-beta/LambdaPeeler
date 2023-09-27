@@ -12,7 +12,6 @@
 ![image](https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/b270f1ae-79f4-4c6d-a2c7-1dbf7342008e)
 ![image](https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/ccd77e55-0399-4d4a-b41f-41f369774f7a)
 ![image](https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/8c57c3c0-ed7d-495c-8c8e-1f229c817a7b)
-![image](https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/d636b736-1f70-4860-965b-3ab6627d7d27)
 ![image](https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/4963c2d6-fa49-43a1-9d83-fdea0822eb9d)
 ![image](https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/0a86a0f5-18bc-403c-9bf1-ba281edbe033)
 ![image](https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/982f9d6e-cf86-4ce6-b1ff-bee89edb2fa6)
