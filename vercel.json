@@ -1,16 +1,4 @@
 {
-  "version": 2,
-  "builds": [
-    { "src": "src", "use": "@vercel/static" },
-    { "src": "server", "use": "@vercel/node" }
-  ],
-  "routes": [
-    { "src": "/api/(.*)", "dest": "server/$1" },
-    { "src": "/(.*)", "dest": "src/$1" }
-  ],
-  "rewrites": [
-    { "source": "/(.*)", "destination": "/" }
-  ],
   "headers": [
     {
       "source": "/(.*)",
