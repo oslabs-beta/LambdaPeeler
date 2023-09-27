@@ -21,11 +21,11 @@ const PORT = process.env.PORT || 3000;
 
 // CORS
 const cors = require('cors'); 
-app.use(cors({ origin: 'https://personal-lambda-peeler.vercel.app/', methods: ["POST", "GET"], credentials: true }));
+app.use(cors({ origin: 'https://lambda-peeler.onrender.com/', methods: ["POST", "GET"], credentials: true }));
 // app.use(cors());
 
 
-// app.use(express.static('assets'));
+// // app.use(express.static('assets'));
 // app.use(express.static(path.join(__dirname, '../dist')));
 app.use('/assets', express.static(path.join(__dirname, '../public/assets')));
 
