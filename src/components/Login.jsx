@@ -71,7 +71,6 @@ const Login = ({ setIsLoggedIn }) => {
         }
       );
       if (result.status === 200) {
-        console.log('result ok');
         setIsLoggedIn(true);
         return;
       } else {

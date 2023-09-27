@@ -16,7 +16,6 @@ const Navbar = ({ setLogin, setActiveTab }) => {
     try {
       // '/logout'
       setLogin(false);
-      console.log('changed page');
       await axios.delete('https://lambda-peeler.onrender.com/api/user/logout', {
         headers: {
           'Content-Type': 'application/json',

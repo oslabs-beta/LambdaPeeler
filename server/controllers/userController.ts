@@ -219,7 +219,6 @@ const userController: any = {
     },
     
     changeInfo: async(req: Request, res: Response, next: NextFunction) => {
-      console.log('inside changeInfo')
       try{
         const updateInfo = req.body;
         const ARN: string = req.cookies['ARN'];

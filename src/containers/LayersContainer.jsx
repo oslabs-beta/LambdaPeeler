@@ -2,7 +2,6 @@ import React from 'react';
 import Layer from '../components/Layer.jsx';
 
 const LayersContainer = ({ data, lambda }) => {
-  console.log('layers container');
   return (
     // map the array of layers to individual Layer components
     // functions/lambda is the array of all functions coming from Display
