@@ -1,7 +1,10 @@
 import React from 'react';
-import { AppBar, Icon, Toolbar } from '@mui/material';
+import { AppBar, IconButton, Toolbar } from '@mui/material';
+import Link from '@mui/material/Link';
 import EastIcon from '@mui/icons-material/East';
-import { Link } from 'react-router-dom';
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
+import GitHubIcon from '@mui/icons-material/GitHub';
+import { Link as RouterLink } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
 
 const Splash = () => {
@@ -15,7 +18,6 @@ const Splash = () => {
         sx={{
           backgroundColor: 'primary.main',
           top: 0,
-          left: 0,
         }}
       >
         <Toolbar>
@@ -27,12 +29,12 @@ const Splash = () => {
             }}
           >
             <div style={{ display: 'flex', gap: '2em' }}>
-              <Link to="/">Home</Link>
+              <RouterLink to="/">Home</RouterLink>
               <a href="https://github.com/oslabs-beta/LambdaPeeler">Docs</a>
-              <Link to="/">Contact</Link>
+              <RouterLink to="/">Contact</RouterLink>
             </div>
             <div>
-              <Link to="/login">Login/Signup</Link>
+              <RouterLink to="/login">Get Started</RouterLink>
             </div>
           </div>
         </Toolbar>
@@ -101,12 +103,68 @@ const Splash = () => {
         </div>
       </div>
       <div id="team">
-        <h1>Meet the team</h1>
+        <h1>Meet the Team</h1>
         <div id="people">
-          <div class="person">Nhat</div>
-          <div class="person">Greg</div>
-          <div class="person">Michael</div>
-          <div class="person">Zach</div>
+          <div class="person">
+            <img
+              src="/assets/nhat.jpeg"
+              style={{ width: '15em', borderRadius: '15px' }}
+            ></img>
+            Nhat
+            <div id="profileLinks">
+              <IconButton href="https://www.linkedin.com/in/nhattrinh/">
+                <LinkedInIcon />
+              </IconButton>
+              <IconButton href="https://github.com/Nhat-Trinh1">
+                <GitHubIcon />
+              </IconButton>
+            </div>
+          </div>
+          <div class="person">
+            <img
+              src="/assets/greg.jpeg"
+              style={{ width: '15em', borderRadius: '15px' }}
+            ></img>
+            Greg
+            <div id="profileLinks">
+              <IconButton href="https://www.linkedin.com/in/gregdosborn/">
+                <LinkedInIcon />
+              </IconButton>
+              <IconButton href="https://github.com/greg-osborn">
+                <GitHubIcon />
+              </IconButton>
+            </div>
+          </div>
+          <div class="person">
+            <img
+              src="/assets/michael.png"
+              style={{ width: '15em', borderRadius: '15px' }}
+            ></img>
+            Michael
+            <div id="profileLinks">
+              <IconButton href="https://www.linkedin.com/in/shand-michael/">
+                <LinkedInIcon />
+              </IconButton>
+              <IconButton href="https://github.com/shandie231">
+                <GitHubIcon />
+              </IconButton>
+            </div>
+          </div>
+          <div class="person">
+            <img
+              src="/assets/zach.png"
+              style={{ width: '15em', borderRadius: '15px' }}
+            ></img>
+            Zach
+            <div id="profileLinks">
+              <IconButton href="https://www.linkedin.com/in/zach-m-hamilton/">
+                <LinkedInIcon />
+              </IconButton>
+              <IconButton href="https://github.com/ZachMHamilton">
+                <GitHubIcon />
+              </IconButton>
+            </div>
+          </div>
         </div>
       </div>
     </div>

@@ -269,7 +269,7 @@ input:checked + .slider:before {
   align-items: center;
   padding-top: 2em;
   padding-bottom: 10em;
-  gap: 10em;
+  gap: 15em;
 }
 
 .featureDiscription {
@@ -287,6 +287,7 @@ input:checked + .slider:before {
   justify-content: center;
   align-items: center;
   width: 100%;
+  padding: 5em;
 }
 
 #people {
@@ -294,14 +295,19 @@ input:checked + .slider:before {
   justify-content: space-evenly;
   align-items: center;
   width: 100%;
-  gap: 3em;
 }
 
 .person {
   display: flex;
-  border: 1px solid black;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   border-radius: 5px;
   height: 15em;
   width: 15em;
   margin: 3em;
+}
+
+#profileLinks {
+  display: flex;
 }
