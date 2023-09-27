@@ -1,3 +1,0 @@
-buildCommand: npm run build
-buildEnvironment:
-  nodeVersion: 18.16.1
