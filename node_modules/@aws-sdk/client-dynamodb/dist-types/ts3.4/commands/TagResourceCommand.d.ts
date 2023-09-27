@@ -1,0 +1,33 @@
+import { EndpointParameterInstructions } from "@smithy/middleware-endpoint";
+import { Command as $Command } from "@smithy/smithy-client";
+import {
+  Handler,
+  HttpHandlerOptions as __HttpHandlerOptions,
+  MetadataBearer as __MetadataBearer,
+  MiddlewareStack,
+} from "@smithy/types";
+import {
+  DynamoDBClientResolvedConfig,
+  ServiceInputTypes,
+  ServiceOutputTypes,
+} from "../DynamoDBClient";
+import { TagResourceInput } from "../models/models_0";
+export { __MetadataBearer, $Command };
+export interface TagResourceCommandInput extends TagResourceInput {}
+export interface TagResourceCommandOutput extends __MetadataBearer {}
+export declare class TagResourceCommand extends $Command<
+  TagResourceCommandInput,
+  TagResourceCommandOutput,
+  DynamoDBClientResolvedConfig
+> {
+  readonly input: TagResourceCommandInput;
+  static getEndpointParameterInstructions(): EndpointParameterInstructions;
+  constructor(input: TagResourceCommandInput);
+  resolveMiddleware(
+    clientStack: MiddlewareStack<ServiceInputTypes, ServiceOutputTypes>,
+    configuration: DynamoDBClientResolvedConfig,
+    options?: __HttpHandlerOptions
+  ): Handler<TagResourceCommandInput, TagResourceCommandOutput>;
+  private serialize;
+  private deserialize;
+}

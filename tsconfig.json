@@ -1,0 +1,12 @@
+{
+    "compilerOptions": {
+      "moduleResolution": "node",
+      "target": "es6",
+      "jsx": "react",
+      "module": "commonJS",
+      "esModuleInterop": true,
+      "noImplicitAny": true,
+      "checkJs": false,
+    },
+    "include": ["src/**/*", "server/**/*"],
+}

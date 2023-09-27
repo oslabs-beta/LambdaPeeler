@@ -1,0 +1,35 @@
+import { EndpointParameterInstructions } from "@smithy/middleware-endpoint";
+import { Command as $Command } from "@smithy/smithy-client";
+import {
+  Handler,
+  HttpHandlerOptions as __HttpHandlerOptions,
+  MetadataBearer as __MetadataBearer,
+  MiddlewareStack,
+} from "@smithy/types";
+import {
+  DynamoDBClientResolvedConfig,
+  ServiceInputTypes,
+  ServiceOutputTypes,
+} from "../DynamoDBClient";
+import { BatchGetItemInput, BatchGetItemOutput } from "../models/models_0";
+export { __MetadataBearer, $Command };
+export interface BatchGetItemCommandInput extends BatchGetItemInput {}
+export interface BatchGetItemCommandOutput
+  extends BatchGetItemOutput,
+    __MetadataBearer {}
+export declare class BatchGetItemCommand extends $Command<
+  BatchGetItemCommandInput,
+  BatchGetItemCommandOutput,
+  DynamoDBClientResolvedConfig
+> {
+  readonly input: BatchGetItemCommandInput;
+  static getEndpointParameterInstructions(): EndpointParameterInstructions;
+  constructor(input: BatchGetItemCommandInput);
+  resolveMiddleware(
+    clientStack: MiddlewareStack<ServiceInputTypes, ServiceOutputTypes>,
+    configuration: DynamoDBClientResolvedConfig,
+    options?: __HttpHandlerOptions
+  ): Handler<BatchGetItemCommandInput, BatchGetItemCommandOutput>;
+  private serialize;
+  private deserialize;
+}

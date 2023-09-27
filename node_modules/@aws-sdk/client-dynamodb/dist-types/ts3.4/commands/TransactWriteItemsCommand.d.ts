@@ -1,0 +1,39 @@
+import { EndpointParameterInstructions } from "@smithy/middleware-endpoint";
+import { Command as $Command } from "@smithy/smithy-client";
+import {
+  Handler,
+  HttpHandlerOptions as __HttpHandlerOptions,
+  MetadataBearer as __MetadataBearer,
+  MiddlewareStack,
+} from "@smithy/types";
+import {
+  DynamoDBClientResolvedConfig,
+  ServiceInputTypes,
+  ServiceOutputTypes,
+} from "../DynamoDBClient";
+import {
+  TransactWriteItemsInput,
+  TransactWriteItemsOutput,
+} from "../models/models_0";
+export { __MetadataBearer, $Command };
+export interface TransactWriteItemsCommandInput
+  extends TransactWriteItemsInput {}
+export interface TransactWriteItemsCommandOutput
+  extends TransactWriteItemsOutput,
+    __MetadataBearer {}
+export declare class TransactWriteItemsCommand extends $Command<
+  TransactWriteItemsCommandInput,
+  TransactWriteItemsCommandOutput,
+  DynamoDBClientResolvedConfig
+> {
+  readonly input: TransactWriteItemsCommandInput;
+  static getEndpointParameterInstructions(): EndpointParameterInstructions;
+  constructor(input: TransactWriteItemsCommandInput);
+  resolveMiddleware(
+    clientStack: MiddlewareStack<ServiceInputTypes, ServiceOutputTypes>,
+    configuration: DynamoDBClientResolvedConfig,
+    options?: __HttpHandlerOptions
+  ): Handler<TransactWriteItemsCommandInput, TransactWriteItemsCommandOutput>;
+  private serialize;
+  private deserialize;
+}

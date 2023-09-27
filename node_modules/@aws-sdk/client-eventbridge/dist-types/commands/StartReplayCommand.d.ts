@@ -1,0 +1,110 @@
+import { EndpointParameterInstructions } from "@smithy/middleware-endpoint";
+import { Command as $Command } from "@smithy/smithy-client";
+import { Handler, HttpHandlerOptions as __HttpHandlerOptions, MetadataBearer as __MetadataBearer, MiddlewareStack } from "@smithy/types";
+import { EventBridgeClientResolvedConfig, ServiceInputTypes, ServiceOutputTypes } from "../EventBridgeClient";
+import { StartReplayRequest, StartReplayResponse } from "../models/models_0";
+/**
+ * @public
+ */
+export { __MetadataBearer, $Command };
+/**
+ * @public
+ *
+ * The input for {@link StartReplayCommand}.
+ */
+export interface StartReplayCommandInput extends StartReplayRequest {
+}
+/**
+ * @public
+ *
+ * The output of {@link StartReplayCommand}.
+ */
+export interface StartReplayCommandOutput extends StartReplayResponse, __MetadataBearer {
+}
+/**
+ * @public
+ * <p>Starts the specified replay. Events are not necessarily replayed in the exact same order
+ *       that they were added to the archive. A replay processes events to replay based on the time in
+ *       the event, and replays them using 1 minute intervals. If you specify an
+ *         <code>EventStartTime</code> and an <code>EventEndTime</code> that covers a 20 minute time
+ *       range, the events are replayed from the first minute of that 20 minute range first. Then the
+ *       events from the second minute are replayed. You can use <code>DescribeReplay</code> to
+ *       determine the progress of a replay. The value returned for <code>EventLastReplayedTime</code>
+ *       indicates the time within the specified time range associated with the last event
+ *       replayed.</p>
+ * @example
+ * Use a bare-bones client and the command you need to make an API call.
+ * ```javascript
+ * import { EventBridgeClient, StartReplayCommand } from "@aws-sdk/client-eventbridge"; // ES Modules import
+ * // const { EventBridgeClient, StartReplayCommand } = require("@aws-sdk/client-eventbridge"); // CommonJS import
+ * const client = new EventBridgeClient(config);
+ * const input = { // StartReplayRequest
+ *   ReplayName: "STRING_VALUE", // required
+ *   Description: "STRING_VALUE",
+ *   EventSourceArn: "STRING_VALUE", // required
+ *   EventStartTime: new Date("TIMESTAMP"), // required
+ *   EventEndTime: new Date("TIMESTAMP"), // required
+ *   Destination: { // ReplayDestination
+ *     Arn: "STRING_VALUE", // required
+ *     FilterArns: [ // ReplayDestinationFilters
+ *       "STRING_VALUE",
+ *     ],
+ *   },
+ * };
+ * const command = new StartReplayCommand(input);
+ * const response = await client.send(command);
+ * // { // StartReplayResponse
+ * //   ReplayArn: "STRING_VALUE",
+ * //   State: "STARTING" || "RUNNING" || "CANCELLING" || "COMPLETED" || "CANCELLED" || "FAILED",
+ * //   StateReason: "STRING_VALUE",
+ * //   ReplayStartTime: new Date("TIMESTAMP"),
+ * // };
+ *
+ * ```
+ *
+ * @param StartReplayCommandInput - {@link StartReplayCommandInput}
+ * @returns {@link StartReplayCommandOutput}
+ * @see {@link StartReplayCommandInput} for command's `input` shape.
+ * @see {@link StartReplayCommandOutput} for command's `response` shape.
+ * @see {@link EventBridgeClientResolvedConfig | config} for EventBridgeClient's `config` shape.
+ *
+ * @throws {@link InternalException} (server fault)
+ *  <p>This exception occurs due to unexpected causes.</p>
+ *
+ * @throws {@link InvalidEventPatternException} (client fault)
+ *  <p>The event pattern is not valid.</p>
+ *
+ * @throws {@link LimitExceededException} (client fault)
+ *  <p>The request failed because it attempted to create resource beyond the allowed service
+ *       quota.</p>
+ *
+ * @throws {@link ResourceAlreadyExistsException} (client fault)
+ *  <p>The resource you are trying to create already exists.</p>
+ *
+ * @throws {@link ResourceNotFoundException} (client fault)
+ *  <p>An entity that you specified does not exist.</p>
+ *
+ * @throws {@link EventBridgeServiceException}
+ * <p>Base exception class for all service exceptions from EventBridge service.</p>
+ *
+ */
+export declare class StartReplayCommand extends $Command<StartReplayCommandInput, StartReplayCommandOutput, EventBridgeClientResolvedConfig> {
+    readonly input: StartReplayCommandInput;
+    static getEndpointParameterInstructions(): EndpointParameterInstructions;
+    /**
+     * @public
+     */
+    constructor(input: StartReplayCommandInput);
+    /**
+     * @internal
+     */
+    resolveMiddleware(clientStack: MiddlewareStack<ServiceInputTypes, ServiceOutputTypes>, configuration: EventBridgeClientResolvedConfig, options?: __HttpHandlerOptions): Handler<StartReplayCommandInput, StartReplayCommandOutput>;
+    /**
+     * @internal
+     */
+    private serialize;
+    /**
+     * @internal
+     */
+    private deserialize;
+}
