@@ -41,7 +41,9 @@ app.get('*', (req, res) => {
 //   app.locals.ARN = ARN;
 //   next();
 // });
-
+app.use('/favicon.ico', (req, res) => {
+  res.status(401);
+})
 app.use('/layers', layerRouter);
 app.use('/functions', functionRouter);
 app.use('/user', userRouter);
