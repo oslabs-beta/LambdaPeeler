@@ -1,8 +1,16 @@
 import React, { useState } from 'react';
-import { TextField, Box, Button, IconButton } from '@mui/material';
+import {
+  TextField,
+  Box,
+  Button,
+  IconButton,
+  AppBar,
+  Toolbar,
+} from '@mui/material';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { useTheme } from '@mui/material/styles';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 const Login = ({ setIsLoggedIn }) => {
   const [username, setUser] = useState();
@@ -76,6 +84,31 @@ const Login = ({ setIsLoggedIn }) => {
 
   return (
     <div id="login">
+      <AppBar
+        position="absolute"
+        elevation={0}
+        sx={{
+          backgroundColor: 'primary.main',
+          top: 0,
+          left: 0,
+        }}
+      >
+        <Toolbar>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              width: '100%',
+            }}
+          >
+            <div style={{ display: 'flex', gap: '2em' }}>
+              <Link to="/">Home</Link>
+              <a href="https://github.com/oslabs-beta/LambdaPeeler">Docs</a>
+              <Link to="/">Contact</Link>
+            </div>
+          </div>
+        </Toolbar>
+      </AppBar>
       <div
         id="title"
         style={{
@@ -86,7 +119,7 @@ const Login = ({ setIsLoggedIn }) => {
           zIndex: 10,
         }}
       >
-        <h1>Welcome to LambdaPeeler!</h1>
+        {/* <h1>Welcome to LambdaPeeler!</h1>
         <h5
           style={{
             position: 'absolute',
@@ -97,7 +130,7 @@ const Login = ({ setIsLoggedIn }) => {
           }}
         >
           An AWS tool
-        </h5>
+        </h5> */}
       </div>
       <p
         style={{
