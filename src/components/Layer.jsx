@@ -93,7 +93,6 @@ const Layer = ({ layerName, versionNumber, ARN, functions }) => {
       } else {
         const errorArr = error.response.data;
         errorArr.forEach((message) => {
-          console.log('error message: ', message);
           alert(message);
         });
       }

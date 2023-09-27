@@ -10,46 +10,9 @@ const Settings = () => {
   const [operation, setOperation] = useState();
   const theme = useTheme();
 
-  // const changeUsername = async () => {
-  //   axios.patch('http://localhost:3000/user/changeinfo', {
-  //     username: username
-  //   })
-  //   .then(response => {
-  //     console.log(response)
-  //   })
-  //   .catch(error => {
-  //     console.log(error)
-  //   })
-  // }
-
-  // const changePassword = async () => {
-  //   axios.patch('http://localhost:3000/user/changeinfo', {
-  //     password: password
-  //   })
-  //   .then(response => {
-  //     console.log(response)
-  //   })
-  //   .catch(error => {
-  //     console.log(error)
-  //   })
-  // }
-
-  // const changeARN = async () => {
-  //   axios.patch('http://localhost:3000/user/changeinfo', {
-  //     ARN: ARN
-  //   })
-  //   .then(response => {
-  //     console.log(response)
-  //   })
-  //   .catch(error => {
-  //     console.log(error)
-  //   })
-  // }
-
   const handleUpdate = async (operation, value) => {
     const input = {[operation]: value}
     try {
-      console.log(input)
       await axios.patch('http://localhost:3000/user/changeinfo', input, {withCredentials: true});
       console.log('Update successful')
     } catch(err) {

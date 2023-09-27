@@ -85,7 +85,6 @@ const userController: any = {
           // if it doesnt match
           if (!match) {
             // return next with err message
-            console.log('no match')
             return next({
               log:
                 `Failed to login.`,
@@ -219,7 +218,6 @@ const userController: any = {
     },
     
     changeInfo: async(req: Request, res: Response, next: NextFunction) => {
-      console.log('inside changeInfo')
       try{
         const updateInfo = req.body;
         const ARN: string = req.cookies['ARN'];

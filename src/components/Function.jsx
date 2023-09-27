@@ -23,7 +23,6 @@ const Function = ({ functionName, ARN, functionLayersARN, layers}) => {
   //   LayerVersion: layer.versions[index],
   //   LayerArn: layerARN
   // }
-  console.log('layers: ', layers);
   const [associatedLayers, setAssociatedLayers] = useState([]);
   // isOpened is for the FunctionModal for each displayed Layer. true means the modal is opened, false (default) means the modal is not opened
   const [isOpened, setIsOpened] = useState(false);
@@ -49,7 +48,6 @@ const Function = ({ functionName, ARN, functionLayersARN, layers}) => {
       .then((response) => {
         // wait for response to update assocatedLayers state with the response.data
         //Response.data is an array of layer objects. Each object contains specific layer information
-        console.log('response.data000:', response.data);
         setAssociatedLayers(response.data);
       })
       .catch((err) => {
