@@ -17,20 +17,22 @@ import cookieParser from 'cookie-parser';
 connectDB();
 // Initialize Express
 const app = express();
-const port = process.env.PORT || 3000;
+const PORT = 3000;
 
 // CORS
 const cors = require('cors'); 
 app.use(cors({ origin: 'http://localhost:8080', credentials: true }));
+// app.use(cors());
+
 
 // app.use(express.static('assets'));
-app.use(express.static(path.join(__dirname, '../dist')));
-app.use('/assets', express.static(path.join(__dirname, '../src/assets')));
+// app.use(express.static(path.join(__dirname, '../dist')));
+app.use('/assets', express.static(path.join(__dirname, '../public/assets')));
 
 app.use(cookieParser());
 app.use(express.json()); // for parsing application/json
 app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
-// app.use('/', express.static(path.join(__dirname, '../src')));
+app.use('/', express.static(path.join(__dirname, '/index.html')));
 
 // grab arn from cookies to use for connection in middleware
 // app.use((req: Request, res: Response, next: NextFunction) => {
@@ -39,9 +41,9 @@ app.use(express.urlencoded({ extended: true })); // for parsing application/x-ww
 //   next();
 // });
 
-app.use('/layers', layerRouter);
-app.use('/functions', functionRouter);
-app.use('/user', userRouter);
+app.use('/api/layers', layerRouter);
+app.use('/api/functions', functionRouter);
+app.use('/api/user', userRouter);
 
 //global error handler
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {

@@ -10,7 +10,7 @@ const HistoryContainer = () => {
 
   const getHistoryLog = async () => {
     try{
-      const HistoryLog = await axios.get('http://localhost:3000/user/historylog', {
+      const HistoryLog = await axios.get('http://localhost:3000/api/user/historylog', {
         withCredentials: true,
       })
       const flippedHistoryLog = [];

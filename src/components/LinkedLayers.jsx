@@ -19,7 +19,7 @@ const LinkedLayers = ({
     setIsLoading(true);
     try {
       const result = await axios.post(
-        'http://localhost:3000/functions/remove',
+        'http://localhost:3000/api/functions/remove',
         { ARN: layerArn, LayerName: layerName, layerVersion: layerVersion, functionName: functionName },
         {
           withCredentials: true, 

@@ -35,7 +35,7 @@ const Function = ({ functionName, ARN, functionLayersARN, layers}) => {
     axios
     //post request to functionRouter.js
       .post(
-        'http://localhost:3000/functions/layers',
+        'http://localhost:3000/api/functions/layers',
         //pass Function ARN and Layers Array to backend
         { ARN: ARN,
         layers: layers },
@@ -91,7 +91,7 @@ const Function = ({ functionName, ARN, functionLayersARN, layers}) => {
     try {
       //functionality not yet set up
       const result = await axios.post(
-        'http://localhost:3000/functions/add',
+        'http://localhost:3000/api/functions/add',
         { ARN: ARN, layerArray: arrayOfCheckedLayers, FunctionName: functionName },
         {
           withCredentials: true, 
