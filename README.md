@@ -36,16 +36,18 @@ Lambda Peeler is a web-based dashboard tailored for AWS Lambda developers. It is
 **Direct AWS Integration**: Leveraging the AWS SDK, Lambda Peeler is deeply integrated with AWS services. This ensures real-time operations and a seamless user experience.  
 
 ## Demo
-**Please note that lambda functions must have at least one shareable test event in order to connect via our dashboard**  
+**Please note that Lambda functions must have at least one shareable test event in order to connect via our dashboard!**  
 
 **How to Make a Shareable Test**  
 ![Sep-27-2023 11-55-21](https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/7ba6bd04-fc74-4bc0-8899-741aca452af0)
 
-**Connecting**
-![Connect2](https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/8159a173-0024-4f7b-b315-5e710203128f)        
-**Removing**
-![RemoveGif](https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/532bfef1-75f4-4843-ab00-d3eb4f60edf0)        
-**Failed Compatability**
+**Connecting a function to a layer**  
+![Connect2](https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/8159a173-0024-4f7b-b315-5e710203128f)  
+
+**Removing a function from a layer**  
+![RemoveGif](https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/532bfef1-75f4-4843-ab00-d3eb4f60edf0)  
+
+**Failed Compatability**  
 ![Failed](https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/ab1706a9-82e4-4660-89ef-5e51093543ba)    
 
 ## Connecting to our App
