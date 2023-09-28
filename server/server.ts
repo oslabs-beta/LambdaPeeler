@@ -23,7 +23,7 @@ const PORT = process.env.PORT || 3000;
 
 // CORS
 const cors = require('cors'); 
-app.use(cors({ origin: 'http://localhost:8080', credentials: true }));
+app.use(cors());
 
 //app.use(express.static(path.join(__dirname, '../src/assets')));
 app.use(express.static(path.join(__dirname, '../build')));
