@@ -15,10 +15,11 @@ import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 dotenv.config();
 
-
+//
 connectDB();
 // Initialize Express
 const app = express();
+const PORT = process.env.PORT || 3000;
 const PORT = process.env.PORT || 3000;
 
 // app.use(function(req, res, next) {

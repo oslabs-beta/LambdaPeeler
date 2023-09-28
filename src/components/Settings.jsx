@@ -51,18 +51,6 @@ const Settings = () => {
           type="text"
           onChange={(e) => setUser(e.target.value)}
         />
-        {/* <Button
-            onClick={(e) => handleUpdate('username', username)}
-            variant="contained"
-            sx={{ width: '40%', height: '3.8em', backgroundColor: theme.palette.primary.main, '&:hover': {
-              backgroundColor: theme.palette.primary.main
-            }}}
-            
-          >
-            Update Username
-          </Button>
-          </div>
-          <div id='update'> */}
         <TextField
           id="outlined-basic2"
           label="Update Password"
@@ -71,18 +59,6 @@ const Settings = () => {
           onChange={(e) => setPassword(e.target.value)}
           sx={{width: '100%', alignSelf: 'center'}}
         />
-        {/* <Button
-            onClick={(e) => handleUpdate('password', password)}
-            variant="contained"
-            sx={{ width: '40%', height: '3.8em', backgroundColor: theme.palette.primary.main, '&:hover': {
-              backgroundColor: theme.palette.primary.main
-            }}}
-            
-          >
-            Update Password
-          </Button> */}
-          {/* </div>
-          <div id='update'> */}
             <TextField
             id="outlined-basic3"
             label="Update ARN"

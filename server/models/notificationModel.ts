@@ -27,8 +27,6 @@ const ErrorMessageSchema: Schema<IError> = new Schema({
   message: {type: String, required: true},
   ARN: {type: String, required: true},
   postDate: {type: String, default: formattedDate}
-  
-  //user: {type: String, required: true}
 });
 
 

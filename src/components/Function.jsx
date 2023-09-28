@@ -13,7 +13,7 @@ ARN(string) of Function ARN,
 functionLayersArn:(array) of Layer ARNs on functions 
 layers(Array or objects) layer data from get request in Display.js
 */
-const Function = ({ functionName, ARN, functionLayersARN, layers}) => {
+const Function = ({ functionName, ARN, functionLayersARN, layers }) => {
   // isCollapsed is tracked for each displayed Layer. true (default) means the Layer display is collapsed, false means the Layer box has expanded
   const [isCollapsed, setIsCollapsed] = useState(true);
   // associatedLayers is the state variable for tracking which layers are connected to a given Function.
@@ -32,14 +32,13 @@ const Function = ({ functionName, ARN, functionLayersARN, layers}) => {
   // post request to fetch layers that are associated with a specific function
   const fetchAssociatedLayers = async () => {
     axios
-    //post request to functionRouter.js
+      //post request to functionRouter.js
       .post(
         'https://lambdapeeler-675999984030.herokuapp.com/functions/layers',
         //pass Function ARN and Layers Array to backend
-        { ARN: ARN,
-        layers: layers },
+        { ARN: ARN, layers: layers },
         {
-          withCredentials: true, 
+          withCredentials: true,
           headers: {
             'Content-Type': 'application/json',
           },
@@ -81,7 +80,7 @@ const Function = ({ functionName, ARN, functionLayersARN, layers}) => {
     // pull form data and put into arr
     const formResponse = new FormData(event.target);
     const arrayOfCheckedLayers = [];
-    //Take keys from fromResponse and push into arrayOfCheckedLayers 
+    //Take keys from fromResponse and push into arrayOfCheckedLayers
     //arrayOfCheckedLayers will be sent to backend
     for (const key of formResponse.keys()) {
       arrayOfCheckedLayers.push(key);
@@ -92,7 +91,7 @@ const Function = ({ functionName, ARN, functionLayersARN, layers}) => {
         'https://lambdapeeler-675999984030.herokuapp.com/functions/add',
         { ARN: ARN, layerArray: arrayOfCheckedLayers, FunctionName: functionName },
         {
-          withCredentials: true, 
+          withCredentials: true,
           headers: {
             'Content-Type': 'application/json',
           },
@@ -123,15 +122,19 @@ const Function = ({ functionName, ARN, functionLayersARN, layers}) => {
   };
 
   return (
-    <div className='function'>
+    <div className="function">
       {/* make button to open/close layer information */}
-      <button className="collapsible" onClick={() => setIsCollapsed(!isCollapsed)}>
-      <span> {' '} 
-      {/* Display Each function name and ARN inside the button */}
-        Function: {functionName}
-        <br></br>
-        ARN: {ARN} 
-      </span>
+      <button
+        className="collapsible"
+        onClick={() => setIsCollapsed(!isCollapsed)}
+      >
+        <span>
+          {' '}
+          {/* Display Each function name and ARN inside the button */}
+          Function: {functionName}
+          <br></br>
+          ARN: {ARN}
+        </span>
       </button>
       {/* When button is clicked isCollapsed state changes - 
       display layer information in dropdown  */}
@@ -140,32 +143,31 @@ const Function = ({ functionName, ARN, functionLayersARN, layers}) => {
           <h3>Layers</h3>
           {isLoading && (
             <div
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
-          >
-            {/* loading animation */}
-            <CircularProgress
-              sx={{
-                zIndex: 10,
-                position: 'absolute',
-                transform: 'translate(-50%, -50%)',
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
               }}
-            />
-          </div>
+            >
+              {/* loading animation */}
+              <CircularProgress
+                sx={{
+                  zIndex: 10,
+                  position: 'absolute',
+                  transform: 'translate(-50%, -50%)',
+                }}
+              />
+            </div>
           )}
           {/* iterate through associatedLayers array */}
           {associatedLayers.map((element) => (
-            
             <div id={functionName + element.LayerName + '_div'}>
               {/* Pass data to LinkedLayers to display details */}
-              <LinkedLayers 
-                key = {functionName + element.LayerName}
-                layerName ={element.LayerName}
+              <LinkedLayers
+                key={functionName + element.LayerName}
+                layerName={element.LayerName}
                 layerVersion={element.LayerVersion}
-                layerArn = {element.LayerArn}
+                layerArn={element.LayerArn}
                 fetch={fetchAssociatedLayers}
                 isLoading={isLoading}
                 setIsLoading={setIsLoading}
@@ -174,14 +176,11 @@ const Function = ({ functionName, ARN, functionLayersARN, layers}) => {
             </div>
           ))}
           {/* Renders a Box component from MUI that will contain the "add function" function*/}
-          <Box sx={{
-            pl: 2.5,
-          }}>
-          {/* <Tooltip title='Add Layer' placement="top" arrow>
-            <IconButton aria-label="add" onClick={() => openModal()}>
-              <LibraryAddIcon fontSize='medium' color='info'/>
-            </IconButton>
-          </Tooltip>  */}
+          <Box
+            sx={{
+              pl: 2.5,
+            }}
+          >
           </Box>
           {/* When add function on the layer tab is clicked, a modal of all functions will pop up*/}
           <LayerModal
@@ -191,11 +190,10 @@ const Function = ({ functionName, ARN, functionLayersARN, layers}) => {
             onSubmit={linkLayers}
             isLoading={isLoading}
           />
-      </div>
+        </div>
       )}
     </div>
-    )
-}
+  );
+};
 
 export default Function;
-

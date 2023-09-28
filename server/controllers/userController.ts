@@ -25,19 +25,6 @@ const userController: any = {
       const region: string = req.body.region;
       const ARN: string = req.body.ARN;
       try {
-        // check if username already exists in DB
-        // User.findOne({username: username})
-        // .then(obj => {
-        //   // if so, pause and then notify the user
-        //   if(obj) {
-        //     setTimeout(() => {
-        //       // TODO: notify user that username is taken
-        //       return next({
-        //         error: 'An account with this username already exists.'
-        //       });
-        //     }, 500);
-        //   }
-        // })
         // use bcrypt.hash to hash password
         bcrypt.hash(password, saltRounds, async (err, hashedPassword) => {
           if (err) {
@@ -183,7 +170,6 @@ const userController: any = {
             message: 'Failed to retrieve notifications'
           })
         } else {
-          //notifications.push(notificationLog.message, )
           res.locals.notificationLog = notificationLog;
           return next()
         };
@@ -242,7 +228,6 @@ const userController: any = {
       });
       }
     }
-    //deleteUser: async()
     
 };
 

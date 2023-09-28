@@ -196,13 +196,6 @@ removeFunction: async (req: Request, res: Response, next: NextFunction): Promise
 
     return next();
   } catch (err) {
-    // return next({
-    //   log:
-    //     `Failed to remove function from layer. Error: ${err}`,
-    //   status: 500,
-    //   //basic message to user
-    //   message: {err: 'Failed to remove function from layer'},
-    // })
     res.status(500).json({ error: 'Failed to remove function from layer' });
   }
 },
@@ -231,9 +224,7 @@ addFunction: async (req: Request, res: Response, next: NextFunction) => {
         newArray = Configuration.Layers;
       }
       // add this layer ARN to the current Layers array
-      //if (!newArray.includes({ Arn: ARN})) {
         newArray.push({ Arn: ARN });
-      //}
 
       // send the updated Layers array to AWS
       const updateFunctionConfigurationInput = {

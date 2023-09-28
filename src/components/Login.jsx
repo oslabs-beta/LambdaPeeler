@@ -25,6 +25,7 @@ const Login = ({ setIsLoggedIn }) => {
   const handleLogin = async (e) => {
     if (signUp) {
       handleSignUp();
+      return;
     }
     // signup functionality here
     try {
@@ -116,18 +117,6 @@ const Login = ({ setIsLoggedIn }) => {
           zIndex: 10,
         }}
       >
-        {/* <h1>Welcome to LambdaPeeler!</h1>
-        <h5
-          style={{
-            position: 'absolute',
-            left: '10%',
-            top: '65%',
-            transform: 'translate(-50%, -50%)',
-            zIndex: 10,
-          }}
-        >
-          An AWS tool
-        </h5> */}
       </div>
       <p
         style={{
@@ -143,7 +132,7 @@ const Login = ({ setIsLoggedIn }) => {
         {message}
       </p>
       <div id="imgid">
-        <img src="/assets/Lambda_Potato-removebg-preview.png"></img>
+        <img src="./assets/Lambda_Potato-removebg-preview.png"></img>
       </div>
       <Box
         component="form"
