@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 
 //connect to mongoDB - going to hide this
-const myURI = 'mongodb+srv://shandie231:peelerLambda@cluster0.nritsmb.mongodb.net/?retryWrites=true&w=majority';
+const myURI = ''; // insert MongoDB here
 
 //set uri to passed in value
 const URI = process.env.MONGO_URI || myURI;
