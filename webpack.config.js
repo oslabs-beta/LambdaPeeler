@@ -5,6 +5,7 @@ dotenv.config();
 
 const htmlPlugin = new HtmlWebPackPlugin({
  template: "./src/index.html",
+//  favicon: path.resolve(__dirname, './src/assets/Lambda_Potato-removebg-preview.co'),
  filename: "./index.html"
 });
 module.exports = {
@@ -62,9 +63,8 @@ module.exports = {
   
   plugins: [
     new HtmlWebPackPlugin({
-      favicon: path.resolve(__dirname, './src/assets/Lambda_Potato-removebg-preview.ico'),
-      template: './src/index.html'
-
+      template: "./src/index.html",
+      filename: "./index.html"
     })
   ]
 };
