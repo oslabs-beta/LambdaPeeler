@@ -29,7 +29,7 @@ const Login = ({ setIsLoggedIn }) => {
     // signup functionality here
     try {
       const result = await axios.post(
-        'https://lambdapeeler-675999984030.herokuapp.com/dashboard/user/login',
+        'https://lambdapeeler-675999984030.herokuapp.com/user/login',
         { username: username, password: password, ARN: ARN },
         {
           withCredentials: true,
@@ -59,7 +59,7 @@ const Login = ({ setIsLoggedIn }) => {
     // signup functionality here
     try {
       const result = await axios.post(
-        'https://lambdapeeler-675999984030.herokuapp.com/dashboard/user/signup',
+        'https://lambdapeeler-675999984030.herokuapp.com/user/signup',
         { username: username, password: password, ARN: ARN, region: region },
         {
           withCredentials: true,
