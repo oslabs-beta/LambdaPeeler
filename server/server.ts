@@ -12,6 +12,8 @@ import path from 'path';
 
 // const cookieParser = require('cookie-parser');
 import cookieParser from 'cookie-parser';
+import dotenv from 'dotenv';
+dotenv.config();
 
 
 connectDB();
@@ -19,9 +21,22 @@ connectDB();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// app.use(function(req, res, next) {
+//   res.header("Access-Control-Allow-Origin", "https://lambdapeeler-675999984030.herokuapp.com");
+//   res.header(
+//     "Access-Control-Allow-Headers",
+//     "Origin, X-Requested-With, Content-Type, Accept"
+//   );
+//   res.header("Access-Control-Allow-Methods", "GET,POST,PUT,PATCH,DELETE");
+//   res.header("Access-Control-Allow-Credentials", "true"); 
+//   if (req.method === "OPTIONS") {
+//     return res.sendStatus(204);
+//   }
+//   next();
+// });
 // CORS
 const cors = require('cors'); 
-app.use(cors({ origin: 'http://localhost:8080', credentials: true }));
+app.use(cors({ origin: 'https://http://localhost:3000', credentials: true }));
 
 //app.use(express.static(path.join(__dirname, '../src/assets')));
 app.use(express.static(path.join(__dirname, '../build')));
@@ -31,9 +46,7 @@ app.use(cookieParser());
 app.use(express.json()); // for parsing application/json
 app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 // app.use('/', express.static(path.join(__dirname, '../src')));
-// app.get('*', (req, res) => {
-//   res.sendFile(path.join(__dirname, '../build', 'index.html'));
-// });
+
 
 // grab arn from cookies to use for connection in middleware
 // app.use((req: Request, res: Response, next: NextFunction) => {
@@ -41,7 +54,9 @@ app.use(express.urlencoded({ extended: true })); // for parsing application/x-ww
 //   app.locals.ARN = ARN;
 //   next();
 // });
-
+app.get('/favicon.ico', (req: Request, res: Response) => {
+  return res.status(401);
+})
 app.use('/layers', layerRouter);
 app.use('/functions', functionRouter);
 app.use('/user', userRouter);
@@ -59,6 +74,9 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   const errorObj = Object.assign({}, defaultErr, err);
   //send error message to frontend
   return res.status(errorObj.status).json(errorObj.message);
+});
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../build', 'index.html'));
 });
 
 // Start Express Server

@@ -10,7 +10,7 @@ const NotificationContainer = () => {
 
   const getNotification = async () => {
     try{
-      const Notifications = await axios.get('http://localhost:3000/user/notifications', {
+      const Notifications = await axios.get('/user/notifications', {
         withCredentials: true,
       })
       const flippedNotification = [];

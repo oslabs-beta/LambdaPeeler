@@ -21,7 +21,7 @@ const LinkedFunctions = ({
     setIsLoading(true);
     try {
       const result = await axios.post(
-        'http://localhost:3000/layers/remove',
+        '/layers/remove',
         { ARN: ARN, functionName: functionName, layerName: layerName },
         {
           withCredentials: true, 

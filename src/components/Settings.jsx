@@ -13,7 +13,7 @@ const Settings = () => {
   const handleUpdate = async (operation, value) => {
     const input = {[operation]: value}
     try {
-      await axios.patch('http://localhost:3000/user/changeinfo', input, {withCredentials: true});
+      await axios.patch('/user/changeinfo', input, {withCredentials: true});
       console.log('Update successful')
     } catch(err) {
       console.log(err);

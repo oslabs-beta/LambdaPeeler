@@ -22,7 +22,7 @@ const Display = ({ setActiveTab, activeTab }) => {
   // When page first renders, updates layers state and functions state
   useEffect(() => {
       //get to layerRouter.js
-    axios.get('http://localhost:3000/layers/list', {
+    axios.get('/layers/list', {
       withCredentials: true,
     })
     .then(response => {
@@ -34,7 +34,7 @@ const Display = ({ setActiveTab, activeTab }) => {
     })
     
     //get to functionRouter.js
-    axios.get('http://localhost:3000/functions/list', {
+    axios.get('/functions/list', {
       withCredentials: true,
     })
     .then(response => {
