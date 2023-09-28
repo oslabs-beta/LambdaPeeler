@@ -48,13 +48,9 @@ const Splash = () => {
           <h1 style={{ fontSize: '4.5em' }}>LambdaPeeler</h1>
         </div>
         <p style={{ fontSize: '1.2em' }}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat. Duis aute irure dolor in
-          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-          culpa qui officia deserunt mollit anim id est laborum.
+        Lambda Peeler is a web-based dashboard tailored for AWS Lambda developers. 
+        It is meticulously designed to bridge the gap between managing Lambda functions and layers, 
+        simplifying AWS cloud operations.
         </p>
         <a
           href="https://github.com/oslabs-beta/LambdaPeeler"
@@ -69,10 +65,9 @@ const Splash = () => {
           <div className="featureDiscription">
             <h3>Connecting a function</h3>
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat.
+            Effortlessly link multiple functions through our sleek, user interface. 
+            Behind the scenes, Lambda Peeler diligently conducts assessments, ensuring runtime 
+            and dependency compatibility.
             </p>
           </div>
           <img id="gif" src="/assets/connecting.gif"></img>
@@ -81,10 +76,9 @@ const Splash = () => {
           <div className="featureDiscription">
             <h3>Removing a function</h3>
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat.
+            Seamlessly disconnect functions with just a single click. 
+            Our intuitive dashboard ensures swift and effortless layer management, streamlining your 
+            AWS Lambda experience.
             </p>
           </div>
           <img id="gif" src="/assets/removing.gif"></img>
