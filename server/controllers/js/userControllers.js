@@ -5,6 +5,8 @@
 // const jwt = require('jsonwebtoken');
 // // import db
 // const db = require('../models/userModel')
+// MUST CREATE .env FILE WITH SECRET KEY FOR JWT
+// Ex: ACCESS_TOKEN_SECRET= <key goes here>
 // // import env config
 // require('dotenv').config();
 
