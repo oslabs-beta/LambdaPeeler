@@ -53,7 +53,7 @@ module.exports = {
     headers: { 'Access-Control-Allow-Origin': '*' },
     proxy: {
       '/**':{
-        target: `http://localhost:3000`,
+        target: `https://lambdapeeler-675999984030.herokuapp.com`,
         secure: false
       }
     },
