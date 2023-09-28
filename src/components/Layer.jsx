@@ -141,7 +141,7 @@ const Layer = ({ layerName, versionNumber, ARN, functions }) => {
           {associatedFunctions.map((element, index) => (
             <div id={ARN + element + '_div'}>
               <LinkedFunctions
-                key={index}
+                key={ARN + element +index}
                 functionName={element}
                 ARN={ARN}
                 fetch={fetchAssociatedFunctions}
