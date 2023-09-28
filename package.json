@@ -8,9 +8,8 @@
     "test": "jest --verbose",
     "start:dev": "NODE_ENV=development nodemon ./server/server.ts & webpack-dev-server --open --hot",
     "server": "nodemon ./server/server.ts",
-    "start": "webpack-dev-server --open --hot"
+    "start": "NODE_ENV=production ts-node --transpile-only server/server.ts"
   },
-
   "keywords": [],
   "author": "",
   "license": "ISC",
