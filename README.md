@@ -20,6 +20,7 @@
 Lambda Peeler is a web-based dashboard tailored for AWS Lambda developers. It is meticulously designed to bridge the gap between managing Lambda functions and layers, simplifying AWS cloud operations.
 
 # Table of Contents
+- <a href="http&#58;//www.lambdapeeler.com" target="_blank" rel="noopener noreferrer">Link to Site</a>
 - [Features](#features)
 - [Demo](#demo)
 - [Connecting to our App](#connecting-to-our-app)
