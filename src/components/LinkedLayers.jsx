@@ -19,7 +19,7 @@ const LinkedLayers = ({
     setIsLoading(true);
     try {
       const result = await axios.post(
-        'https://lambdapeeler-675999984030.herokuapp.com/functions/remove',
+        '/functions/remove',
         { ARN: layerArn, LayerName: layerName, layerVersion: layerVersion, functionName: functionName },
         {
           withCredentials: true, 

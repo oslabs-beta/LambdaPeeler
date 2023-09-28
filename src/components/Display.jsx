@@ -22,7 +22,7 @@ const Display = ({ setActiveTab, activeTab }) => {
   // When page first renders, updates layers state and functions state
   useEffect(() => {
       //get to layerRouter.js
-    axios.get('https://lambdapeeler-675999984030.herokuapp.com/layers/list', {
+    axios.get('/layers/list', {
       withCredentials: true,
     })
     .then(response => {
@@ -34,7 +34,7 @@ const Display = ({ setActiveTab, activeTab }) => {
     })
     
     //get to functionRouter.js
-    axios.get('https://lambdapeeler-675999984030.herokuapp.com/functions/list', {
+    axios.get('/functions/list', {
       withCredentials: true,
     })
     .then(response => {
