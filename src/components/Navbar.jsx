@@ -16,7 +16,7 @@ const Navbar = ({ setLogin, setActiveTab }) => {
     try {
       // '/logout'
       setLogin(false);
-      await axios.delete('/user/logout', {
+      await axios.delete('https://lambdapeeler-675999984030.herokuapp.com/user/logout', {
         headers: {
           'Content-Type': 'application/json',
         },

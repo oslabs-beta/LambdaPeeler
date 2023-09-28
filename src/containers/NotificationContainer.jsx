@@ -10,7 +10,7 @@ const NotificationContainer = () => {
 
   const getNotification = async () => {
     try{
-      const Notifications = await axios.get('/user/notifications', {
+      const Notifications = await axios.get('https://lambdapeeler-675999984030.herokuapp.com/user/notifications', {
         withCredentials: true,
       })
       const flippedNotification = [];

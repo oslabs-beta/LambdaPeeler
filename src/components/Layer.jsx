@@ -21,7 +21,7 @@ const Layer = ({ layerName, versionNumber, ARN, functions }) => {
   const fetchAssociatedFunctions = async () => {
     axios
       .post(
-        '/layers/functions',
+        'https://lambdapeeler-675999984030.herokuapp.com/layers/functions',
         { ARN: ARN },
         {
           withCredentials: true, 

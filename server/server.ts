@@ -21,17 +21,22 @@ connectDB();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "https://lambdapeeler-675999984030.herokuapp.com");
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "https://lambdapeeler-675999984030.herokuapp.com");
   res.header(
     "Access-Control-Allow-Headers",
     "Origin, X-Requested-With, Content-Type, Accept"
   );
+  res.header("Access-Control-Allow-Methods", "GET,POST,PUT,PATCH,DELETE");
+  res.header("Access-Control-Allow-Credentials", "true"); 
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(204);
+  }
   next();
 });
 // CORS
 const cors = require('cors'); 
-//app.use(cors({ origin: 'https://lambdapeeler-675999984030.herokuapp.com', credentials: true }));
+app.use(cors({ origin: 'https://lambdapeeler-675999984030.herokuapp.com', credentials: true }));
 
 //app.use(express.static(path.join(__dirname, '../src/assets')));
 app.use(express.static(path.join(__dirname, '../build')));

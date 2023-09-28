@@ -10,7 +10,7 @@ const HistoryContainer = () => {
 
   const getHistoryLog = async () => {
     try{
-      const HistoryLog = await axios.get('/user/historylog', {
+      const HistoryLog = await axios.get('https://lambdapeeler-675999984030.herokuapp.com/user/historylog', {
         withCredentials: true,
       })
       const flippedHistoryLog = [];
