@@ -64,8 +64,8 @@ const Splash = () => {
       </div>
       <div id="features">
         <h1>Features</h1>
-        <div class="feature">
-          <div class="featureDiscription">
+        <div className="feature">
+          <div className="featureDiscription">
             <h2>Connecting a function</h2>
             <AddLinkIcon fontSize="large" />
             <p>
@@ -76,8 +76,8 @@ const Splash = () => {
           </div>
           <img id="gif" src="/assets/connecting.gif"></img>
         </div>
-        <div class="feature">
-          <div class="featureDiscription">
+        <div className="feature">
+          <div className="featureDiscription">
             <h2>Removing a function</h2>
             <LinkOffIcon fontSize="large" />
             <p>
@@ -88,8 +88,8 @@ const Splash = () => {
           </div>
           <img id="gif" src="/assets/removing.gif"></img>
         </div>
-        <div class="feature">
-          <div class="featureDiscription">
+        <div className="feature">
+          <div className="featureDiscription">
             <h2>Failing Compatability</h2>
             <CancelOutlinedIcon fontSize="large" />
             <p>

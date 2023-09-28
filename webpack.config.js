@@ -64,7 +64,8 @@ module.exports = {
   plugins: [
     new HtmlWebPackPlugin({
       template: "./src/index.html",
-      filename: "./index.html"
+      filename: "./index.html",
+      favicon: path.resolve(__dirname, './src/assets/Lambda_Potato-removebg-preview.ico'),
     })
   ]
 };
