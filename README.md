@@ -69,7 +69,7 @@ Lambda Peeler is a web-based dashboard tailored for AWS Lambda developers. It is
 6. Your trust relationships under your OSPTool role should also look like this.
 ![img5](https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/15767a90-c054-4502-8cba-d4ca0e421859)
 
-7. Head over to our website <a href="http&#58;//www.lambdapeeler.com">lambdapeeler.com</a> and sign up by entering your ARN number as well as the region of your AWS account.
+7. Head over to our website <a href="http&#58;//www.lambdapeeler.com" target="_blank">lambdapeeler.com</a> and sign up by entering your ARN number as well as the region of your AWS account.
 ![Screenshot 2023-09-27 at 11 44 49 AM](https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/23a6580a-aff6-4917-a61a-b9467e7dcb16)
 
 ## Contributing
@@ -94,11 +94,11 @@ LambdaPeeler is licensed under the MIT License. See LICENSE for more details.
             <br>
             Michael Shand
             <br>
-            <a href="https://github.com/shandie231">
+            <a href="https://github.com/shandie231"  target="_blank">
                 <img src="https://github-production-user-asset-6210df.s3.amazonaws.com/135868272/270130809-4c88307f-f388-4c61-b301-695526fdec0d.png" width="20" alt="GitHub">
             </a>
             <br>
-            <a href="https://www.linkedin.com/in/michael-shand-0a2924163/">
+            <a href="https://www.linkedin.com/in/michael-shand-0a2924163/"  target="_blank">
                 <img src="https://github-production-user-asset-6210df.s3.amazonaws.com/135868272/270130207-a52096b1-552d-4c57-982c-3f22023ed68a.png" width="20" alt="LinkedIn">
             </a>
         </td>
@@ -107,11 +107,11 @@ LambdaPeeler is licensed under the MIT License. See LICENSE for more details.
             <br>
             Greg Osborn
             <br>
-            <a href="https://github.com/greg-osborn">
+            <a href="https://github.com/greg-osborn"  target="_blank">
                 <img src="https://github-production-user-asset-6210df.s3.amazonaws.com/135868272/270130809-4c88307f-f388-4c61-b301-695526fdec0d.png" width="20" alt="GitHub">
             </a>
             <br>
-            <a href="https://www.linkedin.com/in/gregdosborn/">
+            <a href="https://www.linkedin.com/in/gregdosborn/"  target="_blank">
                 <img src="https://github-production-user-asset-6210df.s3.amazonaws.com/135868272/270130207-a52096b1-552d-4c57-982c-3f22023ed68a.png" width="20" alt="LinkedIn">
             </a>
         </td>
@@ -120,11 +120,11 @@ LambdaPeeler is licensed under the MIT License. See LICENSE for more details.
             <br>
             Zach Hamilton
             <br>
-            <a href="https://github.com/ZachMHamilton">
+            <a href="https://github.com/ZachMHamilton"  target="_blank">
                 <img src="https://github-production-user-asset-6210df.s3.amazonaws.com/135868272/270130809-4c88307f-f388-4c61-b301-695526fdec0d.png" width="20" alt="GitHub">
             </a>
             <br>
-            <a href="https://www.linkedin.com/in/zach-m-hamilton/">
+            <a href="https://www.linkedin.com/in/zach-m-hamilton/"  target="_blank">
                 <img src="https://github-production-user-asset-6210df.s3.amazonaws.com/135868272/270130207-a52096b1-552d-4c57-982c-3f22023ed68a.png" width="20" alt="LinkedIn">
             </a>
         </td>
@@ -133,11 +133,11 @@ LambdaPeeler is licensed under the MIT License. See LICENSE for more details.
             <br>
             Nhat Trinh
             <br>
-            <a href="https://github.com/Nhat-Trinh1">
+            <a href="https://github.com/Nhat-Trinh1"  target="_blank">
                 <img src="https://github-production-user-asset-6210df.s3.amazonaws.com/135868272/270130809-4c88307f-f388-4c61-b301-695526fdec0d.png" width="20" alt="GitHub">
             </a>
             <br>
-            <a href="https://www.linkedin.com/in/nhattrinh/">
+            <a href="https://www.linkedin.com/in/nhattrinh/" target="_blank">
                 <img src="https://github-production-user-asset-6210df.s3.amazonaws.com/135868272/270130207-a52096b1-552d-4c57-982c-3f22023ed68a.png" width="20" alt="LinkedIn">
             </a>
         </td>
