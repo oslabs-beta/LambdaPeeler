@@ -1,8 +1,10 @@
-import React from 'react';
-import { AppBar, IconButton, Toolbar } from '@mui/material';
-import Link from '@mui/material/Link';
+import React, { useState } from 'react';
+import { AppBar, IconButton, Toolbar, ThemeProvider } from '@mui/material';
 import EastIcon from '@mui/icons-material/East';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
+import AddLinkIcon from '@mui/icons-material/AddLink';
+import LinkOffIcon from '@mui/icons-material/LinkOff';
+import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import { Link as RouterLink } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
@@ -31,7 +33,7 @@ const Splash = () => {
             <div style={{ display: 'flex', gap: '2em' }}>
               <RouterLink to="/">Home</RouterLink>
               <a href="https://github.com/oslabs-beta/LambdaPeeler">Docs</a>
-              <RouterLink to="/">Contact</RouterLink>
+              <a href="https://linkedin.com/company/lambda-peeler">Contact</a>
             </div>
             <div>
               <RouterLink to="/login">Get Started</RouterLink>
@@ -45,19 +47,16 @@ const Splash = () => {
             src="/assets/Lambda_Potato-removebg-preview.png"
             style={{ width: '15em' }}
           ></img>
-          <h1 style={{ fontSize: '4.5em' }}>LambdaPeeler</h1>
+          <h1 style={{ fontSize: '4.8em' }}>LambdaPeeler</h1>
         </div>
-        <p style={{ fontSize: '1.2em' }}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat. Duis aute irure dolor in
-          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-          culpa qui officia deserunt mollit anim id est laborum.
+        <p style={{ fontSize: '1.5em' }}>
+          Lambda Peeler is a web-based dashboard tailored for AWS Lambda
+          developers. It is meticulously designed to bridge the gap between
+          managing Lambda functions and layers, simplifying AWS cloud
+          operations.
         </p>
         <a
-          href="https://github.com/oslabs-beta/LambdaPeeler"
+          href="https://medium.com/@greg.d.osborn/introducing-lambda-peeler-906b11261008"
           style={{ display: 'flex', alignItems: 'center', gap: '.1em' }}
         >
           Learn more <EastIcon color="secondary" />
@@ -67,36 +66,36 @@ const Splash = () => {
         <h1>Features</h1>
         <div class="feature">
           <div class="featureDiscription">
-            <h3>Connecting a function</h3>
+            <h2>Connecting a function</h2>
+            <AddLinkIcon fontSize="large" />
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat.
+              Effortlessly link multiple functions through our sleek, user
+              interface. Behind the scenes, Lambda Peeler diligently conducts
+              assessments, ensuring runtime and dependency compatibility.
             </p>
           </div>
           <img id="gif" src="/assets/connecting.gif"></img>
         </div>
         <div class="feature">
           <div class="featureDiscription">
-            <h3>Removing a function</h3>
+            <h2>Removing a function</h2>
+            <LinkOffIcon fontSize="large" />
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat.
+              Seamlessly disconnect functions with just a single click. Our
+              intuitive dashboard ensures swift and effortless layer management,
+              streamlining your AWS Lambda experience.
             </p>
           </div>
           <img id="gif" src="/assets/removing.gif"></img>
         </div>
         <div class="feature">
           <div class="featureDiscription">
-            <h3>Failing Compatability</h3>
+            <h2>Failing Compatability</h2>
+            <CancelOutlinedIcon fontSize="large" />
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat.
+              Our built-in compatibility testing feature cross-examines
+              functions with layers, reducing the chance of introducing code
+              breaking changes.
             </p>
           </div>
           <img id="gif" src="/assets/failing.gif"></img>

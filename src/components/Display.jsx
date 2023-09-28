@@ -51,18 +51,6 @@ const Display = ({ setActiveTab, activeTab }) => {
   return (
     <div id="display">
       {(activeTab === 'Layers' || activeTab === 'Functions') && (
-        // <div style={{ display: 'flex', gap: 5 }}>
-        //   {/* Set activeTab state to 'Layers' to display layer dropdown */}
-        //   <Button onClick={() => setActiveTab('Layers')} size='small' variant='contained' sx={{
-        //         backgroundColor: theme.palette.primary.main, '&:hover': {
-        //         backgroundColor: theme.palette.primary.main
-        //       }}}> Layers </Button>
-        //       {/* Set activeTab state to 'Functions' to display layer dropdown */}
-        //   <Button onClick={() => setActiveTab('Functions')} size='small' variant='contained' sx={{
-        //         backgroundColor: theme.palette.primary.main, '&:hover': {
-        //         backgroundColor: theme.palette.primary.main
-        //       }}}> Functions </Button>
-        // </div>
         <ToggleButtonGroup
           value={activeTab}
           exclusive
@@ -109,18 +97,6 @@ const Display = ({ setActiveTab, activeTab }) => {
         </div>
       )}
       {(activeTab === 'Notifications' || activeTab === 'History') && (
-        // <div style={{ display: 'flex', gap: 5 }}>
-        //   {/* Set activeTab state to 'Layers' to display layer dropdown */}
-        //   <Button onClick={() => setActiveTab('Notifications')} size='small' variant='contained' sx={{
-        //         backgroundColor: theme.palette.primary.main, '&:hover': {
-        //         backgroundColor: theme.palette.primary.main
-        //       }}}> Error Log </Button>
-        //       {/* Set activeTab state to 'Functions' to display layer dropdown */}
-        //   <Button onClick={() => setActiveTab('History')} size='small' variant='contained' sx={{
-        //         backgroundColor: theme.palette.primary.main, '&:hover': {
-        //         backgroundColor: theme.palette.primary.main
-        //       }}}> Success Log </Button>
-        // </div>
         <ToggleButtonGroup
           value={activeTab}
           exclusive
