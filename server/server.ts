@@ -20,7 +20,7 @@ connectDB();
 // Initialize Express
 const app = express();
 const PORT = process.env.PORT || 3000;
-const PORT = process.env.PORT || 3000;
+
 
 // app.use(function(req, res, next) {
 //   res.header("Access-Control-Allow-Origin", "https://lambdapeeler-675999984030.herokuapp.com");
