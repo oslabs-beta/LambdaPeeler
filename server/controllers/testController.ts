@@ -341,40 +341,5 @@ import User from '../models/userModel';
     }
   },
 
-  // // Nhat's attempt to test compatibility on functions tab of app
-  // testRuntimeFunctions: async (req: Request, res: Response, next: NextFunction) => {
-  //   // initialize an array of layers that have compatible runtimes, will be passed to next middleware
-  //   const passLayers: string[] = [];
-  //   // initialize an array of layers that don't have compatible runtimes, will be saved on res.locals
-  //   // to display on the front end
-  //   const failLayers: string[] = [];
-  //   // deconstruct req.body. ARN in this case is a specific function ARN
-  //   const { layerArray, } = req.body;
-  //   const ARN: string = req.body.ARN;
-  //   const FunctionName: string = req.body.ARN
-  //   // get info about a specfic function
-  //   const getFunctionCommand = new GetFunctionCommand({
-  //     FunctionName: FunctionName
-  //   })
-  //   const getFunctionResponse = await lambdaClient.send(getFunctionCommand);
-  //   // gets the function's compatible runtimes
-  //   const functionRuntime = getFunctionResponse.Configuration.Runtime;
-  //   // a property on res.locals that will store all of the errors we catch along our middlewares
-  //   res.locals.addError = [];
-
-  //   //helper function, iterate through layerArray checking runtime compatibilty
-  //   const runTimeLayer = async (element: string) => {
-  //     try {
-  //       // gets info about layer
-  //       const getLayerVersionCommand = new GetLayerVersionByArnCommand({ Arn})
-  //     } catch (error) {
-  //       return next({
-  //         log: `there was a problem in testController.testRuntimeFunctions. Error: ${error}`,
-  //         status: 400,
-  //         message: { err: 'Problem testing function runtime'}
-  //       });
-  //     }
-  //   }
-  // }
 }
 export default testController;

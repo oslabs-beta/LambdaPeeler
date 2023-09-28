@@ -34,12 +34,7 @@ app.use(express.json()); // for parsing application/json
 app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 app.use('/', express.static(path.join(__dirname, '/index.html')));
 
-// grab arn from cookies to use for connection in middleware
-// app.use((req: Request, res: Response, next: NextFunction) => {
-//   const ARN: string = req.cookies.ARN;
-//   app.locals.ARN = ARN;
-//   next();
-// });
+
 
 app.use('/api/layers', layerRouter);
 app.use('/api/functions', functionRouter);

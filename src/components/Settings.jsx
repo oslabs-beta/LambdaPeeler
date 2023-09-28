@@ -10,42 +10,6 @@ const Settings = () => {
   const [operation, setOperation] = useState();
   const theme = useTheme();
 
-  // const changeUsername = async () => {
-  //   axios.patch('http://localhost:3000/user/changeinfo', {
-  //     username: username
-  //   })
-  //   .then(response => {
-  //     console.log(response)
-  //   })
-  //   .catch(error => {
-  //     console.log(error)
-  //   })
-  // }
-
-  // const changePassword = async () => {
-  //   axios.patch('http://localhost:3000/user/changeinfo', {
-  //     password: password
-  //   })
-  //   .then(response => {
-  //     console.log(response)
-  //   })
-  //   .catch(error => {
-  //     console.log(error)
-  //   })
-  // }
-
-  // const changeARN = async () => {
-  //   axios.patch('http://localhost:3000/user/changeinfo', {
-  //     ARN: ARN
-  //   })
-  //   .then(response => {
-  //     console.log(response)
-  //   })
-  //   .catch(error => {
-  //     console.log(error)
-  //   })
-  // }
-
   const handleUpdate = async (operation, value) => {
     const input = {[operation]: value}
     try {
@@ -86,18 +50,6 @@ const Settings = () => {
           type="text"
           onChange={(e) => setUser(e.target.value)}
         />
-        {/* <Button
-            onClick={(e) => handleUpdate('username', username)}
-            variant="contained"
-            sx={{ width: '40%', height: '3.8em', backgroundColor: theme.palette.primary.main, '&:hover': {
-              backgroundColor: theme.palette.primary.main
-            }}}
-            
-          >
-            Update Username
-          </Button>
-          </div>
-          <div id='update'> */}
         <TextField
           id="outlined-basic2"
           label="Update Password"
@@ -106,18 +58,6 @@ const Settings = () => {
           onChange={(e) => setPassword(e.target.value)}
           sx={{width: '100%', alignSelf: 'center'}}
         />
-        {/* <Button
-            onClick={(e) => handleUpdate('password', password)}
-            variant="contained"
-            sx={{ width: '40%', height: '3.8em', backgroundColor: theme.palette.primary.main, '&:hover': {
-              backgroundColor: theme.palette.primary.main
-            }}}
-            
-          >
-            Update Password
-          </Button> */}
-          {/* </div>
-          <div id='update'> */}
             <TextField
             id="outlined-basic3"
             label="Update ARN"

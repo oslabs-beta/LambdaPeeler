@@ -8,11 +8,6 @@ const myURI: string =
 const URI: string  = process.env.MONGO_URI || myURI;
 
 const connectDB = () => {
-  //attempt to connect to mongoDB using myURI string
-//   mongoose.connect(myURI, {
-//     useNewUrlParser: true,
-//     useUnifiedTopology: true,
-//   });
   mongoose.connect(myURI);
 
   //when connected display message to dev successful connection

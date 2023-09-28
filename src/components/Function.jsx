@@ -186,11 +186,6 @@ const Function = ({ functionName, ARN, functionLayersARN, layers }) => {
               pl: 2.5,
             }}
           >
-            {/* <Tooltip title='Add Layer' placement="top" arrow>
-            <IconButton aria-label="add" onClick={() => openModal()}>
-              <LibraryAddIcon fontSize='medium' color='info'/>
-            </IconButton>
-          </Tooltip>  */}
           </Box>
           {/* When add function on the layer tab is clicked, a modal of all functions will pop up*/}
           <LayerModal
