@@ -21,7 +21,7 @@ const LinkedFunctions = ({
     setIsLoading(true);
     try {
       const result = await axios.post(
-        'https://lambdapeeler-675999984030.herokuapp.com/layers/remove',
+        'https://lambdapeeler-675999984030.herokuapp.com/dashboard/layers/remove',
         { ARN: ARN, functionName: functionName, layerName: layerName },
         {
           withCredentials: true, 

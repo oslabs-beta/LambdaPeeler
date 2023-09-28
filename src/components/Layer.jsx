@@ -21,7 +21,7 @@ const Layer = ({ layerName, versionNumber, ARN, functions }) => {
   const fetchAssociatedFunctions = async () => {
     axios
       .post(
-        'https://lambdapeeler-675999984030.herokuapp.com/layers/functions',
+        'https://lambdapeeler-675999984030.herokuapp.com/dashboard/layers/functions',
         { ARN: ARN },
         {
           withCredentials: true, 
@@ -70,7 +70,7 @@ const Layer = ({ layerName, versionNumber, ARN, functions }) => {
     }
     try {
       const result = await axios.post(
-        '/layers/add',
+        'https://lambdapeeler-675999984030.herokuapp.com/dashboard/layers/add',
         { ARN: ARN, functionArray: arrayOfCheckedFunctions, layerName: layerName },
         {
           withCredentials: true, 
