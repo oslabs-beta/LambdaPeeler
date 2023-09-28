@@ -69,7 +69,7 @@ Lambda Peeler is a web-based dashboard tailored for AWS Lambda developers. It is
 6. Your trust relationships under your OSPTool role should also look like this.
 ![img5](https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/15767a90-c054-4502-8cba-d4ca0e421859)
 
-7. Head over to our website <a href="https://www.lambdapeeler.com">lambdapeeler.com</a> and sign up by entering your ARN number as well as the region of your AWS account.
+7. Head over to our website <a href="http&#58;//www.lambdapeeler.com">lambdapeeler.com</a> and sign up by entering your ARN number as well as the region of your AWS account.
 ![Screenshot 2023-09-27 at 11 44 49 AM](https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/23a6580a-aff6-4917-a61a-b9467e7dcb16)
 
 ## Contributing
