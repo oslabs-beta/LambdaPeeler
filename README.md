@@ -14,7 +14,8 @@
 ![image](https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/8c57c3c0-ed7d-495c-8c8e-1f229c817a7b)
 ![image](https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/4963c2d6-fa49-43a1-9d83-fdea0822eb9d)
 ![image](https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/0a86a0f5-18bc-403c-9bf1-ba281edbe033)
-![image](https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/982f9d6e-cf86-4ce6-b1ff-bee89edb2fa6)
+![image](https://github.com/oslabs-beta/LambdaPeeler/assets/135868272/fc30a09f-10b5-4dad-9d6f-03f0baa0cee0)
+
 
 <p align="center"><strong>Web dashboard for managing AWS Lambda functions and layers</strong></p>
 Lambda Peeler is a web-based dashboard tailored for AWS Lambda developers. It is meticulously designed to bridge the gap between managing Lambda functions and layers, simplifying AWS cloud operations.
