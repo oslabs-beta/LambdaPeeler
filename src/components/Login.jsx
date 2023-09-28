@@ -29,7 +29,7 @@ const Login = ({ setIsLoggedIn }) => {
     // signup functionality here
     try {
       const result = await axios.post(
-        'http://localhost:3000/user/login',
+        '/user/login',
         { username: username, password: password, ARN: ARN },
         {
           withCredentials: true,
@@ -59,7 +59,7 @@ const Login = ({ setIsLoggedIn }) => {
     // signup functionality here
     try {
       const result = await axios.post(
-        'http://localhost:3000/user/signup',
+        '/user/signup',
         { username: username, password: password, ARN: ARN, region: region },
         {
           withCredentials: true,

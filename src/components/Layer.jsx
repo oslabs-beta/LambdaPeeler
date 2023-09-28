@@ -21,7 +21,7 @@ const Layer = ({ layerName, versionNumber, ARN, functions }) => {
   const fetchAssociatedFunctions = async () => {
     axios
       .post(
-        'http://localhost:3000/layers/functions',
+        '/layers/functions',
         { ARN: ARN },
         {
           withCredentials: true, 
@@ -70,7 +70,7 @@ const Layer = ({ layerName, versionNumber, ARN, functions }) => {
     }
     try {
       const result = await axios.post(
-        'http://localhost:3000/layers/add',
+        '/layers/add',
         { ARN: ARN, functionArray: arrayOfCheckedFunctions, layerName: layerName },
         {
           withCredentials: true, 
