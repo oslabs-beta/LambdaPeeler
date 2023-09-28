@@ -6,6 +6,8 @@ import jwt from 'jsonwebtoken';
 // import db
 import User from '../models/userModel';
 import { IUser } from '../models/userModel';
+// MUST CREATE .env FILE WITH SECRET KEY FOR JWT
+// Ex: ACCESS_TOKEN_SECRET= <key goes here>
 // import env config
 import dotenv from 'dotenv';
 dotenv.config();
