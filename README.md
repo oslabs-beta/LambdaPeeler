@@ -83,7 +83,7 @@ Contributions are the foundation of the Open Source Community, fostering an envi
 If you have any questions or need help troubleshooting, please feel free to reach out on <a href="https://www.linkedin.com/in/lambda-peeler/"> Linkedin! </a>
 
 ## License
-LambdaPeeler is licensed under the MIT License. See LICENSE.md for more details.
+LambdaPeeler is licensed under the MIT License. See LICENSE for more details.
 
 ## Authors
 <div align="center">
