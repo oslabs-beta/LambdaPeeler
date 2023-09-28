@@ -1,0 +1,326 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;1,100;1,200;1,300;1,400');
+
+body {
+  margin: 0px;
+  width: 100vw;
+  height: 100vh;
+  font-family: 'Poppins', sans-serif;
+  background-color: #fad0a0;
+}
+
+#main {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  min-height: 100vh;
+  background-color: white;
+}
+
+#LayersContainer {
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+  gap: 5px;
+  width: 50vw;
+}
+
+.layer {
+  padding: 5px;
+}
+
+#FunctionsContainer {
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+  gap: 5px;
+  width: 50vw;
+}
+
+.function {
+  padding: 5px;
+}
+
+#display {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#navbar {
+  display: flex;
+  justify-content: space-between;
+  margin: 0;
+  background-color: #fad0a0;
+  color: #444;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
+#navbar > ul {
+  display: flex;
+  justify-content: space-between;
+  list-style: none;
+  padding: 0px 15px 0px 15px;
+  margin: 10;
+  width: 100%;
+}
+
+#dropdown {
+  background-color: white;
+  cursor: pointer;
+  border-radius: 5px;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+  transition: background-color 1s ease-in-out;
+}
+
+/* add by michael */
+
+/* for the .collapsible content */
+.collapsible {
+  background-color: #eee;
+  color: #444;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: none;
+  border-radius: 5px;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+  transition: background-color 0.5s ease-in-out;
+}
+
+.active,
+.collapsible:hover {
+  background-color: #b0b0b0;
+}
+.content {
+  padding: 0 18px;
+  display: none;
+  overflow: hidden;
+}
+
+/* for the switch for functions */
+/* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: '';
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+input:checked + .slider {
+  background-color: #2196f3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196f3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+.functionDropDown {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.layerDropDown {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+#loginButtons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: center;
+}
+
+#login {
+  height: 100vh;
+  width: 100vw;
+  margin: 0;
+  /* background-color: #ffdcb4; */
+  background-color: #fad0a0;
+}
+
+.listItem {
+  display: flex;
+  align-items: center;
+}
+
+#imgid {
+  display: flex;
+  position: absolute;
+  height: 150px;
+  width: auto;
+  left: 50%;
+  top: 20%;
+  transform: translate(-50%, -50%);
+}
+
+#update {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 3em;
+  margin: 1em;
+}
+
+/* style={{
+  position: 'absolute',
+  left: '50%',
+  top: '10%',
+  transform: 'translate(-50%, -50%)',
+}} */
+
+#notificationDisplay {
+  display: flex;
+  width: 50%;
+}
+
+#historyDisplay {
+  display: flex;
+  width: 50%;
+}
+
+#link:hover {
+  text-decoration: underline;
+}
+
+#splash {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5em;
+  width: 100%;
+  background-color: #fad0a0;
+}
+
+#hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 60%;
+  height: 100%;
+  padding-top: 10em;
+}
+
+#features {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: 10em;
+}
+
+.feature {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 5em;
+  padding-bottom: 10em;
+  gap: 5em;
+}
+
+.featureDiscription {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 30em;
+  height: 20em;
+  border-radius: 10px;
+  background-color: #fad0a0;
+  padding-left: 2em;
+  padding-right: 2em;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 2px 10px;
+}
+
+#gif {
+  height: 20em;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 2px 10px;
+}
+
+#team {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 80%;
+  padding: 5em;
+  gap: 3em;
+}
+
+#people {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 100%;
+}
+
+.person {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  height: 15em;
+  width: 15em;
+  margin: 3em;
+}
+
+#profileLinks {
+  display: flex;
+}
