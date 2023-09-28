@@ -31,7 +31,7 @@ const PORT = process.env.PORT || 3000;
 // });
 // CORS
 const cors = require('cors'); 
-app.use(cors({ origin: 'https://lambdapeeler-675999984030.herokuapp.com', credentials: true }));
+app.use(cors({ origin: 'https://lambdapeeler-675999984030.herokuapp.com/dashboard', credentials: true }));
 
 //app.use(express.static(path.join(__dirname, '../src/assets')));
 app.use(express.static(path.join(__dirname, '../build')));
