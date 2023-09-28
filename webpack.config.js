@@ -50,10 +50,10 @@ module.exports = {
     open: true,
     hot: true,
     compress: true,
-    headers: { 'Access-Control-Allow-Origin': 'https://lambdapeeler-675999984030.herokuapp.com' },
+    headers: { 'Access-Control-Allow-Origin': '*' },
     proxy: {
       '/**':{
-        target: `https://lambdapeeler-675999984030.herokuapp.com`,
+        target: `https://http://localhost:3000`,
         secure: false
       }
     },

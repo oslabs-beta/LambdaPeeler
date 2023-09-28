@@ -36,7 +36,7 @@ const PORT = process.env.PORT || 3000;
 // });
 // CORS
 const cors = require('cors'); 
-app.use(cors({ origin: 'https://http://localhost:3000/', credentials: true }));
+app.use(cors({ origin: 'https://http://localhost:3000', credentials: true }));
 
 //app.use(express.static(path.join(__dirname, '../src/assets')));
 app.use(express.static(path.join(__dirname, '../build')));
