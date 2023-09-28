@@ -21,10 +21,10 @@ const Layer = ({ layerName, versionNumber, ARN, functions }) => {
   const fetchAssociatedFunctions = async () => {
     axios
       .post(
-        'http://localhost:3000/layers/functions',
+        'https://lambda-peeler.onrender.com/api/layers/functions',
         { ARN: ARN },
         {
-          withCredentials: true, 
+          withCredentials: true,
           headers: {
             'Content-Type': 'application/json',
           },
@@ -38,10 +38,10 @@ const Layer = ({ layerName, versionNumber, ARN, functions }) => {
       });
   };
 
-  // this useEffect will be invoked whenever you click on a layer component 
+  // this useEffect will be invoked whenever you click on a layer component
   //or when the pop up for the function is opened or closed
   useEffect(() => {
-      // if the layer component is expanded, invoke this function
+    // if the layer component is expanded, invoke this function
     if (!isCollapsed) {
       fetchAssociatedFunctions();
     }
@@ -52,7 +52,7 @@ const Layer = ({ layerName, versionNumber, ARN, functions }) => {
   const openModal = () => {
     setIsOpened(true);
   };
-// closeModal is passed down to the Function Modal component
+  // closeModal is passed down to the Function Modal component
   const closeModal = () => {
     setIsOpened(false);
   };
@@ -70,10 +70,14 @@ const Layer = ({ layerName, versionNumber, ARN, functions }) => {
     }
     try {
       const result = await axios.post(
-        'http://localhost:3000/layers/add',
-        { ARN: ARN, functionArray: arrayOfCheckedFunctions, layerName: layerName },
+        'https://lambda-peeler.onrender.com/api/layers/add',
         {
-          withCredentials: true, 
+          ARN: ARN,
+          functionArray: arrayOfCheckedFunctions,
+          layerName: layerName,
+        },
+        {
+          withCredentials: true,
           headers: {
             'Content-Type': 'application/json',
           },
@@ -118,7 +122,7 @@ const Layer = ({ layerName, versionNumber, ARN, functions }) => {
       </button>
       {/* if isCollapsed is false, show a div of functions*/}
       {!isCollapsed && (
-        <div className='dropdown'>
+        <div className="dropdown">
           <h3>Functions</h3>
           {/* if isLoading is true, show the circule progress component from MUI*/}
           {isLoading && (
@@ -153,14 +157,16 @@ const Layer = ({ layerName, versionNumber, ARN, functions }) => {
             </div>
           ))}
           {/* Renders a Box component from MUI that will contain the "add function" function*/}
-          <Box sx={{
-            pl: 2.5,
-          }}>
-          <Tooltip title='Add Function' placement="top" arrow>
-            <IconButton aria-label="add" onClick={() => openModal()}>
-              <LibraryAddIcon fontSize='medium' color='info'/>
-            </IconButton>
-          </Tooltip> 
+          <Box
+            sx={{
+              pl: 2.5,
+            }}
+          >
+            <Tooltip title="Add Function" placement="top" arrow>
+              <IconButton aria-label="add" onClick={() => openModal()}>
+                <LibraryAddIcon fontSize="medium" color="info" />
+              </IconButton>
+            </Tooltip>
           </Box>
           {/* When add function on the layer tab is clicked, a modal of all functions will pop up*/}
           <FunctionModal

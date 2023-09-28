@@ -38,7 +38,6 @@ assumeRole: async (req: Request, res: Response, next: NextFunction): Promise<voi
       //RoleArn: ARN,
       RoleSessionName: 'LayerControllerSession',
     };
-    console.log(roleToAssume)
     const command = new AssumeRoleCommand(roleToAssume);
     const { Credentials } = await stsClient.send(command);
   
@@ -52,7 +51,6 @@ assumeRole: async (req: Request, res: Response, next: NextFunction): Promise<voi
       region: req.cookies.region,
       credentials: tempCredentials,
     });
-    console.log(lambdaClient)
     next();
   }
   catch (err) {
@@ -178,7 +176,6 @@ removeFunction: async (req: Request, res: Response, next: NextFunction): Promise
     const input = { FunctionName: functionName };
     // gets info about a specific function
     const getFunctionCommand = new GetFunctionCommand(input);
-    console.log('getFunctionCommand: ', getFunctionCommand);
     const { Configuration } = await lambdaClient.send(getFunctionCommand);
 
     // remove the layer from the Layers array by ARN and store it into const newArray

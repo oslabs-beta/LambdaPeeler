@@ -29,7 +29,7 @@ const Login = ({ setIsLoggedIn }) => {
     // signup functionality here
     try {
       const result = await axios.post(
-        'http://localhost:3000/user/login',
+        'https://lambda-peeler.onrender.com/api/user/login',
         { username: username, password: password, ARN: ARN },
         {
           withCredentials: true,
@@ -61,7 +61,7 @@ const Login = ({ setIsLoggedIn }) => {
     // signup functionality here
     try {
       const result = await axios.post(
-        'http://localhost:3000/user/signup',
+        'https://lambda-peeler.onrender.com/user/signup',
         { username: username, password: password, ARN: ARN, region: region },
         {
           withCredentials: true,
@@ -71,7 +71,6 @@ const Login = ({ setIsLoggedIn }) => {
         }
       );
       if (result.status === 200) {
-        console.log('result ok');
         setIsLoggedIn(true);
         return;
       } else {
@@ -146,7 +145,7 @@ const Login = ({ setIsLoggedIn }) => {
         {message}
       </p>
       <div id="imgid">
-        <img src="/assets/Lambda_Potato-removebg-preview.png"></img>
+        <img src="./assets/Lambda_Potato-removebg-preview.png"></img>
       </div>
       <Box
         component="form"
