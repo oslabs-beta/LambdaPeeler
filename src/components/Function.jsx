@@ -89,7 +89,7 @@ const Function = ({ functionName, ARN, functionLayersARN, layers}) => {
     try {
       //functionality not yet set up
       const result = await axios.post(
-        'https://lambdapeeler-675999984030.herokuapp.com/dashboard/functions/add',
+        'https://lambdapeeler-675999984030.herokuapp.com/functions/add',
         { ARN: ARN, layerArray: arrayOfCheckedLayers, FunctionName: functionName },
         {
           withCredentials: true, 
