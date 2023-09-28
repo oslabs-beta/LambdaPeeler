@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 //connect to mongoDB - going to hide this
 const myURI: string =
-  'mongodb+srv://shandie231:peelerLambda@cluster0.nritsmb.mongodb.net/?retryWrites=true&w=majority';
+  ''; // insert MongoDB here
 
 //set uri to passed in value
 const URI: string  = process.env.MONGO_URI || myURI;
